@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dmz>
+<archive>
+<!--
+   <object type="pegasus">
+      <attributes>
+         <position x="-200" y="0" z="0"/>
+      </attributes>
+   </object>
+   <object type="colonial-one">
+      <attributes>
+         <position x="-30" y="0" z="0"/>
+      </attributes>
+   </object>
+   <object type="colonial-bomber">
+      <attributes>
+         <position x="-10" y="0" z="0"/>
+      </attributes>
+   </object>
+-->
+   <object type="viper-2">
+      <attributes>
+         <position x="0" y="0" z="0"/>
+      </attributes>
+   </object>
+   <object type="viper-7">
+      <attributes>
+         <position x="10" y="0" z="0"/>
+      </attributes>
+   </object>
+   <object type="raider">
+      <attributes>
+         <position x="20" y="0" z="0"/>
+      </attributes>
+   </object>
+<!--
+   <object type="heavy-raider">
+      <attributes>
+         <position x="30" y="0" z="0"/>
+      </attributes>
+   </object>
+-->
+</archive>
+</dmz>
+  

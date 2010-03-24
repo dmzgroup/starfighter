@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmz>
+<runtime>
+<resource-map>
+   <search>
+      <path value="../../assets/starfighter/models"/>
+      <path value="../../assets/starfighter/terrain"/>
+      <path value="./assets/"/>
+   </search>
+   <search name="audio">
+      <path value="../../assets/starfighter/sounds"/>
+      <path value="./assets/"/>
+   </search>
+   <resource name="viper-2" file="vm2.ive"/>
+   <resource name="viper-7" file="vm7.ive"/>
+   <resource name="colonial-bomber" file="cb.ive"/>
+   <resource name="raider" file="cr.ive"/>
+   <resource name="heavy-raider" file="chr.ive"/>
+   <resource name="colonial-one" file="c1.ive"/>
+   <resource name="pegasus" file="bsp.ive"/>
+   <resource name="space" file="explosion.osgb"/>
+</resource-map>
+</runtime>
+</dmz>

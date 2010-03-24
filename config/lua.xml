@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmz>
+<plugin-list>
+   <plugin name="dmzLuaModuleBasic" scope="lua"/>
+   <plugin name="dmzLuaPluginReset" scope="lua"/>
+   <plugin name="dmzLuaExtRuntime"/>
+</plugin-list>
+<lua>
+   <time value="0.5"/>
+   <path value="../dmz/scripts/entity"/>
+   <path value="./scripts"/>
+   <plugin-list>
+      <plugin name="dmzLuaExtInput"/>
+      <plugin name="dmzLuaExtIsect"/>
+      <plugin name="dmzLuaExtObject"/>
+      <plugin name="dmzLuaExtEvent"/>
+      <plugin name="dmzLuaExtOverlay"/>
+      <plugin name="dmzLuaExtPortal"/>
+      <plugin name="dmzQtExtLuaConsole"/>
+   </plugin-list>
+</lua>
+</dmz>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmz>
+<runtime>
+   <time>
+      <frequency value="0.0"/>
+   </time>
+   <state name="Engine_On"/>
+   <state name="Dead"/>
+   <state name="Smoking"/>
+   <state name="Fire"/>
+   <event-type name="Event_Launch">
+      <audio resource="launch-sound"/>
+      <net>
+         <enum value="16"/>
+      </net>
+   </event-type>
+   <event-type name="Event_Detonation">
+      <audio resource="detonation-sound"/>
+      <net>
+         <enum value="17"/>
+      </net>
+   </event-type>
+   <event-type name="Event_Collision">
+      <net>
+         <enum value="18"/>
+      </net>
+   </event-type>
+   <object-type name="spectator">
+   </object-type>
+   <object-type name="munitions">
+      <render>
+         <isect disable="true"/>
+      </render>
+      <net>
+         <enum value="2"/>
+      </net>
+   </object-type>
+   <object-type name="vehicle">
+      <net>
+         <enum value="1"/>
+      </net>
+   </object-type>
+   <object-type name="space-vehicle" parent="vehicle">
+   </object-type>
+   <object-type name="viper-2" parent="space-vehicle">
+      <render>
+         <model resource="viper-2"/>
+      </render>
+   </object-type>
+   <object-type name="viper-7" parent="space-vehicle">
+      <render>
+         <model resource="viper-7"/>
+      </render>
+   </object-type>
+   <object-type name="colonial-bomber" parent="space-vehicle">
+      <render>
+         <model resource="colonial-bomber"/>
+      </render>
+   </object-type>
+   <object-type name="colonial-one" parent="space-vehicle">
+      <render>
+         <model resource="colonial-one"/>
+      </render>
+   </object-type>
+   <object-type name="pegasus" parent="space-vehicle">
+      <render>
+         <model resource="pegasus"/>
+      </render>
+   </object-type>
+   <object-type name="raider" parent="space-vehicle">
+      <render>
+         <model resource="raider"/>
+      </render>
+   </object-type>
+   <object-type name="heavy-raider" parent="space-vehicle">
+      <render>
+         <model resource="heavy-raider"/>
+      </render>
+   </object-type>
+   </runtime>
+</dmz>

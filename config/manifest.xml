@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest>
+   <help url="http://dmzdev.org/wiki/npsnet"/>
+   <config file="config/resource.xml"/>
+   <config file="config/runtime.xml"/>
+   <config file="config/common.xml"/>
+   <config file="config/audio.xml"/>
+   <config file="config/input.xml"/>
+   <config file="config/net.xml"/>
+   <config file="config/render.xml"/>
+   <config file="config/lua.xml"/>
+   <color>
+      <type text="Blue">
+         <config file="config/tank.xml"/>
+         <config file="config/tank_overlay.xml"/>
+         <config file="config/tank_score.xml"/>
+         <config file="config/tank_help.xml"/>
+         <config file="config/blue.xml"/>
+      </type>
+      <type text="Red">
+         <config file="config/tank.xml"/>
+         <config file="config/tank_overlay.xml"/>
+         <config file="config/tank_score.xml"/>
+         <config file="config/tank_help.xml"/>
+         <config file="config/red.xml"/>
+      </type>
+      <type text="Truck">
+         <config file="config/truck.xml"/>
+         <config file="config/truck_overlay.xml"/>
+         <config file="config/truck_help.xml"/>
+      </type>
+      <type text="Spectator">
+         <config file="config/spectator.xml"/>
+         <config file="config/spectator_overlay.xml"/>
+         <config file="config/spectator_help.xml"/>
+         <config file="config/pick.xml"/>
+      </type>
+   </color>
+   <screen scope="dmz.render.viewer.window.screen">
+      <resolution text="Full Screen">
+         <attribute scope="dmz.render.viewer.window.fullscreen" value="true"/>
+      </resolution>
+      <resolution text="640x480">
+         <attribute scope="dmz.render.viewer.window.center" value="true"/>
+         <attribute scope="dmz.render.viewer.window.width" value="640"/>
+         <attribute scope="dmz.render.viewer.window.height" value="480"/>
+      </resolution>
+      <resolution text="800x600">
+         <attribute scope="dmz.render.viewer.window.center" value="true"/>
+         <attribute scope="dmz.render.viewer.window.width" value="800"/>
+         <attribute scope="dmz.render.viewer.window.height" value="600"/>
+      </resolution>
+      <resolution text="1024x768">
+         <attribute scope="dmz.render.viewer.window.center" value="true"/>
+         <attribute scope="dmz.render.viewer.window.width" value="1024"/>
+         <attribute scope="dmz.render.viewer.window.height" value="768"/>
+      </resolution>
+   </screen>
+</manifest>

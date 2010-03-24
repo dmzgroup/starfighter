@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmz>
+<plugin-list>
+   <plugin name="dmzNetPluginPacket"/>
+   <plugin name="dmzNetPluginRemoteDR"/>
+   <plugin name="dmzNetPluginRemoteScalarDR" scope="scalar-dr"/>
+   <plugin name="dmzNetModuleLocalDRBasic"/>
+   <plugin name="dmzNetPluginRemoteTimeout"/>
+   <plugin name="dmzNetModulePacketCodecBasic"/>
+   <plugin name="dmzNetModulePacketIOHawkNL"/>
+   <plugin name="dmzNetModuleAttributeMapBasic"/>
+</plugin-list>
+<scalar-dr>
+   <attribute name="DMZ_Turret_1" rate="DMZ_Turret_1_Rate"/>
+   <attribute name="DMZ_Gun_1" rate="DMZ_Gun_1_Rate"/>
+</scalar-dr>
+<dmzNetModulePacketCodecBasic>
+   <header>
+      <element type="const" base="uint32" value="4004004"/>
+      <element type="id" base="uint32"/>
+      <element type="size" base="uint32"/>
+   </header>
+   <packet id="1" name="NetCodecGroundVehicle">
+      <object-type name="space-vehicle"/>
+   </packet>
+   <packet id="2" name="NetCodecShell">
+      <object-type name="munitions"/>
+   </packet>
+   <packet id="3" name="NetCodecLaunch">
+      <event-type name="Event_Launch"/>
+   </packet>
+   <packet id="4" name="NetCodecDetonation">
+      <event-type name="Event_Detonation"/>
+   </packet>
+   <packet id="5" name="NetCodecCollision">
+      <event-type name="Event_Collision"/>
+   </packet>
+   <plugin-list>
+      <plugin name="dmzNetExtPacketCodecObjectNative" unique="NetCodecGroundVehicle"/>
+      <plugin name="dmzNetExtPacketCodecObjectNative" unique="NetCodecShell"/>
+      <plugin name="dmzNetExtPacketCodecEventNative" unique="NetCodecLaunch"/>
+      <plugin name="dmzNetExtPacketCodecEventNative" unique="NetCodecDetonation"/>
+      <plugin name="dmzNetExtPacketCodecEventNative" unique="NetCodecCollision"/>
+   </plugin-list>
+</dmzNetModulePacketCodecBasic>
+<NetCodecGroundVehicle>
+   <adapter type="position" lnv="true"/>
+   <adapter type="orientation" lnv="true"/>
+   <adapter type="velocity" lnv="true"/>
+   <adapter type="state" lnv="true"/>
+   <adapter type="scalar-array">
+      <attribute name="throttle" lnv="true"/>
+      <attribute name="DMZ_Turret_1" lnv="true"/>
+      <attribute name="DMZ_Turret_1_Rate" lnv="true"/>
+      <attribute name="DMZ_Gun_1" lnv="true"/>
+      <attribute name="DMZ_Gun_1_Rate" lnv="true"/>
+   </adapter>
+</NetCodecGroundVehicle>
+<NetCodecShell>
+   <adapter type="position" lnv="true"/>
+   <adapter type="velocity" lnv="true"/>
+   <adapter type="orientation" lnv="true"/>
+   <adapter type="state" lnv="true"/>
+</NetCodecShell>
+<NetCodecLaunch>
+   <adapter type="id" attribute="Event_Source_Attribute"/>
+   <adapter type="id" attribute="Event_Target_Attribute"/>
+   <adapter type="id" attribute="Event_Munitions_Attribute"/>
+   <adapter type="object-type" attribute="Event_Munitions_Attribute"/>
+   <adapter type="position"/>
+   <adapter type="velocity"/>
+</NetCodecLaunch>
+<NetCodecDetonation>
+   <adapter type="id" attribute="Event_Source_Attribute"/>
+   <adapter type="id" attribute="Event_Target_Attribute"/>
+   <adapter type="id" attribute="Event_Munitions_Attribute"/>
+   <adapter type="object-type" attribute="Event_Munitions_Attribute"/>
+   <adapter type="position"/>
+   <adapter type="velocity"/>
+</NetCodecDetonation>
+<NetCodecCollision>
+   <adapter type="id" attribute="Event_Source_Attribute"/>
+   <adapter type="id" attribute="Event_Target_Attribute"/>
+   <adapter type="position"/>
+   <adapter type="velocity"/>
+</NetCodecCollision>
+</dmz>

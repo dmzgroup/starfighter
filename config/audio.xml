@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dmz>
+   <plugin-list>
+      <plugin name="dmzAudioModuleOpenAL" platform="macos|linux"/>
+      <plugin name="dmzAudioModuleFMOD" platform="win32"/>
+      <plugin name="dmzAudioModulePortalBasic"/>
+      <plugin name="dmzAudioPluginObject" />
+      <plugin name="dmzAudioPluginEvent" />
+   </plugin-list>
+   <dmzAudioModulePortalBasic>
+     <name value="audioportal1"/>
+   </dmzAudioModulePortalBasic>
+   <dmzAudioPluginEvent>
+      <event-list>
+         <event-type name="Event_Launch"/>
+         <event-type name="Event_Detonation"/>
+         <event-type name="Event_Collision"/>
+      </event-list>
+   </dmzAudioPluginEvent>
+</dmz>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmz>
+<plugin-list>
+   <plugin name="starfighter" reserve="true"/>
+   <plugin name="dmzEntityPluginPortalTether" scope="third-person"/>
+   <plugin name="dmzEntityPluginTeleport"/>
+</plugin-list>
+<archive>
+   <object name="hil" type="viper-2">
+      <attributes>
+         <position x="0" y="5" z="-20"/>
+         <orientation 
+            v0="1.0" v1="0.0" v2="0.0"
+            v3="0.0" v4="1.0" v5="0.0"
+            v6="0.0" v7="0.0" v8="1.0"
+         />
+         <velocity x="0.0" y="0.0" z="0.0"/>
+         <acceleration x="0.0" y="0.0" z="0.0"/>
+      </attributes>
+      <attributes name="Object_Human_In_The_Loop">
+         <flag value="true"/>
+      </attributes>
+   </object>
+</archive>
+<javascript>
+   <instance name="starfighter"/>
+</javascript>
+<starfighter>
+</starfighter>
+<third-person>
+   <input>
+      <channel name="third-person"/>
+   </input>
+   <offset x="0.0" y="3" z="10"/>
+</third-person>
+</dmz>
+

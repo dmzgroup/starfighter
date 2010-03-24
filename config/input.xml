@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dmz>
+<plugin-list>
+   <plugin name="dmzInputModuleBasic"/>
+   <plugin name="dmzInputPluginControllerKey" scope="keyboard-controller"/>
+<!--
+   <plugin name="dmzInputPluginControllerMacOS" platform="macos"/>
+   <plugin name="dmzInputPluginControllerWin32" platform="win32"/>
+-->
+   <plugin name="dmzInputPluginExit"/>
+   <plugin name="dmzInputPluginKeyEventToMessage" scope="key-messages"/>
+</plugin-list>
+<key-messages>
+   <channel>
+      <converter key="L">
+         <target name="dmzQtExtLuaConsole" message="DMZ_Show_Lua_Console"/>
+      </converter>
+   </channel>
+</key-messages>
+<dmzInputPluginControllerMacOS>
+   <controller deviceId="2" name="wingman">
+      <hatswitch
+         north="0"
+         northeast="1"
+         east="2"
+         southeast="3"
+         south="4"
+         southwest="5"
+         west="6"
+         northwest="7"
+         default="8"
+      />
+<!--
+      <axis elementId="1" id="2"/>
+      <axis elementId="2" id="1"/>
+      <axis elementId="5" id="4"/>
+      <axis elementId="6" id="3"/>
+      <axis elementId="7" id="5"/>
+-->
+      <axis elementId="1" id="1"/>
+      <axis elementId="2" id="2"/> <!--  min="1" max="0" flip="true"/> -->
+      <axis elementId="3" id="3"/>
+      <axis elementId="4" id="4"/>
+      <axis elementId="5" id="5"/>
+      <axis elementId="6" id="6"/>
+      <hatswitch elementId="8" xAxisId="7" yAxisId="8" />
+      <button elementId="1" id="1"/>
+      <button elementId="2" id="2"/>
+      <button elementId="3" id="3"/>
+      <button elementId="4" id="4"/>
+      <button elementId="5" id="5"/>
+      <button elementId="6" id="6"/>
+      <button elementId="7" id="7"/>
+      <button elementId="8" id="8"/>
+      <button elementId="9" id="9"/>
+      <button elementId="10" id="10"/>
+      <button elementId="11" id="11"/>
+   </controller>
+</dmzInputPluginControllerMacOS>
+<dmzInputPluginControllerWin32>
+   <controller deviceId="0" name="wingman">
+      <hatswitch
+         north="0"
+         northeast="1"
+         east="2"
+         southeast="3"
+         south="4"
+         southwest="5"
+         west="6"
+         northwest="7"
+         default="8"
+      />
+      <axis elementId="1" id="1"/>
+      <axis elementId="2" id="2"/> <!--  min="1" max="0" flip="true"/> -->
+      <axis elementId="3" id="3"/>
+      <axis elementId="4" id="4"/>
+      <axis elementId="5" id="5"/>
+      <axis elementId="6" id="6"/>
+      <hatswitch elementId="8" xAxisId="7" yAxisId="8" />
+      <button elementId="1" id="1"/>
+      <button elementId="2" id="2"/>
+      <button elementId="3" id="3"/>
+      <button elementId="4" id="4"/>
+      <button elementId="5" id="5"/>
+      <button elementId="6" id="6"/>
+      <button elementId="7" id="7"/>
+      <button elementId="8" id="8"/>
+      <button elementId="9" id="9"/>
+      <button elementId="10" id="10"/>
+      <button elementId="11" id="11"/>
+   </controller>
+</dmzInputPluginControllerWin32>
+</dmz>
