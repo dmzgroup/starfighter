@@ -12,8 +12,8 @@
 </plugin-list>
 <key-messages>
    <channel>
-      <converter key="L">
-         <target name="dmzQtExtLuaConsole" message="DMZ_Show_Lua_Console"/>
+      <converter key="J">
+         <target name="dmzQtExtLuaConsole" message="DMZ_Show_JavaScript_Console"/>
       </converter>
    </channel>
 </key-messages>

@@ -10,8 +10,8 @@
    <plugin name="dmzEventModuleCommonBasic"/>
    <plugin name="dmzQtPluginObjectInspector" unique="object-inspector"/>
 <!--
-   <plugin name="dmzPluginDefinitionsDump"/>
    <plugin name="dmzPluginMsgDump"/>
+   <plugin name="dmzPluginDefinitionsDump"/>
    <plugin name="dmzObjectPluginDump"/>
    <plugin name="dmzEventPluginDump"/>
    <plugin name="dmzPluginTermExit"/>

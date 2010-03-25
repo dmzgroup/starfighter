@@ -2,18 +2,48 @@
 <dmz>
 <plugin-list>
    <plugin name="starfighter" reserve="true"/>
-   <plugin name="dmzEntityPluginPortalTether" scope="third-person"/>
+   <plugin name="dmzEntityPluginPortalTether" unique="third-person"/>
+   <plugin name="dmzInputPluginChannelSwitch" scope="view-switch"/>
+   <plugin name="dmzEntityPluginPortalTether" unique="first-person"/>
+   <plugin name="dmzEntityPluginHide" scope="first-person"/>
    <plugin name="dmzEntityPluginTeleport"/>
+   <plugin name="dmzWeaponPluginFixedLauncher" unique="right-cannon"/>
+   <plugin name="dmzWeaponPluginFixedLauncher" unique="left-cannon"/>
+   <plugin name="dmzWeaponPluginLaserBullet" scope="right-cannon"/>
+   <plugin name="dmzObjectPluginTimeout"/>
 </plugin-list>
+<right-cannon>
+   <offset x="1.046128" y="0.827917" z="-0.896475"/>
+   <munitions>
+      <object-type name="round"/>
+   </munitions>
+   <!-- fire rate one round every six second for m1a1 -->
+   <!-- <delay value="6"/> -->
+   <speed value="10"/>
+   <speed value="500"/>
+</right-cannon>
+<left-cannon>
+   <offset x="-1.046128" y="0.827917" z="-0.896475"/>
+   <munitions>
+      <object-type name="round"/>
+   </munitions>
+   <!-- fire rate one round every six second for m1a1 -->
+   <!-- <delay value="6"/> -->
+</left-cannon>
 <archive>
    <object name="hil" type="viper-2">
       <attributes>
          <position x="0" y="5" z="-20"/>
          <orientation 
+            v0="-0.9212066705313654" v1="0.081466816785441"   v2="-0.38044898203486444"
+            v3="0"                   v4="0.9778329269045009"  v5="0.20938664489737108"
+            v6="0.3890736050781614"  v7="0.19288837399964046" v8="-0.9007862149296347"
+         />
+<!--
             v0="1.0" v1="0.0" v2="0.0"
             v3="0.0" v4="1.0" v5="0.0"
             v6="0.0" v7="0.0" v8="1.0"
-         />
+-->
          <velocity x="0.0" y="0.0" z="0.0"/>
          <acceleration x="0.0" y="0.0" z="0.0"/>
       </attributes>
@@ -27,11 +57,53 @@
 </javascript>
 <starfighter>
 </starfighter>
+<view-switch>
+   <switch>
+      <channel name="first-person"/>
+      <channel name="third-person"/>
+   </switch>
+</view-switch>
+<first-person>
+   <input>
+      <channel name="first-person"/>
+   </input>
+   <offset x="0.0" y="1.2" z="0.1"/>
+</first-person>
 <third-person>
    <input>
       <channel name="third-person"/>
    </input>
    <offset x="0.0" y="3" z="10"/>
 </third-person>
+<keyboard-controller>
+   <controller>
+      <axis id="1" negative="a" positive="d"/>
+      <axis id="2" negative="w" positive="s"/>
+      <axis id="1" negative="A" positive="D"/>
+      <axis id="2" negative="W" positive="S"/>
+      <axis id="3" negative="leftarrow" positive="rightarrow"/>
+      <axis id="4" negative="uparrow" positive="downarrow"/>
+      <button id="1" key=","/>
+      <button id="2" key="space"/>
+      <button id="3" key="."/>
+      <button id="4" key="enter"/>
+      <button id="5" key="r"/>
+      <scale key="shift" value="0.1" sticky="false"/>
+   </controller>
+</keyboard-controller>
+<!--
+Viper Mk II
+Left Gun:  position[103] = '-1.046128' '0.827917' '-0.896475'
+Right Gun: position[103] = '1.046128' '0.827917' '-0.896475'
+
+Viper Mk VII
+Left Gun:   position[103] = '-2.901481' '0.179720' '0.722205'
+Right Gun:  position[103] = '2.906118' '0.177339' '0.722205'
+Center Gun: position[103] = '0.00' '2.597546' '2.211151'
+
+Raider
+Left Gun:  position[103] = '-1.171122' '0.519221' '0.230091'
+Right Gun: position[103] = '1.171122' '0.519221' '0.230091'
+-->
 </dmz>
 

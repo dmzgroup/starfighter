@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmz>
+<plugin-list>
+   <plugin name="dmzRenderModulePickBasic"/>
+   <plugin name="dmzRenderPluginPickOSG" scope="pick"/>
+   <plugin name="dmzInputPluginMouseEventToMessage" unique="create-detonation-event"/>
+</plugin-list>
+<create-detonation-event>
+   <input>
+      <source name="DMZ_Render_Main_Portal"/>
+   </input>
+   <converter start="first">
+      <state name="first" type="basic">
+         <condition
+               button="1"
+               result="position"
+               action="released"
+               message="CreateDetonationMessage"
+               next="first"
+         >
+            <attribute type="position" name="position"/>
+            <attribute type="normal" name="normal"/>
+            <attribute type="object" name="object"/>
+         </condition>
+      </state>
+   </converter>
+</create-detonation-event>
+<pick>
+   <source name="DMZ_Render_Main_Portal"/>
+</pick>
+</dmz>

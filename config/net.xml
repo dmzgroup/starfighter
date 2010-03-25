@@ -20,10 +20,10 @@
       <element type="id" base="uint32"/>
       <element type="size" base="uint32"/>
    </header>
-   <packet id="1" name="NetCodecGroundVehicle">
+   <packet id="1" name="NetCodecSpaceVehicle">
       <object-type name="space-vehicle"/>
    </packet>
-   <packet id="2" name="NetCodecShell">
+   <packet id="2" name="NetCodecWeapon">
       <object-type name="munitions"/>
    </packet>
    <packet id="3" name="NetCodecLaunch">
@@ -36,32 +36,25 @@
       <event-type name="Event_Collision"/>
    </packet>
    <plugin-list>
-      <plugin name="dmzNetExtPacketCodecObjectNative" unique="NetCodecGroundVehicle"/>
-      <plugin name="dmzNetExtPacketCodecObjectNative" unique="NetCodecShell"/>
+      <plugin name="dmzNetExtPacketCodecObjectNative" unique="NetCodecSpaceVehicle"/>
+      <plugin name="dmzNetExtPacketCodecObjectNative" unique="NetCodecWeapon"/>
       <plugin name="dmzNetExtPacketCodecEventNative" unique="NetCodecLaunch"/>
       <plugin name="dmzNetExtPacketCodecEventNative" unique="NetCodecDetonation"/>
       <plugin name="dmzNetExtPacketCodecEventNative" unique="NetCodecCollision"/>
    </plugin-list>
 </dmzNetModulePacketCodecBasic>
-<NetCodecGroundVehicle>
+<NetCodecSpaceVehicle>
    <adapter type="position" lnv="true"/>
    <adapter type="orientation" lnv="true"/>
    <adapter type="velocity" lnv="true"/>
    <adapter type="state" lnv="true"/>
-   <adapter type="scalar-array">
-      <attribute name="throttle" lnv="true"/>
-      <attribute name="DMZ_Turret_1" lnv="true"/>
-      <attribute name="DMZ_Turret_1_Rate" lnv="true"/>
-      <attribute name="DMZ_Gun_1" lnv="true"/>
-      <attribute name="DMZ_Gun_1_Rate" lnv="true"/>
-   </adapter>
-</NetCodecGroundVehicle>
-<NetCodecShell>
+</NetCodecSpaceVehicle>
+<NetCodecWeapon>
    <adapter type="position" lnv="true"/>
    <adapter type="velocity" lnv="true"/>
    <adapter type="orientation" lnv="true"/>
    <adapter type="state" lnv="true"/>
-</NetCodecShell>
+</NetCodecWeapon>
 <NetCodecLaunch>
    <adapter type="id" attribute="Event_Source_Attribute"/>
    <adapter type="id" attribute="Event_Target_Attribute"/>

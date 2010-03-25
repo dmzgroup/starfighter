@@ -33,6 +33,22 @@
       </render>
       <net>
          <enum value="2"/>
+         <rule type="heartbeat" value="1.0"/>
+         <rule type="zero-velocity"/>
+         <rule type="rate-limit"/>
+         <rule type="position" value="10.0"/>
+         <rule type="orientation"/>
+         <rule type="velocity"/>
+      </net>
+   </object-type>
+   <object-type name="round" parent="munitions">
+      <timeout value="5" detonate="true"/>
+      <render>
+         <isect disable="true"/>
+         <model resource="round"/>
+      </render>
+      <net>
+         <enum value="2.1"/>
       </net>
    </object-type>
    <object-type name="vehicle">
@@ -41,41 +57,79 @@
       </net>
    </object-type>
    <object-type name="space-vehicle" parent="vehicle">
+      <net>
+         <enum value="1.1"/>
+         <state name="Engine_On" mask="0x001"/>
+         <state name="Dead" mask="0x002"/>
+         <state name="Smoking" mask="0x008"/>
+         <state name="Fire" mask="0x010"/>
+         <rule type="heartbeat" value="1.0"/>
+         <rule type="zero-velocity"/>
+         <rule type="rate-limit"/>
+         <rule type="position" value="10.0"/>
+         <rule type="orientation"/>
+         <rule type="velocity"/>
+         <rule type="state"/>
+      </net>
    </object-type>
    <object-type name="viper-2" parent="space-vehicle">
       <render>
          <model resource="viper-2"/>
+<!--
+         <model resource="explosion" state="Dead"/>
+-->
       </render>
+      <net>
+         <enum value="1.1.1"/>
+      </net>
    </object-type>
    <object-type name="viper-7" parent="space-vehicle">
       <render>
          <model resource="viper-7"/>
       </render>
+      <net>
+         <enum value="1.1.2"/>
+      </net>
    </object-type>
    <object-type name="colonial-bomber" parent="space-vehicle">
       <render>
          <model resource="colonial-bomber"/>
       </render>
+      <net>
+         <enum value="1.1.3"/>
+      </net>
    </object-type>
    <object-type name="colonial-one" parent="space-vehicle">
       <render>
          <model resource="colonial-one"/>
       </render>
+      <net>
+         <enum value="1.1.4"/>
+      </net>
    </object-type>
    <object-type name="pegasus" parent="space-vehicle">
       <render>
          <model resource="pegasus"/>
       </render>
+      <net>
+         <enum value="1.1.5"/>
+      </net>
    </object-type>
    <object-type name="raider" parent="space-vehicle">
       <render>
          <model resource="raider"/>
       </render>
+      <net>
+         <enum value="1.1.6"/>
+      </net>
    </object-type>
    <object-type name="heavy-raider" parent="space-vehicle">
       <render>
          <model resource="heavy-raider"/>
       </render>
+      <net>
+         <enum value="1.1.7"/>
+      </net>
    </object-type>
    </runtime>
 </dmz>
