@@ -125,6 +125,7 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
 
       dmz.isect.enable(hil);
 
+/*
       if (hit) {
 
          pos = oldPos;
@@ -132,6 +133,7 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
          if (!state) { state = dmz.mask.create(); }
          state = state.or(DeadState);
       }
+*/
 
       dmz.object.position (hil, null, pos);
       dmz.object.orientation (hil, null, ori);

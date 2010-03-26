@@ -20,7 +20,7 @@
 -->
    <object type="viper-2">
       <attributes>
-         <position x="0" y="0" z="0"/>
+         <position x="30" y="0" z="0"/>
       </attributes>
    </object>
    <object type="viper-7">

@@ -5,6 +5,7 @@
    <search>
       <path value="../../assets/starfighter/models"/>
       <path value="../../assets/starfighter/terrain"/>
+      <path value="../../assets/starfighter/images"/>
       <path value="./assets/"/>
    </search>
    <search name="audio">
@@ -20,6 +21,9 @@
    <resource name="pegasus" file="bsp.ive"/>
    <resource name="explosion" file="explosion.osgb"/>
    <resource name="round" file="round.ive"/>
+   <resource name="stars" file="stars.png"/>
+   <resource name="crosshairs" file="crosshairs.png"/>
+   <resource name="explosion" file="explosion.png"/>
 </resource-map>
 </runtime>
 </dmz>

@@ -1,0 +1,9 @@
+require "lmkOSG"
+
+lmkOSG.set_name "dmzStarfighterPluginSpaceBoxOSG"
+lmk.set_type "plugin"
+lmk.add_files {"dmzStarfighterPluginSpaceBoxOSG.cpp",}
+lmk.add_libs { "dmzKernel", }
+lmk.add_preqs {"dmzRenderModuleCoreOSG",}
+lmkOSG.add_libs {"osgDB", "osg", "OpenThreads",}
+

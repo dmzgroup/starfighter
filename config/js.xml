@@ -10,6 +10,7 @@
    <plugin name="dmzJsExtV8Object" scope="javascript"/>
    <plugin name="dmzJsExtV8Portal" scope="javascript"/>
    <plugin name="dmzJsExtV8RenderIsect" scope="javascript"/>
+   <plugin name="dmzJsExtV8RenderOverlay" scope="javascript"/>
 </plugin-list>
 <javascript>
    <path value="./scripts"/>

@@ -13,7 +13,7 @@
 <key-messages>
    <channel>
       <converter key="J">
-         <target name="dmzQtExtLuaConsole" message="DMZ_Show_JavaScript_Console"/>
+         <target name="dmzJsPluginV8ConsoleQt" message="DMZ_Show_Java_Script_Console"/>
       </converter>
    </channel>
 </key-messages>

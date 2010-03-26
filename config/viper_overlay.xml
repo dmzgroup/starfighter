@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dmz>
+<javascript>
+   <instance name="viperOverlay"/>
+</javascript>
+<overlay>
+   <node type="transform" name="dead overlay transform">
+      <node type="switch" which="0" name="dead overlay switch">
+         <node type="group"/>
+         <node type="box">
+            <min x="-0.5" y="-0.5"/>
+            <max x="0.5" y="0.5"/>
+            <color r="1" g="0" b="0" a="0.5"/>
+            <depth value="16"/>
+         </node>
+      </node>
+   </node>
+   <node type="transform" name="crosshairs">
+      <node type="switch" name="crosshairs switch">
+         <node type="group">
+            <node type="switch" name="crosshairs target switch">
+               <node type="box">
+                  <min x="-64" y="-64"/>
+                  <max x="64" y="64"/>
+                  <texture resource="crosshairs"/>
+                  <color name="crosshairs neutral"/>
+               </node>
+               <node type="box">
+                  <min x="-64" y="-64"/>
+                  <max x="64" y="64"/>
+                  <texture resource="crosshairs"/>
+                  <color name="crosshairs active"/>
+               </node>
+            </node>
+         </node>
+      </node>
+   </node>
+   <color name="crosshairs neutral" r="0.5" g="0.5" b="0.5"/>
+   <color name="crosshairs active" r="1" g="0" b="0"/>
+   <layout node="dead overlay transform">
+      <x type="relative" value="0.5"/>
+      <y type="relative" value="0.5"/>
+   </layout>
+   <layout node="crosshairs">
+      <x type="relative" value="0.5"/>
+      <y type="relative" value="0.5"/>
+   </layout>
+</overlay>
+</dmz>

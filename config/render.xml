@@ -3,14 +3,15 @@
 <plugin-list>
    <plugin name="dmzRenderModuleIsectOSG"/>
    <plugin name="dmzRenderModulePortalOSG" scope="render"/>
-   <plugin name="dmzRenderPluginStaticTerrainOSG" scope="terrain"/>
    <plugin name="dmzRenderPluginObjectOSG"/>
+   <plugin name="dmzRenderPluginEventOSG"/>
    <plugin name="dmzRenderPluginHighlightOSG" scope="render"/>
    <plugin name="dmzRenderPluginParticleEffectsOSG"/>
    <plugin name="dmzRenderPluginArticulateOSG"/>
    <plugin name="dmzRenderPluginDisableObjectIsect"/>
    <plugin name="dmzRenderPluginLightingOSG" scope="render"/>
    <plugin name="dmzRenderModuleOverlayOSG" scope="overlay"/>
+   <plugin name="dmzStarfighterPluginSpaceBoxOSG"/>
    <!--
       Note: Setting this module to unload="false" stops the crash on exit
             under Linux. This seems to be cause by an "on exit" call in
@@ -27,9 +28,10 @@
    <viewer>
       <window-title value="DMZ: Starfighter"/>
       <aa samples="4"/>
-      <clear-color r="0" g="0" b="0" a="0"/>
+      <clear-color r="0" g="0" b="0" a="1"/>
+      <clear-color r="1" g="1" b="1" a="1"/>
    </viewer>
-   <visibility fov="60.0" near="1.0" far="32000.0"/>
+   <visibility fov="60.0" near="1.0" far="50000.0"/>
    <light value="0">
       <position x="1000" y="100" z="5000"/>
       <direction x="-0.5" y="0.5" z="-1.0"/>
@@ -53,7 +55,4 @@
       <emission r="1" g="1" b="0" a="0"/>
    </highlight>
 </render>
-<terrain>
-   <model resource="space" isect="false"/>
-</terrain>
 </dmz>
