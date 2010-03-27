@@ -12,6 +12,10 @@
       <path value="../../assets/starfighter/sounds"/>
       <path value="./assets/"/>
    </search>
+   <search name="font">
+      <path value="../../assets/starfighter/fonts"/>
+      <path value="./assets/"/>
+   </search>
    <resource name="viper-2" file="vm2.ive"/>
    <resource name="viper-7" file="vm7.ive"/>
    <resource name="colonial-bomber" file="cb.ive"/>
@@ -19,11 +23,14 @@
    <resource name="heavy-raider" file="chr.ive"/>
    <resource name="colonial-one" file="c1.ive"/>
    <resource name="pegasus" file="bsp.ive"/>
-   <resource name="explosion" file="explosion.osgb"/>
    <resource name="round" file="round.ive"/>
    <resource name="stars" file="stars.png"/>
    <resource name="crosshairs" file="crosshairs.png"/>
    <resource name="explosion" file="explosion.png"/>
+   <resource name="dradis-back" file="dradis_back.png"/>
+   <resource name="dradis-overlay" file="dradis_overlay.png"/>
+   <resource name="dradis-dot" file="dradis_dot.png"/>
+   <resource name="font" file="data-latin.ttf" path="font"/>
 </resource-map>
 </runtime>
 </dmz>

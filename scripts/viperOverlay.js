@@ -2,6 +2,8 @@ var dmz = {}
 ,   Forward
 ,   VehicleType
 ,   active = 0
+,   rangeMessage
+,   rangeHandle
 ;
 
 dmz.object= require("dmz/components/object");
@@ -16,12 +18,16 @@ dmz.mask = require("dmz/types/mask");
 dmz.defs = require("dmz/runtime/definitions");
 dmz.objectType = require("dmz/runtime/objectType");
 dmz.util = require("dmz/types/util");
+dmz.messaging = require("dmz/runtime/messaging");
 
 Forward = dmz.vector.create([0, 0, -1]);
 VehicleType = dmz.objectType.lookup("vehicle")
 
 self.target = dmz.overlay.lookup("crosshairs target switch");
 self.top = dmz.overlay.lookup("crosshairs switch");
+self.range = dmz.overlay.lookup("dradis-range");
+rangeMessage = dmz.messaging.create("DMZ_Overlay_Radar_Range_Message");
+rangeHandle = dmz.defs.createNamedHandle("DMZ_Overlay_Radar_Range");
 
 dmz.time.setRepeatingTimer (self, function (time) {
 
@@ -77,5 +83,13 @@ dmz.input.channel.observe (self, "first-person", function (channel, state) {
    else if (active == 0) {
 
       if (self.top) { self.top.switchState(0, false); }
+   }
+});
+
+rangeMessage.subscribe(self, function (data) {
+
+   if (self.range) {
+
+      self.range.text(Math.floor(data.number(rangeHandle, 0)).toString ());
    }
 });

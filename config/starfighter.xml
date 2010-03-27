@@ -7,13 +7,15 @@
    <plugin name="dmzEntityPluginPortalTether" unique="first-person"/>
    <plugin name="dmzEntityPluginHide" scope="first-person"/>
    <plugin name="dmzEntityPluginTeleport"/>
+   <plugin name="dmzEntityPluginOverlayDead"/>
    <plugin name="dmzWeaponPluginFixedLauncher" unique="right-cannon"/>
    <plugin name="dmzWeaponPluginFixedLauncher" unique="left-cannon"/>
    <plugin name="dmzWeaponPluginLaserBullet" scope="right-cannon"/>
    <plugin name="dmzObjectPluginTimeout"/>
+   <plugin name="dmzRenderPluginRadarOverlay" scope="dradis"/>
 </plugin-list>
 <right-cannon>
-   <offset x="1.046128" y="0.827917" z="-0.896475"/>
+   <offset x="1.046128" y="0.827917" z="-1"/>
    <munitions>
       <object-type name="round"/>
    </munitions>
@@ -23,7 +25,7 @@
    <speed value="500"/>
 </right-cannon>
 <left-cannon>
-   <offset x="-1.046128" y="0.827917" z="-0.896475"/>
+   <offset x="-1.046128" y="0.827917" z="-1"/>
    <munitions>
       <object-type name="round"/>
    </munitions>
@@ -94,8 +96,8 @@
 </keyboard-controller>
 <!--
 Viper Mk II
-Left Gun:  position[103] = '-1.046128' '0.827917' '-0.896475'
-Right Gun: position[103] = '1.046128' '0.827917' '-0.896475'
+Left Gun:  position[103] = '-1.046128' '0.827917' '-1'
+Right Gun: position[103] = '1.046128' '0.827917' '-1'
 
 Viper Mk VII
 Left Gun:   position[103] = '-2.901481' '0.179720' '0.722205'
@@ -106,5 +108,11 @@ Raider
 Left Gun:  position[103] = '-1.171122' '0.519221' '0.230091'
 Right Gun: position[103] = '1.171122' '0.519221' '0.230091'
 -->
+<dradis>
+   <radius value="100"/>
+   <range value="500" min="100" max="1000"/>
+   <root name="dradis"/>
+   <on-plane value="false"/>
+</dradis>
 </dmz>
 

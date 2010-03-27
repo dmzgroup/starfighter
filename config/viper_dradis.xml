@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dmz>
+<overlay>
+   <node type="transform" name="dradis-top">
+      <position x="102" y="102"/>
+      <node type="group" name="dradis"/>
+      <node type="switch" name="dradis switch">
+         <node type="group">
+            <node type="box">
+               <color r="1" g="1" b="1" a="0.5"/>
+               <min x="-128" y="-128"/>
+               <max x="128" y="128"/>
+               <depth value="0"/>
+               <texture resource="dradis-back"/>
+            </node>
+            <node type="box">
+               <color r="1" g="1" b="1" a="0.5"/>
+               <min x="-64" y="-64"/>
+               <max x="64" y="64"/>
+               <depth value="2"/>
+               <texture resource="dradis-overlay"/>
+            </node>
+         </node>
+      </node>
+      <node type="text" name="dradis-range">
+         <position x="55" y="-100"/>
+         <font resource="font"/>
+         <height value="15"/>
+         <color r="0" b="0" g="0.8" a="0.8"/>
+         <depth value="5"/>
+         <text value=""/>
+      </node>
+   </node>
+   <template name="dradis-dot">
+      <node type="switch" name="switch">
+         <node type="transform" name="transform">
+            <node type="box">
+               <min x="-1.5" y="-1.5"/>
+               <max x="1.5" y="1.5"/>
+               <color r="0.0" g="1.0" b="0.0" a="0.8"/>
+               <texture resource="dradis-dot"/>
+               <depth value="4"/>
+            </node>
+         </node>
+      </node>
+   </template>
+</overlay>
+</dmz>

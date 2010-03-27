@@ -57,6 +57,8 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
    ,   oldPos
    ,   vel
    ,   ori
+   ,   normal
+   ,   vec
    ,   pMat
    ,   yMat
    ,   rMat
@@ -65,7 +67,7 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
    ,   hit = false
    ;
 
-   if (hil && (active > 0) && (!state || !state.contains(DeadState))) {
+   if (hil && (active > 0)) {
 
       pos = dmz.object.position (hil);
       ori = dmz.object.orientation (hil);
@@ -75,65 +77,90 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
       if (!ori) { ori = dmz.matrix.create(); }
       if (!vel) { vel = dmz.vector.create(); }
 
-      oldPos = pos.copy ();
-
-      pMat = dmz.matrix.create().fromAxisAndAngle(XPitch, controls.pitch * DeltaXPi);
-      yMat = dmz.matrix.create().fromAxisAndAngle(YYaw, controls.yaw * DeltaXPi);
-      rMat = dmz.matrix.create().fromAxisAndAngle(ZRoll, controls.roll * DeltaXPi);
-
-      ori = ori.multiply(yMat.multiply(pMat.multiply(rMat)));
-
-      dir = ori.transform(dir);
-
       speed = vel.magnitude();
 
-      if (controls.thrust < 0) { speed += controls.thrust * Delta * 50;}
-      else { speed += controls.thrust * Delta * 15; }
+      if (!state || !state.contains(DeadState)) {
 
-      if (speed < 0) { speed = 0; }
+         oldPos = pos.copy ();
 
-      vel = dir.multiplyConst(speed);
+         pMat = dmz.matrix.create().fromAxisAndAngle(XPitch, controls.pitch * DeltaXPi);
+         yMat = dmz.matrix.create().fromAxisAndAngle(YYaw, controls.yaw * DeltaXPi);
+         rMat = dmz.matrix.create().fromAxisAndAngle(ZRoll, controls.roll * DeltaXPi);
 
-      pos = pos.add(vel.multiplyConst(Delta));
+         ori = ori.multiply(yMat.multiply(pMat.multiply(rMat)));
 
-      cframe = updateFrame (pos, ori, frame);
+         dir = ori.transform(dir);
 
-      dmz.isect.disable(hil);
+         if (controls.thrust < 0) { speed += controls.thrust * Delta * 50;}
+         else { speed += controls.thrust * Delta * 15; }
 
-      dmz.isect.doIsect([
-         { start: cframe.nose, end: cframe.tail, callback: function (value) {
+         if (speed < 0) { speed = 0; }
 
-            self.log.warn("Nose collision", value.object);
-            hit = true;
-         }},
-         { start: cframe.center, end: cframe.left, callback: function (value) {
+         vel = dir.multiplyConst(speed);
 
-            self.log.warn("Left collision", value.object);
-            hit = true;
-         }},
-         { start: cframe.center, end: cframe.right, callback: function (value) {
+         pos = pos.add(vel.multiplyConst(Delta));
 
-            self.log.warn("Right collision", value.object);
-            hit = true;
-         }},
-         { start: cframe.center, end: cframe.top, callback: function (value) {
+         cframe = updateFrame (pos, ori, frame);
 
-            self.log.warn("Top collision", value.object);
-            hit = true;
-         }},
-      ]);
+         dmz.isect.disable(hil);
 
-      dmz.isect.enable(hil);
+         dmz.isect.doIsect([
+            { start: cframe.nose, end: cframe.tail, callback: function (value) {
+
+               normal = value.normal;
+               self.log.warn("Nose collision", value.object);
+               hit = true;
+            }},
+            { start: cframe.center, end: cframe.left, callback: function (value) {
+
+               normal = value.normal;
+               self.log.warn("Left collision", value.object);
+               hit = true;
+            }},
+            { start: cframe.center, end: cframe.right, callback: function (value) {
+
+               normal = value.normal;
+               self.log.warn("Right collision", value.object);
+               hit = true;
+            }},
+            { start: cframe.center, end: cframe.top, callback: function (value) {
+
+               normal = value.normal;
+               self.log.warn("Top collision", value.object);
+               hit = true;
+            }},
+         ]);
+
+         dmz.isect.enable(hil);
 
 /*
-      if (hit) {
+         if (hit) {
 
-         pos = oldPos;
-         vel.set(0, 0, 0);
-         if (!state) { state = dmz.mask.create(); }
-         state = state.or(DeadState);
-      }
+            pos = oldPos;
+
+            if (normal) {
+
+               vec = vel.normalized();
+               vel = normal.multiplyConst(2 * vec.dot(normal)).subtract(vec).multiplyConst(speed);
+            }
+
+            if (!state) { state = dmz.mask.create(); }
+            state = state.or(DeadState);
+         }
 */
+      }
+      else {
+
+         dir = vel.normalized();
+
+         speed -= Delta * 5;
+
+         if (speed < 0) { speed = 0; }
+
+         vel = dir.multiplyConst(speed);
+
+         pos = pos.add(vel.multiplyConst(Delta));
+      }
 
       dmz.object.position (hil, null, pos);
       dmz.object.orientation (hil, null, ori);
@@ -152,7 +179,7 @@ dmz.input.axis.observe(self, function (Channel, Axis) {
 
 //self.log.error(JSON.stringify(Axis));
 
-   if (Axis.id == 3) { // Roll
+   if (Axis.id == 1) { // Roll
 
       controls.roll = Axis.value;
    }
@@ -160,7 +187,7 @@ dmz.input.axis.observe(self, function (Channel, Axis) {
 
       controls.thrust = -Axis.value;
    }
-   else if (Axis.id == 1) { // Yaw
+   else if (Axis.id == 3) { // Yaw
 
       controls.yaw = -Axis.value;
    }
