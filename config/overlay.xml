@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dmz>
+<overlay>
+   <node type="transform" name="logo">
+      <node type="box">
+         <min x="4" y="-68"/>
+         <max x="516" y="-4"/>
+         <color r="1" g="0" b="0" a="0.5"/>
+         <depth value="15"/>
+         <texture resource="logo"/>
+      </node>
+   </node>
+   <node type="transform" name="logo back bar">
+      <node type="box">
+         <min x="0" y="-45"/>
+         <max x="1" y="0"/>
+         <color r="1" g="1" b="1" a="0.2"/>
+         <depth value="14"/>
+      </node>
+   </node>
+   <layout node="logo">
+      <x type="relative" value="0.0"/>
+      <y type="relative" value="1.0"/>
+   </layout>
+   <layout node="logo back bar">
+      <x type="relative" value="0.0"/>
+      <y type="relative" value="1.0"/>
+   </layout>
+   <auto-scale node="logo back bar">
+      <x size="1" ratio="1.0"/>
+      <y type="fixed"/>
+   </auto-scale>
+</overlay>
+</dmz>
