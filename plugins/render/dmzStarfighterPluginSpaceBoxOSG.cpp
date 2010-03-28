@@ -100,6 +100,16 @@ dmz::StarfighterPluginSpaceBoxOSG::_create_box () {
       osg::StateSet *stateset = geom->getOrCreateStateSet ();
       stateset->setMode (GL_BLEND, osg::StateAttribute::ON);
 
+#if 0
+      osg::ref_ptr<osg::Material> material = new osg::Material;
+
+      material->setEmission (
+         osg::Material::FRONT_AND_BACK,
+         osg::Vec4 (1.0, 1.0, 1.0, 1.0));
+
+      stateset->setAttributeAndModes (material.get (), osg::StateAttribute::ON);
+#endif
+
       osg::Texture2D *tex = new osg::Texture2D (img.get ());
       tex->setWrap (osg::Texture2D::WRAP_S, osg::Texture2D::REPEAT);
       tex->setWrap (osg::Texture2D::WRAP_T, osg::Texture2D::REPEAT);
@@ -241,6 +251,10 @@ dmz::StarfighterPluginSpaceBoxOSG::_create_box () {
       geom->setVertexArray (vertices);
       geom->setTexCoordArray (0, tcoords);
       geode->addDrawable (geom);
+
+      UInt32 mask = geode->getNodeMask ();
+      mask &= ~(_core->get_isect_mask ());
+      geode->setNodeMask (mask);
 
       osg::Group *group = _core->get_static_objects ();
 
