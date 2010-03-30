@@ -3,8 +3,8 @@
 <plugin-list>
    <plugin name="dmzInputModuleBasic"/>
    <plugin name="dmzInputPluginControllerKey" scope="keyboard-controller"/>
-<!--
    <plugin name="dmzInputPluginControllerMacOS" platform="macos"/>
+<!--
    <plugin name="dmzInputPluginControllerWin32" platform="win32"/>
 -->
    <plugin name="dmzInputPluginExit"/>
@@ -18,7 +18,7 @@
    </channel>
 </key-messages>
 <dmzInputPluginControllerMacOS>
-   <controller deviceId="2" name="wingman">
+   <controller deviceId="4"> <!-- name="wingman"> -->
       <hatswitch
          north="0"
          northeast="1"
@@ -40,15 +40,15 @@
       <axis elementId="1" id="1"/>
       <axis elementId="2" id="2"/> <!--  min="1" max="0" flip="true"/> -->
       <axis elementId="3" id="3"/>
-      <axis elementId="4" id="4"/>
+      <axis elementId="4" id="6"/>
       <axis elementId="5" id="5"/>
-      <axis elementId="6" id="6"/>
+      <axis elementId="6" id="4"/>
       <hatswitch elementId="8" xAxisId="7" yAxisId="8" />
       <button elementId="1" id="1"/>
-      <button elementId="2" id="2"/>
+      <button elementId="2" id="5"/>
       <button elementId="3" id="3"/>
       <button elementId="4" id="4"/>
-      <button elementId="5" id="5"/>
+      <button elementId="5" id="2"/>
       <button elementId="6" id="6"/>
       <button elementId="7" id="7"/>
       <button elementId="8" id="8"/>

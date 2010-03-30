@@ -178,21 +178,22 @@ dmz.input.channel.observe(self, function (Channel, State) {
 dmz.input.axis.observe(self, function (Channel, Axis) {
 
 //self.log.error(JSON.stringify(Axis));
+   var value = Axis.value * Axis.value * (Axis.value > 0 ? 1 : -1);
 
    if (Axis.id == 1) { // Roll
 
-      controls.roll = Axis.value;
+      controls.roll = value;
    }
    else if (Axis.id == 2) { // thrust
 
-      controls.thrust = -Axis.value;
+      controls.thrust = -value;
    }
    else if (Axis.id == 3) { // Yaw
 
-      controls.yaw = -Axis.value;
+      controls.yaw = -value;
    }
    else if (Axis.id == 4) { // Pitch
 
-      controls.pitch = Axis.value;
+      controls.pitch = value;
    }
 });

@@ -1,11 +1,13 @@
 var dmz = {}
 ,   MaxTargets = 10
+,   TargetSpeed = 30
 ,   targets = { count: 0, list: {} }
 ,   DeadState
 ,   Detonation
 ,   Forward
 ,   Right
 ,   Up
+,   StartDir
 ,   randomVector
 ,   rotate
 ,   newOri
@@ -29,9 +31,10 @@ Detonation = dmz.eventType.lookup("Event_Detonation");
 Forward = dmz.vector.create(0.0, 0.0, -1.0);
 Right = dmz.vector.create(1.0, 0.0, 0.0);
 Up = dmz.vector.create(0.0, 1.0, 0.0);
+StartDir = dmz.matrix.create().fromAxisAndAngle(Up, Math.PI);
 
 baseStar = dmz.object.create("base-star");
-dmz.object.position(baseStar, null, [0, 0, -5000]);
+dmz.object.position(baseStar, null, [0, 0, -2000]);
 dmz.object.activate(baseStar);
 
 randomVector = function (value) {
@@ -51,25 +54,26 @@ randomVector = function (value) {
 
 rotate = function (time, orig, target) {
 
-   var diff = target - orig
+   var result = target
+   ,   diff = target - orig
    ,   max = time * Math.PI
    ;
 
    if (diff > Math.PI) { diff -= Math.PI * 2; }
-   else if (diff < Math.PI)  { diff +=  Math.PI * 2; }
+   else if (diff < -Math.PI)  { diff += Math.PI * 2; }
 
    if (Math.abs (diff) > max) {
 
-      if (diff > 0) { target = orig + max; }
-      else { target = orig - max }
+      if (diff > 0) { result = orig + max; }
+      else { result = orig - max }
    }
 
-   return target;
+   return result;
 };
 
 
 
-newOri = function (obj, time, origOri, targetVec) {
+newOri = function (obj, time, targetVec) {
 
    var result = dmz.matrix.create()
    ,   hvec = dmz.vector.create(targetVec)
@@ -81,12 +85,11 @@ newOri = function (obj, time, origOri, targetVec) {
    ,   pm
    ;
 
-   hvec:set_y (0.0)
-   hvec = hvec.normalize ()
+   hvec.y = 0.0;
+   hvec = hvec.normalized();
+   heading = Forward.getAngle(hvec);
 
-   heading = Forward.getAngle (hvec);
-
-   hcross = Forward.cross(hvec).normalize();
+   hcross = Forward.cross(hvec).normalized();
 
    if (hcross.y < 0.0) { heading = (Math.PI * 2) - heading; }
 
@@ -94,24 +97,20 @@ newOri = function (obj, time, origOri, targetVec) {
    else if (heading < -Math.PI) { heading = heading + (Math.PI * 2); }
 
    pitch = targetVec.getAngle(hvec);
-   pcross = targetVec.cross(hvec).normalize();
+   pcross = targetVec.cross(hvec).normalized();
    ncross = hvec.cross(pcross);
 
    if (ncross.y < 0.0) { pitch = (Math.PI * 2) - pitch; }
 
-   if (obj.heading) {  heading = rotate (time, obj.heading, heading); }
+   obj.heading = rotate (time, obj.heading, heading);
 
-   obj.heading = heading;
+   obj.pitch = rotate (time, obj.pitch, pitch);
 
-   if (obj.pitch) {  pitch = rotate (time, obj.pitch, pitch); }
+   pm = dmz.matrix.create().fromAxisAndAngle(Right, obj.pitch);
 
-   obj.pitch = pitch;
+   result = result.fromAxisAndAngle(Up, obj.heading);
 
-   pm = dmz.matrix.create().fromAxisAndAngle(Right, pitch);
-
-   result = result.fromAxisAndAngle(Up, heading);
-
-   result = result * pm;
+   result = result.multiply(pm);
 
    return result;
 }
@@ -120,17 +119,59 @@ newOri = function (obj, time, origOri, targetVec) {
 
 dmz.time.setRepeatingTimer(self, function (Delta) {
 
-   var obj;
+   var handle, obj;
 
    while (targets.count < MaxTargets) {
 
-      obj = dmz.object.create("raider");
-      dmz.object.position(obj, null, randomVector ());
-      dmz.object.activate(obj);
+      handle = dmz.object.create("raider");
+      dmz.object.position(handle, null, randomVector().add([0,0,-1500]));
+      dmz.object.orientation(handle, null, StartDir);
+      dmz.object.velocity(handle, null, [0, 0, TargetSpeed]);
+      dmz.object.activate(handle);
 
       targets.count++;
-      targets.list[obj] = true;
+
+      obj = {
+         handle: handle,
+         start: dmz.object.position(handle),
+         point: dmz.vector.create([10, 0, 100]), // randomVector(),
+         heading: Math.PI,
+         pitch: 0
+      };
+
+      obj.distance = obj.start.subtract(obj.point).magnitude();
+
+      targets.list[handle] = obj;
    }
+
+   Object.keys(targets.list).forEach (function (key) {
+
+      var obj = targets.list[key]
+      ,   handle = obj.handle
+      ,   pos = dmz.object.position(handle)
+      ,   vel = dmz.object.velocity(handle)
+      ,   offset = obj.point.subtract(pos)
+      ,   targetDir = offset.normalized()
+      ,   ori = newOri(obj, Delta, targetDir)
+      ,   newDir = ori.transform(Forward)
+      ;
+
+      if (obj.start.subtract(pos).magnitude() > obj.distance) {
+
+         obj.point = randomVector();
+         obj.start = pos;
+dmz.object.vector(handle, "Target Point", obj.point);
+         obj.distance = obj.start.subtract(obj.point).magnitude();
+      }
+
+      vel = newDir.multiplyConst(vel.magnitude());
+      //vel = targetDir.multiplyConst(vel.magnitude());
+
+      pos = pos.add(vel.multiplyConst(Delta));
+      dmz.object.position(handle, null, pos);
+      dmz.object.orientation(handle, null, ori);
+      dmz.object.velocity(handle, null, vel);
+   });
 });
 
 dmz.event.close.observe(self, Detonation, function (Event) {
