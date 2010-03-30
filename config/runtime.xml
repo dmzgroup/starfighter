@@ -9,19 +9,14 @@
    <state name="Smoking"/>
    <state name="Fire"/>
    <event-type name="Event_Launch">
-      <audio resource="launch-sound"/>
       <net>
          <enum value="16"/>
       </net>
    </event-type>
    <event-type name="Event_Detonation">
-      <audio resource="detonation-sound"/>
       <net>
          <enum value="17"/>
       </net>
-      <render>
-         <image resource="explosion"/>
-      </render>
    </event-type>
    <event-type name="Event_Collision">
       <net>
@@ -60,6 +55,9 @@
       </net>
       <render>
          <overlay name="dradis-dot"/>
+         <event name="Event_Detonation">
+            <image resource="explosion"/>
+         </event>
       </render>
    </object-type>
    <object-type name="space-vehicle" parent="vehicle">
@@ -133,6 +131,14 @@
       </render>
       <net>
          <enum value="1.1.7"/>
+      </net>
+   </object-type>
+   <object-type name="base-star" parent="space-vehicle">
+      <render>
+         <model resource="base-star"/>
+      </render>
+      <net>
+         <enum value="1.1.8"/>
       </net>
    </object-type>
    </runtime>

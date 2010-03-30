@@ -21,6 +21,7 @@
    <resource name="colonial-bomber" file="cb.ive"/>
    <resource name="raider" file="cr.ive"/>
    <resource name="heavy-raider" file="chr.ive"/>
+   <resource name="base-star" file="cbs.ive"/>
    <resource name="colonial-one" file="c1.ive"/>
    <resource name="pegasus" file="bsp.ive"/>
    <resource name="round" file="round.ive"/>
