@@ -8,8 +8,8 @@
    <plugin name="dmzObjectModuleBasic"/>
    <plugin name="dmzEventModuleBasic"/>
    <plugin name="dmzEventModuleCommonBasic"/>
-   <plugin name="dmzQtPluginObjectInspector" unique="object-inspector"/>
 <!--
+   <plugin name="dmzQtPluginObjectInspector" unique="object-inspector"/>
    <plugin name="dmzPluginMsgDump"/>
    <plugin name="dmzPluginDefinitionsDump"/>
    <plugin name="dmzObjectPluginDump"/>

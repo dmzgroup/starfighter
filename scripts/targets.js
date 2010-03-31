@@ -1,5 +1,5 @@
 var dmz = {}
-,   MaxTargets = 10
+,   MaxTargets = 100
 ,   TargetSpeed = 30
 ,   targets = { count: 0, list: {} }
 ,   DeadState
@@ -106,6 +106,11 @@ newOri = function (obj, time, targetVec) {
 
    obj.pitch = rotate (time, obj.pitch, pitch);
 
+   if (dmz.util.isZero(pitch - obj.pitch) && dmz.util.isZero(heading - obj.heading)) {
+
+      obj.onTarget = true;
+   }
+
    pm = dmz.matrix.create().fromAxisAndAngle(Right, obj.pitch);
 
    result = result.fromAxisAndAngle(Up, obj.heading);
@@ -119,10 +124,11 @@ newOri = function (obj, time, targetVec) {
 
 dmz.time.setRepeatingTimer(self, function (Delta) {
 
-   var handle, obj;
+   var handle, obj, count = 0;
 
-   while (targets.count < MaxTargets) {
+   while ((count < 10) && (targets.count < MaxTargets)) {
 
+      count++;
       handle = dmz.object.create("raider");
       dmz.object.position(handle, null, randomVector().add([0,0,-1500]));
       dmz.object.orientation(handle, null, StartDir);
@@ -134,9 +140,11 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
       obj = {
          handle: handle,
          start: dmz.object.position(handle),
-         point: dmz.vector.create([10, 0, 100]), // randomVector(),
+         point: randomVector(50),
          heading: Math.PI,
-         pitch: 0
+         pitch: 0,
+         onTarget: false,
+         dir: Forward
       };
 
       obj.distance = obj.start.subtract(obj.point).magnitude();
@@ -152,24 +160,25 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
       ,   vel = dmz.object.velocity(handle)
       ,   offset = obj.point.subtract(pos)
       ,   targetDir = offset.normalized()
-      ,   ori = newOri(obj, Delta, targetDir)
-      ,   newDir = ori.transform(Forward)
+      ,   ori = obj.onTarget ?  null : newOri(obj, Delta, targetDir)
       ;
 
       if (obj.start.subtract(pos).magnitude() > obj.distance) {
 
          obj.point = randomVector();
          obj.start = pos;
-dmz.object.vector(handle, "Target Point", obj.point);
          obj.distance = obj.start.subtract(obj.point).magnitude();
+         obj.onTarget = false;
       }
 
-      vel = newDir.multiplyConst(vel.magnitude());
+      if (ori) { obj.dir = ori.transform(Forward); }
+
+      vel = obj.dir.multiplyConst(vel.magnitude());
       //vel = targetDir.multiplyConst(vel.magnitude());
 
       pos = pos.add(vel.multiplyConst(Delta));
       dmz.object.position(handle, null, pos);
-      dmz.object.orientation(handle, null, ori);
+      if (ori) { dmz.object.orientation(handle, null, ori); }
       dmz.object.velocity(handle, null, vel);
    });
 });
