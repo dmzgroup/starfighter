@@ -13,6 +13,7 @@
    <plugin name="dmzWeaponPluginLaserBullet" scope="right-cannon"/>
    <plugin name="dmzObjectPluginTimeout"/>
    <plugin name="dmzRenderPluginRadarOverlay" scope="dradis"/>
+   <plugin name="dmzEntityPluginRandomizePosition" scope="start-position"/>
 </plugin-list>
 <right-cannon>
    <offset x="1.046128" y="0.827917" z="-1"/>
@@ -35,8 +36,10 @@
 <archive>
    <object name="hil" type="viper-2">
       <attributes>
+<!--
          <position x="0" y="5" z="-20"/>
          <position x="0" y="0" z="0"/>
+-->
          <orientation 
             v0="-0.9212066705313654" v1="0.081466816785441"   v2="-0.38044898203486444"
             v3="0"                   v4="0.9778329269045009"  v5="0.20938664489737108"
@@ -114,5 +117,10 @@ Right Gun: position[103] = '1.171122' '0.519221' '0.230091'
    <root name="dradis"/>
    <on-plane value="false"/>
 </dradis>
+<start-position>
+   <center x="0" y="0" z="0"/>
+   <radius value="20"/>
+   <heading degrees="0"/>
+</start-position>
 </dmz>
 
