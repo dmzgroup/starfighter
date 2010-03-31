@@ -34,14 +34,14 @@ Up = dmz.vector.create(0.0, 1.0, 0.0);
 StartDir = dmz.matrix.create().fromAxisAndAngle(Up, Math.PI);
 
 baseStar = dmz.object.create("base-star");
-dmz.object.position(baseStar, null, [0, 0, -2000]);
+dmz.object.position(baseStar, null, [0, -100, -2000]);
 dmz.object.activate(baseStar);
 
 randomVector = function (value) {
 
    var halfValue = 0;
 
-   if (!value) { value = 250; }
+   if (!value) { value = 500; }
 
    halfValue = value * 0.5;
 
