@@ -4,6 +4,7 @@
    <time>
       <frequency value="0.0"/>
    </time>
+   <message name="DMZ_Overlay_Radar_Range_Message" monostate="true"/>
    <state name="Engine_On"/>
    <state name="Dead"/>
    <state name="Smoking"/>

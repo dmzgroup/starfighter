@@ -16,7 +16,7 @@ var dmz = {}
 
 dmz.object = require("dmz/components/object");
 dmz.event = require("dmz/components/event");
-dmz.common = require("dmz/components/event/common");
+dmz.common = require("dmz/components/eventCommon");
 dmz.time = require("dmz/runtime/time");
 dmz.eventType = require("dmz/runtime/eventType");
 dmz.vector = require("dmz/types/vector");
