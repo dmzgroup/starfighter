@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dmz>
+<javascript>
+   <instance name="viperHUD"/>
+</javascript>
+<overlay>
+   <color name="bar-green" r="0" g="0.75" b="0" a="0.5"/>
+   <color name="bar-yellow" r="0.75" g="0.75" b="0" a="0.5"/>
+   <color name="bar-red" r="0.75" g="0" b="0" a="0.5"/>
+   <color name="bar-clear" r="1" g="1" b="1" a="0.3"/>
+   <color name="green" r="0" g="0.75" b="0" a="0.5"/>
+   <color name="damage" r="0" g="0.7" b="0" a="0.4"/>
+   <node type="transform" name="hud-layout">
+      <node type="transform" name="hud-top">
+         <position x="-202" y="2"/>
+         <node type="box">
+            <min x="84" y="68"/>
+            <max x="212" y="196"/>
+            <depth value="2"/>
+            <color name="damage"/>
+            <texture resource="viper-center-engine"/>
+         </node>
+         <node type="box">
+            <min x="84" y="68"/>
+            <max x="212" y="196"/>
+            <depth value="2"/>
+            <color name="damage"/>
+            <texture resource="viper-left-engine"/>
+         </node>
+         <node type="box">
+            <min x="84" y="68"/>
+            <max x="212" y="196"/>
+            <depth value="2"/>
+            <color name="damage"/>
+            <texture resource="viper-left-wing"/>
+         </node>
+         <node type="box">
+            <min x="84" y="68"/>
+            <max x="212" y="196"/>
+            <depth value="2"/>
+            <color name="damage"/>
+            <texture resource="viper-nose"/>
+         </node>
+         <node type="box">
+            <min x="84" y="68"/>
+            <max x="212" y="196"/>
+            <depth value="2"/>
+            <color name="damage"/>
+            <texture resource="viper-right-engine"/>
+         </node>
+         <node type="box">
+            <min x="84" y="68"/>
+            <max x="212" y="196"/>
+            <depth value="2"/>
+            <color name="damage"/>
+            <texture resource="viper-right-wing"/>
+         </node>
+         <node type="box">
+            <max x="200" y="200"/>
+            <color r="0.2" b="0.2" g="0.2" a="0.4"/>
+            <depth value="1"/>
+         </node>
+         <node type="text">
+            <position x="4" y="8"/>
+            <font resource="font"/>
+            <height value="22"/>
+            <color name="green"/>
+            <depth value="5"/>
+            <text value="   SPEED"/>
+         </node>
+         <node type="text" name="hud-speed">
+            <position x="100" y="8"/>
+            <font resource="font"/>
+            <height value="22"/>
+            <color name="green"/>
+            <depth value="5"/>
+            <text value="000"/>
+         </node>
+         <node type="text">
+            <position x="144" y="8"/>
+            <font resource="font"/>
+            <height value="22"/>
+            <color name="green"/>
+            <depth value="5"/>
+            <text value="AP"/>
+         </node>
+         <node type="box">
+            <min x="164" y="0"/>
+            <max x="196" y="32"/>
+            <depth value="2"/>
+            <color r="1" b="1" g="1" a="0.1"/>
+            <texture resource="circle-24"/>
+         </node>
+         <node type="box">
+            <min x="172" y="8"/>
+            <max x="188" y="24"/>
+            <depth value="5"/>
+            <color r="1" b="0" g="0" a="0.5"/>
+            <texture resource="circle-16"/>
+         </node>
+         <node type="text">
+            <position x="4" y="38"/>
+            <font resource="font"/>
+            <height value="22"/>
+            <color name="green"/>
+            <depth value="5"/>
+            <text value="MISSILES"/>
+         </node>
+         <node type="text" name="missile-count">
+            <position x="100" y="38"/>
+            <font resource="font"/>
+            <height value="22"/>
+            <color name="green"/>
+            <depth value="5"/>
+            <text value="0"/>
+         </node>
+         <node type="text">
+            <position x="12" y="64"/>
+            <font resource="font"/>
+            <height value="20"/>
+            <color name="green"/>
+            <depth value="5"/>
+            <text value="F"/>
+         </node>
+         <node type="text">
+            <position x="44" y="64"/>
+            <font resource="font"/>
+            <height value="20"/>
+            <color name="green"/>
+            <depth value="5"/>
+            <text value="C"/>
+         </node>
+         <node type="text">
+            <position x="76" y="64"/>
+            <font resource="font"/>
+            <height value="20"/>
+            <color name="green"/>
+            <depth value="5"/>
+            <text value="S"/>
+         </node>
+         <node type="transform">
+            <position x="4" y="82"/>
+            <node type="clone" name="fuel-bars" template="bars"/>
+         </node>
+         <node type="transform">
+            <position x="36" y="82"/>
+            <node type="clone" name="cannon-bars" template="bars"/>
+         </node>
+         <node type="transform">
+            <position x="68" y="82"/>
+            <node type="clone" name="shield-bars" template="bars"/>
+         </node>
+      </node>
+   </node>
+   <layout node="hud-layout">
+      <x type="relative" value="1.0"/>
+      <y type="relative" value="0.0"/>
+   </layout>
+   <template name="bars">
+      <node type="box" name="bar-0">
+         <min x="0" y="0"/>
+         <max x="28" y="8"/>
+         <color name="green"/>
+      </node>
+      <node type="box" name="bar-1">
+         <min x="0" y="12"/>
+         <max x="28" y="20"/>
+         <color name="green"/>
+      </node>
+      <node type="box" name="bar-2">
+         <min x="0" y="24"/>
+         <max x="28" y="32"/>
+         <color name="green"/>
+      </node>
+      <node type="box" name="bar-3">
+         <min x="0" y="36"/>
+         <max x="28" y="44"/>
+         <color name="green"/>
+      </node>
+      <node type="box" name="bar-4">
+         <min x="0" y="48"/>
+         <max x="28" y="56"/>
+         <color name="green"/>
+      </node>
+      <node type="box" name="bar-5">
+         <min x="0" y="60"/>
+         <max x="28" y="68"/>
+         <color name="green"/>
+      </node>
+      <node type="box" name="bar-6">
+         <min x="0" y="72"/>
+         <max x="28" y="80"/>
+         <color name="green"/>
+      </node>
+      <node type="box" name="bar-7">
+         <min x="0" y="84"/>
+         <max x="28" y="92"/>
+         <color name="green"/>
+      </node>
+      <node type="box" name="bar-8">
+         <min x="0" y="96"/>
+         <max x="28" y="104"/>
+         <color name="green"/>
+      </node>
+      <node type="box" name="bar-9">
+         <min x="0" y="108"/>
+         <max x="28" y="116"/>
+         <color name="green"/>
+      </node>
+   </template>
+</overlay>
+</dmz>

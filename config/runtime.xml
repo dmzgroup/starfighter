@@ -49,6 +49,9 @@
       <net>
          <enum value="2.1"/>
       </net>
+      <audio>
+         <event name="Event_Launch" resource="cannon-sound"/>
+      </audio>
    </object-type>
    <object-type name="vehicle">
       <net>
@@ -76,6 +79,9 @@
          <rule type="velocity"/>
          <rule type="state"/>
       </net>
+      <audio>
+         <event name="Event_Detonation" resource="explosion-sound"/>
+      </audio>
    </object-type>
    <object-type name="viper-2" parent="space-vehicle">
       <render>

@@ -14,14 +14,14 @@
    <plugin name="dmzObjectPluginTimeout"/>
    <plugin name="dmzRenderPluginRadarOverlay" scope="dradis"/>
    <plugin name="dmzEntityPluginRandomizePosition" scope="start-position"/>
+   <plugin name="dmzObjectPluginAutoCounter" scope="auto-reload"/>
 </plugin-list>
 <right-cannon>
    <offset x="1.046128" y="0.827917" z="-1"/>
    <munitions>
       <object-type name="round"/>
    </munitions>
-   <!-- fire rate one round every six second for m1a1 -->
-   <!-- <delay value="6"/> -->
+   <delay value="0.2"/>
    <speed value="10"/>
    <speed value="500"/>
 </right-cannon>
@@ -30,8 +30,7 @@
    <munitions>
       <object-type name="round"/>
    </munitions>
-   <!-- fire rate one round every six second for m1a1 -->
-   <!-- <delay value="6"/> -->
+   <delay value="0.2"/>
 </left-cannon>
 <archive>
    <object name="hil" type="viper-2">
@@ -55,6 +54,10 @@
       </attributes>
       <attributes name="Object_Human_In_The_Loop">
          <flag value="true"/>
+      </attributes>
+      <attributes name="Weapon_1">
+         <alttype value="round"/>
+         <counter value="20" minimum="0" maximum="20"/>
       </attributes>
    </object>
 </archive>
@@ -122,5 +125,8 @@ Right Gun: position[103] = '1.171122' '0.519221' '0.230091'
    <radius value="20"/>
    <heading degrees="0"/>
 </start-position>
+<auto-reload>
+   <counter attribute="Weapon_1" rate="0.5"/>
+</auto-reload>
 </dmz>
 

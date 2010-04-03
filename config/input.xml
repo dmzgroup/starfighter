@@ -18,7 +18,7 @@
    </channel>
 </key-messages>
 <dmzInputPluginControllerMacOS>
-   <controller deviceId="4"> <!-- name="wingman"> -->
+   <controller deviceId="2"> <!-- name="wingman"> -->
       <hatswitch
          north="0"
          northeast="1"

@@ -32,6 +32,16 @@
    <resource name="dradis-back" file="dradis_back.png"/>
    <resource name="dradis-overlay" file="dradis_overlay.png"/>
    <resource name="dradis-dot" file="dradis_dot.png"/>
+   <resource name="circle-24" file="circle_24.png"/>
+   <resource name="circle-16" file="circle_16.png"/>
+   <resource name="viper-center-engine" file="viper_center_engine.png"/>
+   <resource name="viper-left-engine" file="viper_left_engine.png"/>
+   <resource name="viper-left-wing" file="viper_left_wing.png"/>
+   <resource name="viper-nose" file="viper_nose.png"/>
+   <resource name="viper-right-engine" file="viper_right_engine.png"/>
+   <resource name="viper-right-wing" file="viper_right_wing.png"/>
+   <resource name="cannon-sound" file="cannon.wav" path="audio"/>
+   <resource name="explosion-sound" file="explosion.wav" path="audio"/>
    <resource name="font" file="data-latin.ttf" path="font"/>
 </resource-map>
 </runtime>
