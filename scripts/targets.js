@@ -1,6 +1,6 @@
 var dmz = {}
 ,   MaxTargets = 100
-,   TargetSpeed = 30
+,   TargetSpeed = 40
 ,   targets = { count: 0, list: {} }
 ,   DeadState
 ,   Detonation
@@ -118,8 +118,7 @@ newOri = function (obj, time, targetVec) {
    result = result.multiply(pm);
 
    return result;
-}
-
+};
 
 
 dmz.time.setRepeatingTimer(self, function (Delta) {

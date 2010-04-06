@@ -3,6 +3,7 @@ var dmz = {}
 ,   cannonBars
 ,   shieldBars
 ,   WeaponAttr
+,   MissileAttr
 ;
 
 dmz.object= require("dmz/components/object");
@@ -17,10 +18,12 @@ dmz.util = require("dmz/types/util");
 dmz.bars = require("bars");
 
 self.speed = dmz.overlay.lookup("hud-speed");
+self.missiles = dmz.overlay.lookup("missile-count");
 fuelBars = dmz.bars.create("fuel-bars");
 cannonBars = dmz.bars.create("cannon-bars");
 shieldBars = dmz.bars.create("shield-bars");
 WeaponAttr = dmz.defs.createNamedHandle("Weapon_1");
+MissileAttr = dmz.defs.createNamedHandle("Weapon_2");
 
 dmz.time.setRepeatingTimer (self, function (time) {
 
@@ -28,6 +31,7 @@ dmz.time.setRepeatingTimer (self, function (time) {
    ,   maxMun = 0
    ,   currentMun = 0
    ,   vel
+   ,   mcount = 0
    ;
 
    if (hil) {
@@ -36,7 +40,6 @@ dmz.time.setRepeatingTimer (self, function (time) {
       if (!maxMun || dmz.util.isZero(maxMun)) { maxMun = 1; }
       currentMun = dmz.object.counter(hil, WeaponAttr);
       if (!currentMun) { currentMun = 0; }
-
 
       fuelBars.update(Math.floor(10));
       cannonBars.update(Math.floor(10 * (currentMun / maxMun)));
@@ -50,6 +53,13 @@ dmz.time.setRepeatingTimer (self, function (time) {
 
             self.speed.text(Math.floor(vel.magnitude() * 3.6).toString());
          }
+      }
+
+      if (self.missiles) {
+
+         mcount = dmz.object.counter(hil, MissileAttr);
+
+         if (dmz.util.isDefined(mcount)) { self.missiles.text(mcount.toString()); }
       }
    }
 });

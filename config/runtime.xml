@@ -41,17 +41,33 @@
       </net>
    </object-type>
    <object-type name="round" parent="munitions">
-      <timeout value="5" detonate="true"/>
+      <audio>
+         <event name="Event_Launch" resource="cannon-sound"/>
+      </audio>
+      <net>
+         <enum value="2.1"/>
+      </net>
       <render>
          <isect disable="true"/>
          <model resource="round"/>
       </render>
-      <net>
-         <enum value="2.1"/>
-      </net>
+      <timeout value="5" detonate="true"/>
+   </object-type>
+   <object-type name="rattler" parent="munitions">
+<!--
       <audio>
          <event name="Event_Launch" resource="cannon-sound"/>
       </audio>
+-->
+      <net>
+         <enum value="2.2"/>
+      </net>
+      <render>
+         <isect disable="true"/>
+         <model resource="round"/>
+      </render>
+      <timeout value="5" detonate="true"/>
+      <weapon/>
    </object-type>
    <object-type name="vehicle">
       <net>
