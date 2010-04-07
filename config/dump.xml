@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dmz>
 <plugin-list>
-   <plugin name="dmzObjectPluginDump"/>
+   <plugin name="dmzPluginMsgDump"/>
 <!--
    <plugin name="dmzEventPluginDump"/>
-   <plugin name="dmzPluginMsgDump"/>
+   <plugin name="dmzObjectPluginDump"/>
    <plugin name="dmzPluginDefinitionsDump"/>
    <plugin name="dmzEventPluginDump"/>
    <plugin name="dmzPluginTermExit"/>

@@ -19,29 +19,28 @@
    <plugin name="dmzObjectPluginAutoCounter" scope="auto-reload"/>
 </plugin-list>
 <right-cannon>
-   <offset x="1.046128" y="0.827917" z="-1"/>
+   <offset x="1.046128" y="-0.289990" z="-1"/>
    <munitions>
       <object-type name="round"/>
    </munitions>
    <delay value="0.2"/>
-   <speed value="10"/>
+   <speed value="1"/>
    <speed value="500"/>
 </right-cannon>
 <left-cannon>
-   <offset x="-1.046128" y="0.827917" z="-1"/>
+   <offset x="-1.046128" y="-0.289990" z="-1"/>
    <munitions>
       <object-type name="round"/>
    </munitions>
    <delay value="0.2"/>
 </left-cannon>
 <missile-launcher>
-   <offset x="0" y="1" z="-4.5"/>
+   <offset x="0" y="-0.16" z="-4"/>
    <button value="6"/>
    <munitions id="2">
       <object-type name="rattler"/>
    </munitions>
    <delay value="1.0"/>
-   <speed value="500"/>
 </missile-launcher>
 <archive>
    <object name="hil" type="viper-2">
@@ -91,7 +90,7 @@
    <input>
       <channel name="first-person"/>
    </input>
-   <offset x="0.0" y="1.65" z="0.53"/>
+   <offset x="0.0" y="0.56" z="0.53"/>
 </first-person>
 <third-person>
    <input>

@@ -1,41 +1,47 @@
 var dmz = {}
-,   MaxTargets = 100
-,   TargetSpeed = 40
-,   targets = { count: 0, list: {} }
+,   Speed = 0
+,   MaxAces = 1
+,   aces = { count: 0, list: {} }
+,   LaunchMsg
 ,   DeadState
 ,   Detonation
 ,   Forward
 ,   Right
 ,   Up
+,   TailOffset
 ,   StartDir
+,   TargetType
+,   targetList = {}
 ,   randomVector
 ,   rotate
 ,   newOri
-,   baseStar
+,   findTarget
 ;
 
-dmz.object = require("dmz/components/object");
-dmz.event = require("dmz/components/event");
 dmz.common = require("dmz/components/eventCommon");
-dmz.time = require("dmz/runtime/time");
-dmz.eventType = require("dmz/runtime/eventType");
-dmz.vector = require("dmz/types/vector");
-dmz.matrix = require("dmz/types/matrix");
-dmz.mask = require("dmz/types/mask");
+dmz.data = require("dmz/runtime/data");
 dmz.defs = require("dmz/runtime/definitions");
+dmz.event = require("dmz/components/event");
+dmz.eventType = require("dmz/runtime/eventType");
+dmz.isect = require("dmz/components/isect");
+dmz.mask = require("dmz/types/mask");
+dmz.matrix = require("dmz/types/matrix");
+dmz.message = require("dmz/runtime/messaging");
+dmz.object = require("dmz/components/object");
+dmz.time = require("dmz/runtime/time");
 dmz.util = require("dmz/types/util");
+dmz.vector = require("dmz/types/vector");
 
 DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName);
 Detonation = dmz.eventType.lookup("Event_Detonation");
+LaunchMsg = dmz.message.create("Raider_Launch_Message");
 
 Forward = dmz.vector.create(0.0, 0.0, -1.0);
 Right = dmz.vector.create(1.0, 0.0, 0.0);
 Up = dmz.vector.create(0.0, 1.0, 0.0);
+TailOffset = dmz.vector.create(0.0, 0.0, 30.0);
 StartDir = dmz.matrix.create().fromAxisAndAngle(Up, Math.PI);
-
-baseStar = dmz.object.create("base-star");
-dmz.object.position(baseStar, null, [0, 0, -2000]);
-dmz.object.activate(baseStar);
+TargetType = self.config.objectType("target-type.name", "colonial-vehicle");
 
 randomVector = function (value) {
 
@@ -70,7 +76,6 @@ rotate = function (time, orig, target) {
 
    return result;
 };
-
 
 
 newOri = function (obj, time, targetVec) {
@@ -121,20 +126,39 @@ newOri = function (obj, time, targetVec) {
 };
 
 
+findTarget = function () {
+
+   var keys = Object.keys(targetList)
+   ,   result
+   ,   length = 0
+   ,   which = 0
+   ;
+
+   if (keys) {
+
+      length = keys.length;
+      which = Math.floor((length * Math.random()));
+      result = targetList[keys[which]]
+   }
+
+   return result
+};
+
+
 dmz.time.setRepeatingTimer(self, function (Delta) {
 
    var handle, obj, count = 0;
 
-   while ((count < 10) && (targets.count < MaxTargets)) {
+   while ((count < 10) && (aces.count < MaxAces)) {
 
       count++;
       handle = dmz.object.create("raider");
-      dmz.object.position(handle, null, randomVector().add([0,0,-1500]));
+      dmz.object.position(handle, null, randomVector().add([0,0,-100]));
       dmz.object.orientation(handle, null, StartDir);
-      dmz.object.velocity(handle, null, [0, 0, TargetSpeed]);
+      dmz.object.velocity(handle, null, [0, 0, Speed]);
       dmz.object.activate(handle);
 
-      targets.count++;
+      aces.count++;
 
       obj = {
          handle: handle,
@@ -148,32 +172,65 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
 
       obj.distance = obj.start.subtract(obj.point).magnitude();
 
-      targets.list[handle] = obj;
+      aces.list[handle] = obj;
    }
 
-   Object.keys(targets.list).forEach (function (key) {
+   Object.keys(aces.list).forEach (function (key) {
 
-      var obj = targets.list[key]
+      var obj = aces.list[key]
       ,   handle = obj.handle
       ,   pos = dmz.object.position(handle)
       ,   vel = dmz.object.velocity(handle)
-      ,   offset = obj.point.subtract(pos)
-      ,   targetDir = offset.normalized()
-      ,   ori = obj.onTarget ?  null : newOri(obj, Delta, targetDir)
+      ,   ori = dmz.object.orientation(handle)
+      ,   offset
+      ,   speed
+      ,   targetPos
+      ,   targetOri
+      ,   targetVel
+      ,   targetDir
+      ,   targetOffset
+      ,   distance
       ;
 
-      if (obj.start.subtract(pos).magnitude() > obj.distance) {
+      if (!obj.target) { obj.target = findTarget(); }
 
-         obj.point = randomVector();
-         obj.start = pos;
-         obj.distance = obj.start.subtract(obj.point).magnitude();
-         obj.onTarget = false;
+      if (obj.target) {
+
+         targetPos = dmz.object.position(obj.target);
+         targetOri = dmz.object.orientation(obj.target);
+         targetVel = dmz.object.velocity(obj.target);
+
+         if (targetPos && targetOri && targetVel) {
+
+            targetOffset = targetOri.transform(TailOffset);
+
+            targetPos = targetPos.add(targetOffset.add(randomVector(1)));
+
+            offset = targetPos.subtract(pos); 
+            targetDir = offset.normalized();
+
+            ori = newOri(obj, Delta, targetDir);
+
+            distance = offset.magnitude();
+
+            speed = targetVel.magnitude();
+
+            speed -= 0.1;
+
+            if (speed < 0) { speed = 0; }
+
+            if ((distance < 100) && (distance > 10)) {
+
+               LaunchMsg.send(dmz.data.wrapHandle(handle));
+            }
+         }
       }
+
+      if (!speed) { speed = vel.magnitude(); }
 
       if (ori) { obj.dir = ori.transform(Forward); }
 
-      vel = obj.dir.multiplyConst(vel.magnitude());
-      //vel = targetDir.multiplyConst(vel.magnitude());
+      vel = obj.dir.multiplyConst(speed);
 
       pos = pos.add(vel.multiplyConst(Delta));
       dmz.object.position(handle, null, pos);
@@ -182,15 +239,28 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
    });
 });
 
+
 dmz.event.close.observe(self, Detonation, function (Event) {
 
    var object = dmz.event.objectHandle(Event, dmz.event.TargetAttribute);
 
-   if (targets.list[object]) {
+   if (aces.list[object]) {
 
       dmz.common.createDetonation(object);
       dmz.object.destroy(object);
-      delete targets.list[object];
-      targets.count--;
+      delete aces.list[object];
+      aces.count--;
    }
+});
+
+
+dmz.object.create.observe(self, function (handle, type) {
+
+   if (type.isOfType(TargetType)) { targetList[handle] = handle; }
+});
+
+
+dmz.object.destroy.observe(self, function (handle) {
+
+   if (targetList[handle]) { delete (targetList[handle]); }
 });

@@ -99,69 +99,88 @@
          <event name="Event_Detonation" resource="explosion-sound"/>
       </audio>
    </object-type>
-   <object-type name="viper-2" parent="space-vehicle">
+   <object-type name="colonial-vehicle" parent="space-vehicle">
+      <net>
+         <enum value="1.1.1"/>
+      </net>
+   </object-type>
+   <object-type name="viper-2" parent="colonial-vehicle">
       <render>
          <model resource="viper-2"/>
          <model none="true" state="Dead"/>
       </render>
       <net>
-         <enum value="1.1.1"/>
+         <enum value="1.1.1.1"/>
       </net>
    </object-type>
-   <object-type name="viper-7" parent="space-vehicle">
+   <object-type name="viper-7" parent="colonial-vehicle">
       <render>
          <model resource="viper-7"/>
+         <model none="true" state="Dead"/>
       </render>
       <net>
-         <enum value="1.1.2"/>
+         <enum value="1.1.1.2"/>
       </net>
    </object-type>
-   <object-type name="colonial-bomber" parent="space-vehicle">
+   <object-type name="python" parent="colonial-vehicle">
       <render>
-         <model resource="colonial-bomber"/>
+         <model resource="python"/>
       </render>
       <net>
-         <enum value="1.1.3"/>
+         <enum value="1.1.1.3"/>
       </net>
    </object-type>
-   <object-type name="colonial-one" parent="space-vehicle">
+   <object-type name="colonial-one" parent="colonial-vehicle">
       <render>
          <model resource="colonial-one"/>
       </render>
       <net>
-         <enum value="1.1.4"/>
+         <enum value="1.1.1.4"/>
       </net>
    </object-type>
-   <object-type name="pegasus" parent="space-vehicle">
+   <object-type name="pegasus" parent="colonial-vehicle">
       <render>
          <model resource="pegasus"/>
       </render>
       <net>
-         <enum value="1.1.5"/>
+         <enum value="1.1.1.5"/>
       </net>
    </object-type>
-   <object-type name="raider" parent="space-vehicle">
+   <object-type name="galactica" parent="colonial-vehicle">
+      <render>
+         <model resource="galactica"/>
+      </render>
+      <net>
+         <enum value="1.1.1.6"/>
+      </net>
+   </object-type>
+   <object-type name="cylon-vehicle" parent="space-vehicle">
+      <net>
+         <enum value="1.1.2"/>
+      </net>
+   </object-type>
+   <object-type name="raider" parent="cylon-vehicle">
       <render>
          <model resource="raider"/>
       </render>
       <net>
-         <enum value="1.1.6"/>
+         <enum value="1.1.2.1"/>
       </net>
    </object-type>
-   <object-type name="heavy-raider" parent="space-vehicle">
+   <object-type name="heavy-raider" parent="cylon-vehicle">
       <render>
          <model resource="heavy-raider"/>
       </render>
       <net>
-         <enum value="1.1.7"/>
+         <enum value="1.1.2.2"/>
       </net>
    </object-type>
-   <object-type name="base-star" parent="space-vehicle">
+   <object-type name="base-star" parent="cylon-vehicle">
       <render>
          <model resource="base-star"/>
       </render>
       <net>
-         <enum value="1.1.8"/>
+         <enum value="1.1.2.3"/>
       </net>
    </object-type>
    </runtime>
