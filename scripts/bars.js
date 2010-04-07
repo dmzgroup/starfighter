@@ -19,6 +19,8 @@ Bars = function (name, root) {
 
    var ix;
 
+   this.prev = -1;
+
    this.overlay = dmz.overlay.lookup(name);
 
    if (this.overlay) {
@@ -70,12 +72,17 @@ Bars.prototype.update = function (level) {
    ,   ix
    ;
 
-   if (level < 3) { color = this.red; }
-   else if (level < 6) { color = this.yellow; }
+   if (this.prev != level) {
 
-   for (ix = 0; ix < 10; ix++) {
+      if (level < 3) { color = this.red; }
+      else if (level < 6) { color = this.yellow; }
 
-      if (ix < level) { this.bars[ix].color(color); }
-      else { this.bars[ix].color(this.clear); }
+      for (ix = 0; ix < 10; ix++) {
+
+         if (ix < level) { this.bars[ix].color(color); }
+         else { this.bars[ix].color(this.clear); }
+      }
+
+      this.prev = level;
    }
 };

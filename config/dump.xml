@@ -4,8 +4,8 @@
    <plugin name="dmzPluginMsgDump"/>
 <!--
    <plugin name="dmzEventPluginDump"/>
-   <plugin name="dmzPluginDefinitionsDump"/>
    <plugin name="dmzObjectPluginDump"/>
+   <plugin name="dmzPluginDefinitionsDump"/>
    <plugin name="dmzEventPluginDump"/>
    <plugin name="dmzPluginTermExit"/>
    <plugin name="dmzRenderPluginPortalSize"/>

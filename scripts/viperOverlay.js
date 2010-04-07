@@ -3,6 +3,7 @@ var dmz = {}
 ,   VehicleType
 ,   active = 0
 ,   rangeHandle
+,   targetHandle
 ;
 
 dmz.object= require("dmz/components/object");
@@ -22,10 +23,11 @@ dmz.messaging = require("dmz/runtime/messaging");
 Forward = dmz.vector.create([0, 0, -1]);
 VehicleType = dmz.objectType.lookup("vehicle")
 
-self.target = dmz.overlay.lookup("crosshairs target switch");
+self.sight = dmz.overlay.lookup("crosshairs target switch");
 self.top = dmz.overlay.lookup("crosshairs switch");
 self.range = dmz.overlay.lookup("dradis-range");
 rangeHandle = dmz.defs.createNamedHandle("DMZ_Overlay_Radar_Range");
+targetHandle = dmz.defs.createNamedHandle("Weapon_Target_Lock");
 
 dmz.time.setRepeatingTimer (self, function (time) {
 
@@ -34,9 +36,10 @@ dmz.time.setRepeatingTimer (self, function (time) {
    ,   view
    ,   dir
    ,   which = 0
+   ,   target
    ;
 
-   if (self.target && hil && (active > 0)) {
+   if (self.sight && hil && (active > 0)) {
 
       state = dmz.object.state(hil);
 
@@ -55,15 +58,24 @@ dmz.time.setRepeatingTimer (self, function (time) {
 
                var type = dmz.object.type(value.object);
 
-               if (type && type.isOfType(VehicleType)) { which = 1; }
+               if (type && type.isOfType(VehicleType)) {
 
-               //self.log.error("got isect", value.object, type, which);
+                  which = 1;
+                  target = value.object;
+               }
             }
          });
 
-         self.target.enableSingleSwitchState(which);
+         self.sight.enableSingleSwitchState(which);
 
          dmz.isect.enable(hil);
+
+         if (self.target !== target) {
+
+            dmz.object.unlinkSubObjects(hil, targetHandle);
+            if (target) { dmz.object.link(targetHandle, hil, target); }
+            self.target = target;
+         }
       }
    }
 });

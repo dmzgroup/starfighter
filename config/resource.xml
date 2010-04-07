@@ -18,7 +18,7 @@
    </search>
    <resource name="viper-2" file="vm2.ive"/>
    <resource name="viper-7" file="vm7.ive"/>
-   <resource name="colonial-bomber" file="cb.ive"/>
+   <resource name="python" file="cb.ive"/>
    <resource name="raider" file="cr.ive"/>
    <resource name="heavy-raider" file="chr.ive"/>
    <resource name="base-star" file="cbs.ive"/>
