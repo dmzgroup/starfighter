@@ -1,0 +1,8 @@
+lmk.set_name "dmzStarfighterPluginTargets"
+lmk.set_type "plugin"
+lmk.add_files {"dmzStarfighterPluginTargets.cpp",}
+lmk.add_libs {
+   "dmzEventUtil",
+   "dmzKernel",
+}
+lmk.add_preqs {"dmzObjectFramework", "dmzEventFramework",}
