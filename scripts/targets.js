@@ -65,7 +65,7 @@ rotate = function (time, orig, target) {
    if (Math.abs (diff) > max) {
 
       if (diff > 0) { result = orig + max; }
-      else { result = orig - max }
+      else { result = orig - max; }
    }
 
    return result;

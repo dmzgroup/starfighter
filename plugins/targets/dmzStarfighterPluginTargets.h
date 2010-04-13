@@ -2,8 +2,10 @@
 #define DMZ_STARFIGHTER_PLUGIN_TARGETS_DOT_H
 
 #include <dmzEventModule.h>
+#include <dmzEventModuleCommon.h>
 #include <dmzEventObserverUtil.h>
 #include <dmzObjectModule.h>
+#include <dmzRuntimeDefinitions.h>
 #include <dmzRuntimeEventType.h>
 #include <dmzRuntimeLog.h>
 #include <dmzRuntimeObjectType.h>
@@ -52,21 +54,23 @@ namespace dmz {
             Vector dir;
             Float64 heading;
             Float64 pitch;
+            Float64 distance;
             Boolean onTarget;
 
             TargetStruct (const Handle TheObject) :
                   Object (TheObject),
                   heading (Pi64),
                   pitch (0.0),
+                  distance (0.0),
                   onTarget (False) {;}
          };
 
-         Float64 rotate (
+         Float64 _rotate (
             const Float64 DeltaTime,
             const Float64 Start,
             const Float64 Target);
 
-         void new_ori (
+         void _new_ori (
             const Float64 DeltaTime,
             const Vector &Dir,
             TargetStruct &obj,
@@ -75,14 +79,19 @@ namespace dmz {
          void _init (Config &local);
 
          Log _log;
+         Definitions _defs;
 
          ObjectModule *_objMod;
+         EventModuleCommon *_common;
 
          Handle _defaultObjHandle;
          Handle _defaultEventHandle;
          Handle _targetEventHandle;
 
-         Float64 _maxTargetCount;
+         EventType _detonationType;
+
+         Int32 _maxTargetCount;
+         Float64 _targetSpeed;
          ObjectType _targetType;
          Vector _startPos;
          Matrix _startDir;
