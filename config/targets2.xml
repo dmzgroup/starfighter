@@ -2,13 +2,13 @@
 <dmz>
 <runtime>
    <time>
-      <frequency value="60.0"/>
+      <frequency value="0.0"/>
    </time>
 </runtime>
 <plugin-list>
    <plugin name="dmzStarfighterPluginTargets" scope="targets"/>
 </plugin-list>
 <targets>
-   <max-targets value="150"/>
+   <max-targets value="500"/>
 </targets>
 </dmz>

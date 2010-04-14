@@ -10,13 +10,10 @@
    <path value="../dmz/scripts/entity"/>
    <path value="./scripts"/>
    <plugin-list>
-      <plugin name="dmzLuaExtInput"/>
-      <plugin name="dmzLuaExtIsect"/>
       <plugin name="dmzLuaExtObject"/>
       <plugin name="dmzLuaExtEvent"/>
-      <plugin name="dmzLuaExtOverlay"/>
-      <plugin name="dmzLuaExtPortal"/>
       <plugin name="dmzQtExtLuaConsole"/>
    </plugin-list>
+   <instance name="targets"/>
 </lua>
 </dmz>

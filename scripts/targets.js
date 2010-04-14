@@ -1,5 +1,5 @@
 var dmz = {}
-,   MaxTargets = 100
+,   MaxTargets = 500
 ,   TargetSpeed = 40
 ,   targets = { count: 0, list: {} }
 ,   DeadState
