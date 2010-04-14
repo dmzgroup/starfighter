@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dmz>
+<runtime>
+   <time>
+      <frequency value="60.0"/>
+   </time>
+</runtime>
+<plugin-list>
+   <plugin name="dmzStarfighterPluginTargets" scope="targets"/>
+</plugin-list>
+<targets>
+   <max-targets value="150"/>
+</targets>
+</dmz>
