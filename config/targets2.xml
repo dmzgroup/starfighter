@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dmz>
-<runtime>
-   <time>
-      <frequency value="0.0"/>
-   </time>
-</runtime>
 <plugin-list>
    <plugin name="dmzStarfighterPluginTargets" scope="targets"/>
 </plugin-list>
 <targets>
-   <max-targets value="500"/>
+   <max-targets value="200"/>
 </targets>
+<archive>
+   <object type="base-star">
+      <attributes>
+         <position x="0.0" y="0.0" z="-2000.0"/>
+         <velocity x="0.0" y="0.0" z="0.0"/>
+      </attributes>
+   </object>
+</archive>
 </dmz>

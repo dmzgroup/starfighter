@@ -130,7 +130,7 @@ function new (config, name)
       log = dmz.log.new ("lua." .. name),
       targets = {},
       targetCount = 0,
-      maxTargetCount = 500,
+      maxTargetCount = 200,
       targetType = dmz.object_type.new ("raider"),
       targetSpeed = 40,
    }
