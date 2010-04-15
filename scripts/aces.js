@@ -91,10 +91,10 @@ newOri = function (obj, time, targetVec) {
    ;
 
    hvec.y = 0.0;
-   hvec = hvec.normalized();
+   hvec = hvec.normalize();
    heading = Forward.getAngle(hvec);
 
-   hcross = Forward.cross(hvec).normalized();
+   hcross = Forward.cross(hvec).normalize();
 
    if (hcross.y < 0.0) { heading = (Math.PI * 2) - heading; }
 
@@ -102,7 +102,7 @@ newOri = function (obj, time, targetVec) {
    else if (heading < -Math.PI) { heading = heading + (Math.PI * 2); }
 
    pitch = targetVec.getAngle(hvec);
-   pcross = targetVec.cross(hvec).normalized();
+   pcross = targetVec.cross(hvec).normalize();
    ncross = hvec.cross(pcross);
 
    if (ncross.y < 0.0) { pitch = (Math.PI * 2) - pitch; }
@@ -207,7 +207,7 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
             targetPos = targetPos.add(targetOffset.add(randomVector(1)));
 
             offset = targetPos.subtract(pos); 
-            targetDir = offset.normalized();
+            targetDir = offset.normalize();
 
             ori = newOri(obj, Delta, targetDir);
 

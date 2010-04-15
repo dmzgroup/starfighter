@@ -1,33 +1,31 @@
-var dmz = {}
-,   active = 0
+var dmz =
+       { object: require("dmz/components/object")
+       , event: require("dmz/components/event")
+       , input: require("dmz/components/input")
+       , isect: require("dmz/components/isect")
+       , time: require("dmz/runtime/time")
+       , vector: require("dmz/types/vector")
+       , matrix: require("dmz/types/matrix")
+       , mask: require("dmz/types/mask")
+       , defs: require("dmz/runtime/definitions")
+       , util: require("dmz/types/util")
+       }
+,   frame =
+       { nose: dmz.vector.create([0, 1, -4.1])
+       , tail: dmz.vector.create([0, 1, 3.861])
+       , center: dmz.vector.create([0, 1, -1])
+       , left: dmz.vector.create([-2.431321, 0.060074, 3.237302])
+       , right: dmz.vector.create([2.431321, 0.060074, 3.237302])
+       , top: dmz.vector.create([0, 2.85, 3.387])
+       }
 ,   controls = { thrust: 0, roll: 0, yaw: 0, pitch: 0 }
-,   DeadState
-,   XPitch
-,   YYaw
-,   ZRoll
-,   frame = {}
+,   active = 0
+,   DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName)
+,   XPitch = dmz.vector.create(1, 0, 0)
+,   YYaw = dmz.vector.create(0, 1, 0)
+,   ZRoll = dmz.vector.create(0, 0, -1)
 ,   updateFrame
 ;
-
-dmz.object = require("dmz/components/object");
-dmz.event = require("dmz/components/event");
-dmz.input = require("dmz/components/input");
-dmz.isect = require("dmz/components/isect");
-dmz.time = require("dmz/runtime/time");
-dmz.vector = require("dmz/types/vector");
-dmz.matrix = require("dmz/types/matrix");
-dmz.mask = require("dmz/types/mask");
-dmz.defs = require("dmz/runtime/definitions");
-dmz.util = require("dmz/types/util");
-
-DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName);
-
-frame.nose = dmz.vector.create([0, 1, -4.1]);
-frame.tail = dmz.vector.create([0, 1, 3.861]);
-frame.center = dmz.vector.create([0, 1, -1]);
-frame.left = dmz.vector.create([-2.431321, 0.060074, 3.237302]);
-frame.right = dmz.vector.create([2.431321, 0.060074, 3.237302]);
-frame.top = dmz.vector.create([0, 2.85, 3.387]);
 
 updateFrame = function (pos, dir, frame) {
 
@@ -43,10 +41,6 @@ updateFrame = function (pos, dir, frame) {
    return result;
 }
 
-XPitch = dmz.vector.create(1, 0, 0);
-YYaw = dmz.vector.create(0, 1, 0);
-ZRoll = dmz.vector.create(0, 0, -1);
-
 dmz.time.setRepeatingTimer(self, function (Delta) {
 
    var hil = dmz.object.hil()
@@ -57,6 +51,7 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
    ,   oldPos
    ,   vel
    ,   ori
+   ,   point
    ,   normal
    ,   vec
    ,   pMat
@@ -64,7 +59,6 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
    ,   rMat
    ,   DeltaXPi = Delta * Math.PI
    ,   cframe
-   ,   hit = false
    ;
 
    if (hil && (active > 0)) {
@@ -107,42 +101,48 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
          dmz.isect.doIsect([
             { start: cframe.nose, end: cframe.tail, callback: function (value) {
 
+               point = value.point;
                normal = value.normal;
                self.log.warn("Nose collision", value.object);
-               hit = true;
             }},
             { start: cframe.center, end: cframe.left, callback: function (value) {
 
+               point = value.point;
                normal = value.normal;
                self.log.warn("Left collision", value.object);
-               hit = true;
             }},
             { start: cframe.center, end: cframe.right, callback: function (value) {
 
+               point = value.point;
                normal = value.normal;
                self.log.warn("Right collision", value.object);
-               hit = true;
             }},
             { start: cframe.center, end: cframe.top, callback: function (value) {
 
+               point = value.point;
                normal = value.normal;
                self.log.warn("Top collision", value.object);
-               hit = true;
             }},
          ]);
 
          dmz.isect.enable(hil);
 
 /*
-         if (hit) {
+         if (normal && point) {
+
+            normal = normal.normalize();
 
             pos = oldPos;
 
-            if (normal) {
+            vec = point.subtract(pos);
 
-               vec = vel.normalized();
-               vel = normal.multiplyConst(2 * vec.dot(normal)).subtract(vec).multiplyConst(speed);
+            if (vec.getAngle(normal) < (Math.Pi * 0.5)) {
+
+               normal = normal.multiplyConst(-1);
             }
+
+            vec = vel.normalize();
+            vel = normal.multiplyConst(2 * vec.dot(normal)).subtract(vec).multiplyConst(speed);
 
             if (!state) { state = dmz.mask.create(); }
             state = state.or(DeadState);
@@ -151,9 +151,9 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
       }
       else {
 
-         dir = vel.normalized();
+         dir = vel.normalize();
 
-         speed -= Delta * 5;
+         speed -= Delta * 2;
 
          if (speed < 0) { speed = 0; }
 

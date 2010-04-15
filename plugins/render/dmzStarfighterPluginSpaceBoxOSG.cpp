@@ -1,5 +1,10 @@
+#include <dmzObjectAttributeMasks.h>
+#include <dmzObjectConsts.h>
+#include <dmzObjectModule.h>
 #include <dmzRenderModuleCoreOSG.h>
+#include <dmzRenderUtilOSG.h>
 #include <dmzRuntimeConfigToTypesBase.h>
+#include <dmzRuntimeDefinitions.h>
 #include <dmzRuntimePluginFactoryLinkSymbol.h>
 #include <dmzRuntimePluginInfo.h>
 #include "dmzStarfighterPluginSpaceBoxOSG.h"
@@ -21,8 +26,12 @@ dmz::StarfighterPluginSpaceBoxOSG::StarfighterPluginSpaceBoxOSG (
       const PluginInfo &Info,
       Config &local) :
       Plugin (Info),
+      TimeSlice (Info),
+      ObjectObserverUtil (Info, local),
       _log (Info),
       _rc (Info),
+      _defaultHandle (0),
+      _hil (0),
       _offset (10000.0),
       _imgRc ("stars"),
       _core (0) {
@@ -68,13 +77,52 @@ dmz::StarfighterPluginSpaceBoxOSG::discover_plugin (
 
          _core = RenderModuleCoreOSG::cast (PluginPtr);
 
-         if (_core) { _create_box (); }
+         if (_core) { _add_box (); }
       }
    }
    else if (Mode == PluginDiscoverRemove) {
 
-      if (_core &&  (_core == RenderModuleCoreOSG::cast (PluginPtr))) { _core = 0; }
+      if (_core &&  (_core == RenderModuleCoreOSG::cast (PluginPtr))) {
+
+         _remove_box ();
+         _core = 0;
+      }
    }
+}
+
+
+// TimeSlice Interface
+void
+dmz::StarfighterPluginSpaceBoxOSG::update_time_slice (const Float64 DeltaTime) {
+
+   ObjectModule *module = get_object_module ();
+
+   if (module && _hil && _box.valid ()) {
+
+      Vector pos;
+
+      if (module->lookup_position (_hil, _defaultHandle, pos)) {
+
+         const osg::Vec3d BoxPos = to_osg_vector (pos);
+         osg::Matrix mat;
+         mat.makeTranslate (BoxPos);
+         _box->setMatrix (mat);
+      }
+   }
+}
+
+
+// ObjectObserverUtil Interface
+void
+dmz::StarfighterPluginSpaceBoxOSG::update_object_flag (
+      const UUID &Identity,
+      const Handle ObjectHandle,
+      const Handle AttributeHandle,
+      const Boolean Value,
+      const Boolean *PreviousValue) {
+
+   if (Value) { _hil = ObjectHandle; }
+   else if (ObjectHandle == _hil) { _hil = 0; }
 }
 
 
@@ -86,7 +134,7 @@ dmz::StarfighterPluginSpaceBoxOSG::_create_box () {
    osg::ref_ptr<osg::Image> img =
       (ImageName ? osgDB::readImageFile (ImageName.get_buffer ()) : 0);
 
-   if (img.valid () && _core) {
+   if (img.valid ()) {
 
       osg::Geode* geode = new osg::Geode ();
 
@@ -252,24 +300,57 @@ dmz::StarfighterPluginSpaceBoxOSG::_create_box () {
       geom->setTexCoordArray (0, tcoords);
       geode->addDrawable (geom);
 
-      UInt32 mask = geode->getNodeMask ();
-      mask &= ~(_core->get_isect_mask ());
-      geode->setNodeMask (mask);
+      _box = new osg::MatrixTransform ();
 
-      osg::Group *group = _core->get_static_objects ();
-
-      if (group) { group->addChild (geode); }
-      else { _log.error << "Failed to add geode!" << endl; }
+      _box->addChild (geode);
    }
    else { _log.error << "Failed to load: " << _imgRc << ":" << ImageName << endl; }
 }
 
 
 void
+dmz::StarfighterPluginSpaceBoxOSG::_add_box () {
+
+   if (_box.valid () && _core) {
+
+      UInt32 mask = _box->getNodeMask ();
+      mask &= ~(_core->get_isect_mask ());
+      _box->setNodeMask (mask);
+      osg::Group *group = _core->get_dynamic_objects ();
+      if (group) { group->addChild (_box.get ()); }
+      else { _log.error << "Failed to add Space Box!" << endl; }
+   }
+}
+
+
+void
+dmz::StarfighterPluginSpaceBoxOSG::_remove_box () {
+
+   if (_box.valid () && _core) {
+
+      UInt32 mask = _box->getNodeMask ();
+      mask |= _core->get_isect_mask ();
+      _box->setNodeMask (mask);
+      osg::Group *group = _core->get_dynamic_objects ();
+      if (group) { group->removeChild (_box.get ()); }
+      else { _log.error << "Failed to remove Space Box!" << endl; }
+   }
+}
+
+
+void
 dmz::StarfighterPluginSpaceBoxOSG::_init (Config &local) {
+
+   Definitions defs (get_plugin_runtime_context ());
+
+   _defaultHandle = defs.create_named_handle (ObjectAttributeDefaultName);
 
    _imgRc = config_to_string ("image.resource", local, _imgRc);
    _offset = config_to_float64 ("box.offset", local, _offset);
+
+   activate_object_attribute (ObjectAttributeHumanInTheLoopName, ObjectFlagMask);
+
+   _create_box ();
 }
 
 
