@@ -6,6 +6,7 @@
    <plugin name="dmzInputPluginChannelSwitch" scope="view-switch"/>
    <plugin name="dmzEntityPluginPortalTether" unique="first-person"/>
    <plugin name="dmzEntityPluginHide" scope="first-person"/>
+   <plugin name="dmzEntityPluginRandomizePosition" scope="start-position"/>
    <plugin name="dmzEntityPluginTeleport"/>
    <plugin name="dmzEntityPluginOverlayDead"/>
    <plugin name="dmzWeaponPluginFixedLauncher" unique="right-cannon"/>
@@ -15,11 +16,11 @@
    <plugin name="dmzWeaponPluginTrackingMissile" scope="missile-launcher"/>
    <plugin name="dmzObjectPluginTimeout"/>
    <plugin name="dmzRenderPluginRadarOverlay" scope="dradis"/>
-   <plugin name="dmzEntityPluginRandomizePosition" scope="start-position"/>
    <plugin name="dmzObjectPluginAutoCounter" scope="auto-reload"/>
 </plugin-list>
 <right-cannon>
    <offset x="1.046128" y="-0.289990" z="-1"/>
+   <converge x="0.0" y="0.56" z="-500"/>
    <munitions>
       <object-type name="round"/>
    </munitions>
@@ -29,6 +30,7 @@
 </right-cannon>
 <left-cannon>
    <offset x="-1.046128" y="-0.289990" z="-1"/>
+   <converge x="0.0" y="0.56" z="-500"/>
    <munitions>
       <object-type name="round"/>
    </munitions>
@@ -36,6 +38,7 @@
 </left-cannon>
 <missile-launcher>
    <offset x="0" y="-0.16" z="-4"/>
+   <converge x="0.0" y="0.56" z="-1000"/>
    <button value="6"/>
    <munitions id="2">
       <object-type name="rattler"/>
@@ -46,14 +49,10 @@
    <object name="hil" type="viper-2">
       <attributes>
 <!--
-         <position x="0" y="5" z="-20"/>
+         The randomize position plugin will only work if the object does not already
+         have a defined position.
          <position x="0" y="0" z="0"/>
 -->
-         <orientation 
-            v0="-0.9212066705313654" v1="0.081466816785441"   v2="-0.38044898203486444"
-            v3="0"                   v4="0.9778329269045009"  v5="0.20938664489737108"
-            v6="0.3890736050781614"  v7="0.19288837399964046" v8="-0.9007862149296347"
-         />
          <orientation 
             v0="1.0" v1="0.0" v2="0.0"
             v3="0.0" v4="1.0" v5="0.0"

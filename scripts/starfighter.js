@@ -20,24 +20,20 @@ var dmz =
        }
 ,   controls = { thrust: 0, roll: 0, yaw: 0, pitch: 0 }
 ,   active = 0
+//  Constants
 ,   DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName)
 ,   XPitch = dmz.vector.create(1, 0, 0)
 ,   YYaw = dmz.vector.create(0, 1, 0)
 ,   ZRoll = dmz.vector.create(0, 0, -1)
+,   MaxSpeed = 55.556 // meters per second -> 200 kilometers per hour
+//  Functions
 ,   updateFrame
 ;
 
 updateFrame = function (pos, dir, frame) {
 
-   var result = {}
-   , keys = Object.keys(frame)
-   ;
-
-   keys.forEach (function (key) {
-
-      result[key] = dir.transform(frame[key]).add(pos);
-   });
-
+   var result = {}, keys = Object.keys(frame);
+   keys.forEach (function (key) { result[key] = dir.transform(frame[key]).add(pos); });
    return result;
 }
 
@@ -89,6 +85,7 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
          else { speed += controls.thrust * Delta * 15; }
 
          if (speed < 0) { speed = 0; }
+         else if (speed > MaxSpeed) { speed = MaxSpeed; }
 
          vel = dir.multiplyConst(speed);
 
@@ -177,8 +174,9 @@ dmz.input.channel.observe(self, function (Channel, State) {
 
 dmz.input.axis.observe(self, function (Channel, Axis) {
 
-//self.log.error(JSON.stringify(Axis));
    var value = Axis.value * Axis.value * (Axis.value > 0 ? 1 : -1);
+
+   if (Math.abs (value) < 0.01) { value = 0; }
 
    if (Axis.id == 1) { // Roll
 
