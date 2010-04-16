@@ -2,8 +2,8 @@
 <dmz>
 <plugin-list>
    <plugin name="starfighter" reserve="true"/>
-   <plugin name="dmzEntityPluginPortalTether" unique="third-person"/>
    <plugin name="dmzInputPluginChannelSwitch" scope="view-switch"/>
+   <plugin name="dmzEntityPluginPortalTether" unique="third-person"/>
    <plugin name="dmzEntityPluginPortalTether" unique="first-person"/>
    <plugin name="dmzEntityPluginHide" scope="first-person"/>
    <plugin name="dmzEntityPluginRandomizePosition" scope="start-position"/>
@@ -15,8 +15,9 @@
    <plugin name="dmzWeaponPluginLaserBullet" scope="right-cannon"/>
    <plugin name="dmzWeaponPluginTrackingMissile" scope="missile-launcher"/>
    <plugin name="dmzObjectPluginTimeout"/>
-   <plugin name="dmzRenderPluginRadarOverlay" scope="dradis"/>
    <plugin name="dmzObjectPluginAutoCounter" scope="auto-reload"/>
+   <plugin name="dmzRenderPluginRadarOverlay" scope="dradis"/>
+   <plugin name="dmzStarfighterPluginLaunchTubeOSG"/>
 </plugin-list>
 <right-cannon>
    <offset x="1.046128" y="-0.289990" z="-1"/>
@@ -45,40 +46,10 @@
    </munitions>
    <delay value="1.0"/>
 </missile-launcher>
-<archive>
-   <object name="hil" type="viper-2">
-      <attributes>
-<!--
-         The randomize position plugin will only work if the object does not already
-         have a defined position.
-         <position x="0" y="0" z="0"/>
--->
-         <orientation 
-            v0="1.0" v1="0.0" v2="0.0"
-            v3="0.0" v4="1.0" v5="0.0"
-            v6="0.0" v7="0.0" v8="1.0"
-         />
-         <velocity x="0.0" y="0.0" z="0.0"/>
-         <acceleration x="0.0" y="0.0" z="0.0"/>
-      </attributes>
-      <attributes name="Object_Human_In_The_Loop">
-         <flag value="true"/>
-      </attributes>
-      <attributes name="Weapon_1">
-         <alttype value="round"/>
-         <counter value="20" minimum="0" maximum="20"/>
-      </attributes>
-      <attributes name="Weapon_2">
-         <alttype value="rattler"/>
-         <counter value="1000" minimum="0" maximum="1000"/>
-      </attributes>
-   </object>
-</archive>
 <javascript>
    <instance name="starfighter"/>
+   <instance name="autopilot"/>
 </javascript>
-<starfighter>
-</starfighter>
 <view-switch>
    <switch>
       <channel name="first-person"/>
@@ -113,20 +84,6 @@
       <scale key="shift" value="0.1" sticky="false"/>
    </controller>
 </keyboard-controller>
-<!--
-Viper Mk II
-Left Gun:  position[103] = '-1.046128' '0.827917' '-1'
-Right Gun: position[103] = '1.046128' '0.827917' '-1'
-
-Viper Mk VII
-Left Gun:   position[103] = '-2.901481' '0.179720' '0.722205'
-Right Gun:  position[103] = '2.906118' '0.177339' '0.722205'
-Center Gun: position[103] = '0.00' '2.597546' '2.211151'
-
-Raider
-Left Gun:  position[103] = '-1.171122' '0.519221' '0.230091'
-Right Gun: position[103] = '1.171122' '0.519221' '0.230091'
--->
 <dradis>
    <radius value="100"/>
    <range value="500" min="100" max="1000"/>
@@ -141,5 +98,37 @@ Right Gun: position[103] = '1.171122' '0.519221' '0.230091'
 <auto-reload>
    <counter attribute="Weapon_1" rate="0.5"/>
 </auto-reload>
+<archive>
+   <object name="hil" type="viper-2">
+      <attributes>
+<!--
+         The randomize position plugin will only work if the object does not already
+         have a defined position.
+-->
+         <position x="0" y="0" z="0"/>
+         <orientation 
+            v0="1.0" v1="0.0" v2="0.0"
+            v3="0.0" v4="1.0" v5="0.0"
+            v6="0.0" v7="0.0" v8="1.0"
+         />
+         <velocity x="0.0" y="0.0" z="0.0"/>
+         <acceleration x="0.0" y="0.0" z="0.0"/>
+      </attributes>
+      <attributes name="Object_Human_In_The_Loop">
+         <flag value="true"/>
+      </attributes>
+      <attributes name="Weapon_1">
+         <alttype value="round"/>
+         <counter value="20" minimum="0" maximum="20"/>
+      </attributes>
+      <attributes name="Weapon_2">
+         <alttype value="rattler"/>
+         <counter value="1000" minimum="0" maximum="1000"/>
+      </attributes>
+      <attributes name="autopilot">
+         <counter value="1"/>
+      </attributes>
+   </object>
+</archive>
 </dmz>
 

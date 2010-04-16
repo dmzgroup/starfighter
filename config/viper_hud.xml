@@ -91,7 +91,7 @@
             <color r="1" b="1" g="1" a="0.1"/>
             <texture resource="circle-24"/>
          </node>
-         <node type="box">
+         <node type="box" name="autopilot-light">
             <min x="172" y="8"/>
             <max x="188" y="24"/>
             <depth value="5"/>

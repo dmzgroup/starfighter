@@ -54,17 +54,15 @@
       <timeout value="5" detonate="true"/>
    </object-type>
    <object-type name="rattler" parent="munitions">
-<!--
       <audio>
-         <event name="Event_Launch" resource="cannon-sound"/>
+         <event name="Event_Launch" resource="missile-sound"/>
       </audio>
--->
       <net>
          <enum value="2.2"/>
       </net>
       <render>
          <isect disable="true"/>
-         <model resource="round"/>
+         <model resource="rattler"/>
       </render>
       <timeout value="5" detonate="true"/>
       <weapon/>
@@ -97,6 +95,7 @@
       </net>
       <audio>
          <event name="Event_Detonation" resource="explosion-sound"/>
+         <event name="Event_Launch" resource="tube-sound"/>
       </audio>
    </object-type>
    <object-type name="colonial-vehicle" parent="space-vehicle">

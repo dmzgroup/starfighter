@@ -3,8 +3,8 @@
 <plugin-list>
    <plugin name="dmzPluginMsgDump"/>
 <!--
-   <plugin name="dmzEventPluginDump"/>
    <plugin name="dmzObjectPluginDump"/>
+   <plugin name="dmzEventPluginDump"/>
    <plugin name="dmzPluginDefinitionsDump"/>
    <plugin name="dmzEventPluginDump"/>
    <plugin name="dmzPluginTermExit"/>

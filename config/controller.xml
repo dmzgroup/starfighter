@@ -5,7 +5,7 @@
    <plugin name="dmzInputPluginControllerWin32" platform="win32"/>
 </plugin-list>
 <dmzInputPluginControllerMacOS>
-   <controller deviceId="4"> <!-- name="wingman"> -->
+   <controller deviceId="2"> <!-- name="wingman"> -->
       <hatswitch
          north="0"
          northeast="1"

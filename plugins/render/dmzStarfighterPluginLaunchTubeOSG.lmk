@@ -1,0 +1,9 @@
+require "lmkOSG"
+
+lmkOSG.set_name "dmzStarfighterPluginLaunchTubeOSG"
+lmk.set_type "plugin"
+lmk.add_files {"dmzStarfighterPluginLaunchTubeOSG.cpp",}
+lmk.add_libs {"dmzRenderUtilOSG", "dmzObjectUtil", "dmzKernel",}
+lmk.add_preqs {"dmzRenderModuleCoreOSG", "dmzObjectFramework"}
+lmkOSG.add_libs {"osgDB", "osg", "OpenThreads",}
+

@@ -20,6 +20,7 @@ var dmz =
        }
 ,   controls = { thrust: 0, roll: 0, yaw: 0, pitch: 0 }
 ,   active = 0
+,   autopilot = 0
 //  Constants
 ,   DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName)
 ,   XPitch = dmz.vector.create(1, 0, 0)
@@ -57,7 +58,7 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
    ,   cframe
    ;
 
-   if (hil && (active > 0)) {
+   if (hil && dmz.util.isZero (autopilot) && (active > 0)) {
 
       pos = dmz.object.position (hil);
       ori = dmz.object.orientation (hil);
@@ -194,4 +195,9 @@ dmz.input.axis.observe(self, function (Channel, Axis) {
 
       controls.pitch = value;
    }
+});
+
+dmz.object.counter.observe(self, "autopilot", function (handle, attr, value) {
+
+   if (handle == dmz.object.hil ()) { autopilot = value; }
 });
