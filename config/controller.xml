@@ -5,7 +5,8 @@
    <plugin name="dmzInputPluginControllerWin32" platform="win32"/>
 </plugin-list>
 <dmzInputPluginControllerMacOS>
-   <controller deviceId="2"> <!-- name="wingman"> -->
+   <controller>
+      <!-- name="Logitech RumblePad 2 USB" deviceId="2"  name="wingman"> -->
       <hatswitch
          north="0"
          northeast="1"
