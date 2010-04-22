@@ -2,6 +2,7 @@
 <dmz>
 <plugin-list>
    <plugin name="starfighter" reserve="true"/>
+   <plugin name="autopilot" reserve="true"/>
    <plugin name="dmzInputPluginChannelSwitch" scope="view-switch"/>
    <plugin name="dmzEntityPluginPortalTether" unique="third-person"/>
    <plugin name="dmzEntityPluginPortalTether" unique="first-person"/>

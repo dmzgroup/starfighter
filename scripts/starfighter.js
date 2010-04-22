@@ -9,6 +9,7 @@ var dmz =
        , mask: require("dmz/types/mask")
        , defs: require("dmz/runtime/definitions")
        , util: require("dmz/types/util")
+       , rotate: require("rotate")
        }
 ,   frame =
        { nose: dmz.vector.create([0, 1, -4.1])

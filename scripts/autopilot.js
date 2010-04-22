@@ -10,12 +10,16 @@ var dmz =
        , mask: require("dmz/types/mask")
        , defs: require("dmz/runtime/definitions")
        , util: require("dmz/types/util")
+       , rotate: require("rotate")
        }
+,   battlestar
 ,   autopilot = 0
 ,   light = dmz.overlay.lookup("autopilot-light")
 ,   start
 //  Constants
 ,   Forward = dmz.vector.create(0, 0, -1)
+,   Up = dmz.vector.create(0, 1, 0)
+,   Right = dmz.vector.create(1, 0, 0)
 ,   Red = dmz.overlay.color("bar-red")
 ,   Yellow = dmz.overlay.color("bar-yellow")
 ,   Green = dmz.overlay.color("bar-green")
@@ -23,12 +27,13 @@ var dmz =
 ,   MaxSpeed = 55.556 // meters per second -> 200 kilometers per hour
 ,   Acceleration = 60
 //  Functions
-,   timeSlice
+,   launchTimeSlice
+,   landTimeSlice
 ;
 
 if (!light) { self.log.error("Unable to find autopilot light"); }
 
-timeSlice = function (Delta) {
+launchTimeSlice = function (Delta) {
 
    var hil = dmz.object.hil()
    ,   pos
@@ -38,11 +43,11 @@ timeSlice = function (Delta) {
    ,   state
    ;
 
-   if (hil && (autopilot == 1)) {
+   if (hil && (autopilot === 1)) {
 
       pos = dmz.object.position (hil);
-      ori = dmz.object.orientation (hil);
-      vel = dmz.object.velocity (hil);
+      ori = dmz.object.orientation(hil);
+      vel = dmz.object.velocity(hil);
       state = dmz.object.state(hil);
 
       if (!pos) { pos = dmz.vector.create(); }
@@ -60,7 +65,7 @@ timeSlice = function (Delta) {
 
       if (pos.subtract(start).magnitude() > 50) {
 
-         dmz.time.cancleTimer(self, timeSlice);
+         dmz.time.cancleTimer(self, launchTimeSlice);
          dmz.object.counter(hil, "autopilot", 0);
          start = undefined;
          if (light) { light.color(Red); }
@@ -73,18 +78,136 @@ timeSlice = function (Delta) {
    }
 };
 
-dmz.input.button.observe(self, function (Channel, Button) {
 
-   if ((autopilot == 1) && (Button.id == 1) && (Button.value)) {
+landTimeSlice = function (Delta) {
 
-      if (dmz.util.isUndefined(start)) {
+   var hil = dmz.object.hil()
+   ,   target
+   ,   hvec
+   ,   hmat = dmz.matrix.create()
+   ,   pvec
+   ,   bsOri
+   ,   pos
+   ,   ori
+   ,   targetOri
+   ,   vel
+   ,   dir
+   ,   state
+   ,   valid = true
+   ;
 
-         dmz.time.setRepeatingTimer(self, timeSlice);
-         dmz.common.createLaunch(dmz.object.hil());
+   if (hil && battlestar) {
+
+      target = dmz.object.position(battlestar);
+      bsOri = dmz.object.orientation(battlestar);
+
+      if (!target) { target = dmz.vector.create(); }
+      if (!bsOri) { bsOri = dmz.matrix.create(); }
+
+      pos = dmz.object.position(hil);
+      ori = dmz.object.orientation(hil);
+      vel = dmz.object.velocity(hil);
+      state = dmz.object.state(hil);
+
+      if (!pos) { pos = dmz.vector.create(); }
+      if (!ori) { ori = dmz.matrix.create(); }
+      if (!vel) { vel = dmz.vector.create(); }
+
+      if (autopilot === 0) {
+
+         target = target.add(bsOri.transform(dmz.vector.create(221.7, -50, -400)));
+
+         if (bsOri.transform(Forward).getAngle(ori.transform(Forward)) < (Math.PI * 0.8)) {
+
+            valid = false;
+            if (light) { light.color(Red); }
+         }
+      }
+      else {
+
+         target = target.add(bsOri.transform(dmz.vector.create(221.7, -75, -155.75)));
+      }
+
+      if (valid && (!state || !state.contains(DeadState))) {
+
+         dir = target.subtract(pos);
+         if (dir.magnitude() < 10) { dmz.object.counter(hil, "autopilot", 2); }
+         dir = dir.normalize();
+         hvec = dir.copy();
+         hvec.y = 0;
+         hvec = hvec.normalize();
+         if (hvec.isZero ()) {
+
+            targetOri = dmz.matrix.create().fromAxisAndAngle(Right, Math.PI * 0.5);
+         }
+         else {
+
+            hmat = dmz.matrix.create().fromAxisAndAngle(
+               Forward.cross(hvec),
+               Forward.getAngle(hvec));
+
+            dir = hmat.transpose().transform(dir);
+
+            targetOri = hmat.multiply(dmz.matrix.create().fromAxisAndAngle(
+               Forward.cross(dir),
+               Forward.getAngle(dir)));
+         }
+
+         ori = dmz.rotate.align(
+            Delta,
+            autopilot !== 0 ? (Math.PI * 0.2) : (Math.PI * 0.25),
+            ori,
+            targetOri);
+
+         vel = ori.transform(Forward).multiplyConst(vel.magnitude());
+
+         if (light && (autopilot === 0)) { light.color(Yellow); }
+
+         if (autopilot === 2) { pos = pos.add(vel.multiplyConst(Delta)); }
+
+         dmz.object.position(hil, null, pos);
+         dmz.object.orientation(hil, null, ori);
+         dmz.object.velocity(hil, null, vel);
+         dmz.object.state(hil, null, state);
       }
    }
-   else if ((Button.id == 3) && (Button.value)) {
+};
 
+
+dmz.input.button.observe(self, function (Channel, Button) {
+
+   if (Button.id === 1) {
+
+      if ((autopilot === 1) && Button.value) {
+
+         if (dmz.util.isUndefined(start)) {
+
+            dmz.time.setRepeatingTimer(self, launchTimeSlice);
+            dmz.common.createLaunch(dmz.object.hil());
+         }
+      }
+      else if (autopilot === 2) {
+
+         if (Button.value) {
+
+            dmz.time.cancleTimer(self, landTimeSlice);
+            dmz.object.counter(dmz.object.hil(), "autopilot", 0);
+            if (light) { light.color(Red); }
+         }
+      }
+      else if (autopilot === 0) {
+
+         if (Button.value) { dmz.time.setRepeatingTimer(self, landTimeSlice); }
+         else {
+
+            dmz.time.cancleTimer(self, landTimeSlice);
+            if (light) { light.color(Red); }
+         }
+      }
+   }
+   else if ((Button.id === 3) && Button.value) {
+
+      dmz.time.cancleTimer(self, landTimeSlice);
       dmz.object.position (dmz.object.hil(), null, dmz.vector.create());
       dmz.object.velocity (dmz.object.hil(), null, dmz.vector.create());
       dmz.object.orientation (dmz.object.hil(), null, dmz.matrix.create());
@@ -92,11 +215,18 @@ dmz.input.button.observe(self, function (Channel, Button) {
    }
 });
 
+
 dmz.object.counter.observe(self, "autopilot", function (handle, attr, value) {
 
-   if (handle == dmz.object.hil ()) {
+   if (handle === dmz.object.hil ()) {
 
       autopilot = value;
-	   if (light && (autopilot == 1)) { light.color(Green); }
+	   if (light && (autopilot > 0)) { light.color(Green); }
    }
+});
+
+
+dmz.object.flag.observe(self, "battlestar", function (handle, attr, value) {
+
+   if (value && !battlestar) { battlestar = handle; }
 });

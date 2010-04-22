@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmz>
+<plugin-list>
+</plugin-list>
+<javascript>
+</javascript>
+<archive>
+   <object name="battlestar" type="pegasus">
+      <attributes>
+         <position x="0" y="0" z="0"/>
+         <orientation 
+            v0="1.0" v1="0.0" v2="0.0"
+            v3="0.0" v4="1.0" v5="0.0"
+            v6="0.0" v7="0.0" v8="1.0"
+         />
+         <velocity x="0.0" y="0.0" z="0.0"/>
+         <acceleration x="0.0" y="0.0" z="0.0"/>
+      </attributes>
+      <attributes name="battlestar">
+         <flag value="true"/>
+      </attributes>
+   </object>
+</archive>
+</dmz>
+
