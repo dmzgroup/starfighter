@@ -199,6 +199,8 @@ dmz::StarfighterPluginSpaceBoxOSG::_create_box () {
       n7.normalize ();
       n8.normalize ();
 
+//      const float F1 (5.0f);
+//      const float F2 (2.5f);
       const float F1 (5.0f);
       const float F2 (2.5f);
       int count = 0;

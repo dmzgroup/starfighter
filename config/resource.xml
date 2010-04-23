@@ -26,7 +26,7 @@
    <resource name="pegasus" file="bsp.ive"/>
    <resource name="galactica" file="bsg.ive"/>
    <resource name="round" file="round.ive"/>
-   <resource name="rattler" file="rattler.osg"/>
+   <resource name="rattler" file="rattler.ive"/>
    <resource name="stars" file="stars3.png"/>
    <resource name="tube-wall" file="tube_wall.png"/>
    <resource name="logo" file="starfighter.png"/>

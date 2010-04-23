@@ -298,7 +298,7 @@ dmz::StarfighterPluginTargets::_init (Config &local) {
 
    _startPos = config_to_vector ("start-position", local, _startPos);
 
-   _startDir.from_axis_and_angle_radians (
+   _startDir.from_axis_and_angle (
       Up,
       config_to_float64 ("start-heading.value", local, Pi64));
 
