@@ -11,6 +11,7 @@ var dmz =
        , defs: require("dmz/runtime/definitions")
        , util: require("dmz/types/util")
        , rotate: require("rotate")
+       , consts: require("consts")
        }
 ,   battlestar
 ,   autopilot = 0
@@ -26,12 +27,31 @@ var dmz =
 ,   DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName)
 ,   MaxSpeed = 55.556 // meters per second -> 200 kilometers per hour
 ,   Acceleration = 60
+,   APMode = dmz.consts.APMode
 //  Functions
 ,   launchTimeSlice
 ,   landTimeSlice
+,   isAPMode
 ;
 
+
 if (!light) { self.log.error("Unable to find autopilot light"); }
+
+isAPMode = function (Mode) {
+
+   var result = false
+   ,   ix = 1
+   ;
+
+   while (!result && (ix < arguments.length)) {
+
+      if (Mode == arguments[ix]) { result = true; }
+      else { ix++; }
+   }
+
+   return result;
+};
+
 
 launchTimeSlice = function (Delta) {
 
@@ -43,7 +63,7 @@ launchTimeSlice = function (Delta) {
    ,   state
    ;
 
-   if (hil && (autopilot === 1)) {
+   if (hil && isAPMode(autopilot, APMode.Launching)) {
 
       pos = dmz.object.position (hil);
       ori = dmz.object.orientation(hil);
@@ -66,9 +86,8 @@ launchTimeSlice = function (Delta) {
       if (pos.subtract(start).magnitude() > 50) {
 
          dmz.time.cancleTimer(self, launchTimeSlice);
-         dmz.object.counter(hil, "autopilot", 0);
+         dmz.object.counter(hil, "autopilot", APMode.Off);
          start = undefined;
-         if (light) { light.color(Red); }
       }
 
       dmz.object.position (hil, null, pos);
@@ -113,7 +132,7 @@ landTimeSlice = function (Delta) {
       if (!ori) { ori = dmz.matrix.create(); }
       if (!vel) { vel = dmz.vector.create(); }
 
-      if ((autopilot === 0) || (autopilot === 3)) {
+      if (isAPMode(autopilot, APMode.Off, APMode.Aligning)) {
 
          target = target.add(bsOri.transform(dmz.vector.create(221.7, -50, -450)));
 
@@ -121,11 +140,10 @@ landTimeSlice = function (Delta) {
                (Math.PI * 0.8)) {
 
             valid = false;
-            if (light) { light.color(Red); }
          }
-         else { dmz.object.counter(dmz.object.hil(), "autopilot", 3); }
+         else { dmz.object.counter(dmz.object.hil(), "autopilot", APMode.Aligning); }
       }
-      else if (autopilot === 2) {
+      else if (isAPMode(autopilot, APMode.Landing)) {
 
          target = target.add(bsOri.transform(dmz.vector.create(221.7, -60, -155.75)));
       }
@@ -133,7 +151,11 @@ landTimeSlice = function (Delta) {
       if (valid && (!state || !state.contains(DeadState))) {
 
          dir = target.subtract(pos);
-         if (dir.magnitude() < 10) { dmz.object.counter(hil, "autopilot", 2); }
+
+         if (dir.magnitude() < 10) {
+
+            dmz.object.counter(hil, "autopilot", APMode.Landing);
+         }
 
          targetOri = bsOri.multiply(dmz.matrix.create().fromAxisAndAngle(Up, Math.PI));
 
@@ -160,29 +182,23 @@ dmz.input.button.observe(self, function (Channel, Button) {
 
    if (Button.id === 1) {
 
-      if ((autopilot === 1) && Button.value) {
+      if (isAPMode(autopilot, APMode.Docked) && Button.value) {
 
-         if (dmz.util.isUndefined(start)) {
-
-            dmz.time.setRepeatingTimer(self, launchTimeSlice);
-            dmz.common.createLaunch(dmz.object.hil());
-         }
+         dmz.object.counter(dmz.object.hil(), "autopilot", APMode.Launching);
+         dmz.time.setRepeatingTimer(self, launchTimeSlice);
+         dmz.common.createLaunch(dmz.object.hil());
       }
-      else if (autopilot === 2) {
-
-         if (Button.value) {
-
-            dmz.time.cancleTimer(self, landTimeSlice);
-            dmz.object.counter(dmz.object.hil(), "autopilot", 0);
-            if (light) { light.color(Red); }
-         }
-      }
-      else if (autopilot === 3) {
+      else if (isAPMode(autopilot, APMode.Aligning) && !Button.value) {
 
          dmz.time.cancleTimer(self, landTimeSlice);
-         dmz.object.counter(dmz.object.hil(), "autopilot", 0);
+         dmz.object.counter(dmz.object.hil(), "autopilot", APMode.Off);
       }
-      else if (autopilot === 0) {
+      else if (isAPMode (autopilot, APMode.Landing) && Button.value) {
+
+         dmz.time.cancleTimer(self, landTimeSlice);
+         dmz.object.counter(dmz.object.hil(), "autopilot", APMode.Off);
+      }
+      else if (isAPMode(autopilot, APMode.Off)) {
 
          if (Button.value) {
 
@@ -191,7 +207,6 @@ dmz.input.button.observe(self, function (Channel, Button) {
          else {
 
             dmz.time.cancleTimer(self, landTimeSlice);
-            dmz.object.counter(dmz.object.hil(), "autopilot", 0);
          }
       }
    }
@@ -201,7 +216,7 @@ dmz.input.button.observe(self, function (Channel, Button) {
       dmz.object.position (dmz.object.hil(), null, dmz.vector.create());
       dmz.object.velocity (dmz.object.hil(), null, dmz.vector.create());
       dmz.object.orientation (dmz.object.hil(), null, dmz.matrix.create());
-      dmz.object.counter (dmz.object.hil(), "autopilot", 1);
+      dmz.object.counter (dmz.object.hil(), "autopilot", APMode.Docked);
    }
 });
 
@@ -213,9 +228,12 @@ dmz.object.counter.observe(self, "autopilot", function (handle, attr, value) {
       autopilot = value;
       if (light) {
 
-         if (autopilot == 0) { light.color(Red); }
-	      else if (autopilot > 2) { light.color(Yellow); }
-	      else if (autopilot > 0) { light.color(Green); }
+	      if (isAPMode(autopilot, APMode.Aligning)) { light.color(Yellow); }
+	      else if (isAPMode(autopilot, APMode.Docked, APMode.Launching, APMode.Landing)) {
+
+            light.color(Green);
+         }
+         else { light.color(Red); }
       }
    }
 });

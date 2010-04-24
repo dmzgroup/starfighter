@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dmz>
 <plugin-list>
+   <plugin name="fade" reserve="true"/>
    <plugin name="autopilot" reserve="true"/>
    <plugin name="starfighter" reserve="true"/>
    <plugin name="dmzInputPluginChannelSwitch" scope="view-switch"/>
@@ -50,6 +51,7 @@
 <javascript>
    <instance name="starfighter"/>
    <instance name="autopilot"/>
+   <instance name="fade"/>
 </javascript>
 <view-switch>
    <switch>

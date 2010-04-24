@@ -15,6 +15,16 @@
          </node>
       </node>
    </node>
+   <node type="switch" which="-1" name="fade switch">
+      <node type="transform" name="fade transform">
+         <node type="box">
+            <min x="-0.5" y="-0.5"/>
+            <max x="0.5" y="0.5"/>
+            <color r="0" g="0" b="0" a="1"/>
+            <depth value="17"/>
+         </node>
+      </node>
+   </node>
    <node type="transform" name="crosshairs">
       <node type="switch" name="crosshairs switch">
          <node type="group">
@@ -41,6 +51,14 @@
       <x type="relative" value="0.5"/>
       <y type="relative" value="0.5"/>
    </layout>
+   <layout node="fade transform">
+      <x type="relative" value="0.5"/>
+      <y type="relative" value="0.5"/>
+   </layout>
+   <auto-scale node="fade transform">
+      <x ratio="1.1"/>
+      <y ratio="1.1"/>
+   </auto-scale>
    <layout node="crosshairs">
       <x type="relative" value="0.5"/>
       <y type="relative" value="0.5"/>
