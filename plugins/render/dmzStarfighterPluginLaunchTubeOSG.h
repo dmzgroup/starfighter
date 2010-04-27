@@ -6,6 +6,7 @@
 #include <dmzRuntimePlugin.h>
 #include <dmzRuntimeResources.h>
 #include <dmzRuntimeTimeSlice.h>
+#include <dmzTypesVector.h>
 
 #include <osg/MatrixTransform>
 #include <osg/Switch>
@@ -60,11 +61,15 @@ namespace dmz {
          Resources _rc;
 
          Handle _defaultHandle;
-         Handle _autopilotHandle;
+         Handle _apAttrHandle;
+         Handle _hilAttrHandle;
+         Handle _bsAttrHandle;
+         Handle _hideAttrHandle;
          Handle _hil;
+         Handle _battlestar;
 
          String _imgRc;
-         Float64 _offset;
+         Vector _offset;
          RenderModuleCoreOSG *_core;
 
          osg::ref_ptr<osg::MatrixTransform> _tube;

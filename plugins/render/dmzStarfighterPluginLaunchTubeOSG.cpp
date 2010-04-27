@@ -4,6 +4,7 @@
 #include <dmzRenderModuleCoreOSG.h>
 #include <dmzRenderUtilOSG.h>
 #include <dmzRuntimeConfigToTypesBase.h>
+#include <dmzRuntimeConfigToVector.h>
 #include <dmzRuntimeDefinitions.h>
 #include <dmzRuntimePluginFactoryLinkSymbol.h>
 #include <dmzRuntimePluginInfo.h>
@@ -31,10 +32,14 @@ dmz::StarfighterPluginLaunchTubeOSG::StarfighterPluginLaunchTubeOSG (
       _log (Info),
       _rc (Info),
       _defaultHandle (0),
-      _autopilotHandle (0),
+      _apAttrHandle (0),
+      _hilAttrHandle (0),
+      _bsAttrHandle (0),
       _hil (0),
-      _offset (10000.0),
+      _battlestar (0),
       _imgRc ("tube-wall"),
+//      _offset (221.738555, -79.968548, -155.750902),
+      _offset (273.869283, -70.975031, 129.584100),
       _core (0) {
 
    _init (local);
@@ -96,22 +101,24 @@ dmz::StarfighterPluginLaunchTubeOSG::discover_plugin (
 void
 dmz::StarfighterPluginLaunchTubeOSG::update_time_slice (const Float64 DeltaTime) {
 
-/*
    ObjectModule *module = get_object_module ();
 
-   if (module && _hil && _tube.valid ()) {
+   if (module && _battlestar && _tube.valid ()) {
 
       Vector pos;
 
-      if (module->lookup_position (_hil, _defaultHandle, pos)) {
+      if (module->lookup_position (_battlestar, _defaultHandle, pos)) {
 
-         const osg::Vec3d BoxPos = to_osg_vector (pos);
-         osg::Matrix mat;
-         mat.makeTranslate (BoxPos);
+         Matrix ori;
+         module->lookup_orientation(_battlestar, _defaultHandle, ori);
+
+         Vector value (_offset);
+         value.set_x (value.get_x () - 50);
+         osg::Matrix mat = to_osg_matrix (ori * Matrix (Vector (0, 1, 0), -Pi64 * 0.5), pos + ori.transform_vector (value));
+
          _tube->setMatrix (mat);
       }
    }
-*/
 }
 
 
@@ -124,7 +131,18 @@ dmz::StarfighterPluginLaunchTubeOSG::update_object_flag (
       const Boolean Value,
       const Boolean *PreviousValue) {
 
-   if (Value) { _hil = ObjectHandle;
+   if (AttributeHandle == _hilAttrHandle) {
+
+      if (Value) { _hil = ObjectHandle; }
+      else if (ObjectHandle == _hil) { _hil = 0; }
+   }
+   else if (AttributeHandle == _bsAttrHandle) {
+
+      if (Value) { _battlestar = ObjectHandle; }
+      else if (ObjectHandle == _battlestar) { _battlestar = 0; }
+   }
+
+   if (Value && _hil && _battlestar) {
 
       ObjectModule *module = get_object_module ();
 
@@ -132,12 +150,11 @@ dmz::StarfighterPluginLaunchTubeOSG::update_object_flag (
 
          Int64 count (0);
 
-         module->lookup_counter (_hil, _autopilotHandle, count);
+         module->lookup_counter (_hil, _apAttrHandle, count);
 
-         update_object_counter (Identity, ObjectHandle, _autopilotHandle, count, 0);
+         update_object_counter (Identity, _hil, _apAttrHandle, count, 0);
       }
    }
-   else if (ObjectHandle == _hil) { _hil = 0; }
 }
 
 
@@ -151,8 +168,30 @@ dmz::StarfighterPluginLaunchTubeOSG::update_object_counter (
 
    if ((ObjectHandle == _hil) && _toggle.valid ()) {
 
-      if (Value) { _toggle->setAllChildrenOn (); }
-      else { _toggle->setAllChildrenOff (); }
+
+      if ((Value == 1) || (Value == 2)) {
+
+         ObjectModule *module = get_object_module ();
+
+         if (module && _battlestar) {
+
+            module->store_flag (_battlestar, _hideAttrHandle, true);
+         }
+
+         _toggle->setAllChildrenOn ();
+      }
+      else {
+
+         ObjectModule *module = get_object_module ();
+
+         if (module && _battlestar) {
+
+            module->store_flag (_battlestar, _hideAttrHandle, false);
+         }
+
+         _toggle->setAllChildrenOff ();
+      }
+
    }
 }
 
@@ -361,12 +400,18 @@ dmz::StarfighterPluginLaunchTubeOSG::_init (Config &local) {
    Definitions defs (get_plugin_runtime_context ());
 
    _defaultHandle = defs.create_named_handle (ObjectAttributeDefaultName);
+   _hideAttrHandle = defs.create_named_handle (ObjectAttributeHideName);
 
    _imgRc = config_to_string ("image.resource", local, _imgRc);
-   _offset = config_to_float64 ("tube.offset", local, _offset);
+   _offset = config_to_vector ("tube-offset", local, _offset);
 
-   activate_object_attribute (ObjectAttributeHumanInTheLoopName, ObjectFlagMask);
-   _autopilotHandle = activate_object_attribute ("autopilot", ObjectCounterMask);
+   _hilAttrHandle = activate_object_attribute (
+      ObjectAttributeHumanInTheLoopName,
+      ObjectFlagMask);
+
+   _bsAttrHandle = activate_object_attribute ("battlestar", ObjectFlagMask);
+
+   _apAttrHandle = activate_object_attribute ("autopilot", ObjectCounterMask);
 
    _create_tube ();
 }

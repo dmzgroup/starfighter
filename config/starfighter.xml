@@ -8,7 +8,9 @@
    <plugin name="dmzEntityPluginPortalFollow3D" unique="third-person"/>
    <plugin name="dmzEntityPluginPortalTether" unique="first-person"/>
    <plugin name="dmzEntityPluginHide" scope="first-person"/>
+<!--
    <plugin name="dmzEntityPluginRandomizePosition" scope="start-position"/>
+-->
    <plugin name="dmzEntityPluginTeleport"/>
    <plugin name="dmzEntityPluginOverlayDead"/>
    <plugin name="dmzWeaponPluginFixedLauncher" unique="right-cannon"/>
@@ -109,11 +111,13 @@
          have a defined position.
 -->
          <position x="0" y="0" z="0"/>
+         <position x="223.869283" y="-70.975031" z="129.584100"/>
          <orientation 
             v0="1.0" v1="0.0" v2="0.0"
             v3="0.0" v4="1.0" v5="0.0"
             v6="0.0" v7="0.0" v8="1.0"
          />
+         <euler x="-1.570796326794897" y="0.0" z="0.0"/>
          <velocity x="0.0" y="0.0" z="0.0"/>
          <acceleration x="0.0" y="0.0" z="0.0"/>
       </attributes>
