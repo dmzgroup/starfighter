@@ -62,10 +62,10 @@ exports.getHPR = function (mat) {
       cmat = pmat.multiply(cmat);
    }
 
-   rvec = cmat.transform(Up);
+   rvec = cmat.transform(Right);
    if (dmz.util.isNotZero(rvec.x)) {
 
-      result[2] = Up.getSignedAngle(rvec);
+      result[2] = Right.getSignedAngle(rvec);
    }
 
    return result;

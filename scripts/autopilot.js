@@ -17,18 +17,25 @@ var dmz =
 ,   autopilot = 0
 ,   light = dmz.overlay.lookup("autopilot-light")
 ,   start
+,   launchOffset = dmz.vector.create()
 //  Constants
+,   TubeAttr = dmz.defs.createNamedHandle("Launch_Tube")
 ,   Forward = dmz.vector.create(0, 0, -1)
 ,   Up = dmz.vector.create(0, 1, 0)
 ,   Right = dmz.vector.create(1, 0, 0)
+,   Turn90 = dmz.matrix.create().fromAxisAndAngle(Up, -Math.PI * 0.5)
+,   ZeroVector = dmz.vector.create()
+,   IMat = dmz.matrix.create()
 ,   Red = dmz.overlay.color("bar-red")
 ,   Yellow = dmz.overlay.color("bar-yellow")
 ,   Green = dmz.overlay.color("bar-green")
 ,   DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName)
+,   StandByState = dmz.defs.lookupState("Stand_By")
 ,   MaxSpeed = 55.556 // meters per second -> 200 kilometers per hour
 ,   Acceleration = 60
 ,   APMode = dmz.consts.APMode
 //  Functions
+,   dock
 ,   launchTimeSlice
 ,   landTimeSlice
 ,   isAPMode
@@ -36,6 +43,39 @@ var dmz =
 
 
 if (!light) { self.log.error("Unable to find autopilot light"); }
+
+
+dock = function () {
+
+   var pos
+   ,   ori
+   ,   vel = ZeroVector
+   ,   hil = dmz.object.hil()
+   ;
+
+   dmz.time.cancleTimer(self, landTimeSlice);
+
+   if (hil) {
+
+      if (battlestar) {
+
+         ori = dmz.object.orientation(battlestar);
+         pos = dmz.object.position(battlestar).add(ori.transform (launchOffset));
+         ori = ori.multiply(Turn90);
+      }
+      else {
+
+         pos = ZeroVector;
+         ori = IMat;
+      }
+
+      dmz.object.position(hil, null, pos);
+      dmz.object.orientation(hil, null, ori);
+      dmz.object.velocity(hil, null, vel);
+      dmz.object.counter (hil, "autopilot", APMode.Docked);
+   }
+};
+
 
 isAPMode = function (Mode) {
 
@@ -154,25 +194,29 @@ landTimeSlice = function (Delta) {
 
          if (dir.magnitude() < 10) {
 
-            dmz.object.counter(hil, "autopilot", APMode.Landing);
+            if (isAPMode(autopilot, APMode.Landing)) { dock(); }
+            else { dmz.object.counter(hil, "autopilot", APMode.Landing); }
          }
 
-         targetOri = bsOri.multiply(dmz.matrix.create().fromAxisAndAngle(Up, Math.PI));
+         if (isAPMode(autopilot, APMode.Aligning, APMode.Landing)) {
 
-         ori = dmz.rotate.align(
-            Delta,
-            Math.PI * 0.25,
-            ori,
-            targetOri);
+            targetOri = bsOri.multiply(dmz.matrix.create().fromAxisAndAngle(Up, Math.PI));
 
-         vel = target.subtract(pos).normalize().multiplyConst(vel.magnitude());
+            ori = dmz.rotate.align(
+               Delta,
+               Math.PI * 0.25,
+               ori,
+               targetOri);
 
-         if (autopilot >= 2) { pos = pos.add(vel.multiplyConst(Delta)); }
+            vel = target.subtract(pos).normalize().multiplyConst(vel.magnitude());
 
-         dmz.object.position(hil, null, pos);
-         dmz.object.orientation(hil, null, ori);
-         dmz.object.velocity(hil, null, vel);
-         dmz.object.state(hil, null, state);
+            pos = pos.add(vel.multiplyConst(Delta));
+
+            dmz.object.position(hil, null, pos);
+            dmz.object.orientation(hil, null, ori);
+            dmz.object.velocity(hil, null, vel);
+            dmz.object.state(hil, null, state);
+         }
       }
    }
 };
@@ -210,14 +254,7 @@ dmz.input.button.observe(self, function (Channel, Button) {
          }
       }
    }
-   else if ((Button.id === 3) && Button.value) {
-
-      dmz.time.cancleTimer(self, landTimeSlice);
-      dmz.object.position (dmz.object.hil(), null, dmz.vector.create());
-      dmz.object.velocity (dmz.object.hil(), null, dmz.vector.create());
-      dmz.object.orientation (dmz.object.hil(), null, dmz.matrix.create());
-      dmz.object.counter (dmz.object.hil(), "autopilot", APMode.Docked);
-   }
+   else if ((Button.id === 3) && Button.value) { dock(); }
 });
 
 
@@ -241,5 +278,21 @@ dmz.object.counter.observe(self, "autopilot", function (handle, attr, value) {
 
 dmz.object.flag.observe(self, "battlestar", function (handle, attr, value) {
 
-   if (value && !battlestar) { battlestar = handle; }
+   if (value && !battlestar) {
+
+      battlestar = handle;
+      if (isAPMode(autopilot, APMode.Docked)) { dock(); }
+   }
+});
+
+
+dmz.object.link.observe(self, TubeAttr, function (link, attr, tube, obj) {
+
+   if (obj == dmz.object.hil()) {
+
+      launchOffset = dmz.object.vector(tube, TubeAttr);
+      if (!launchOffset) { launchOffset = dmz.vector.create(); }
+
+      if (isAPMode(autopilot, APMode.Docked)) { dock(); }
+   }
 });

@@ -3,6 +3,7 @@
 <plugin-list>
 </plugin-list>
 <javascript>
+   <instance name="battlestar"/>
 </javascript>
 <archive>
    <object name="battlestar" type="pegasus">

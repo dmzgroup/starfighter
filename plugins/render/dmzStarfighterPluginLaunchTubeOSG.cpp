@@ -35,11 +35,11 @@ dmz::StarfighterPluginLaunchTubeOSG::StarfighterPluginLaunchTubeOSG (
       _apAttrHandle (0),
       _hilAttrHandle (0),
       _bsAttrHandle (0),
+      _ltAttrHandle (0),
       _hil (0),
       _battlestar (0),
+      _lt (0),
       _imgRc ("tube-wall"),
-//      _offset (221.738555, -79.968548, -155.750902),
-      _offset (273.869283, -70.975031, 129.584100),
       _core (0) {
 
    _init (local);
@@ -101,6 +101,8 @@ dmz::StarfighterPluginLaunchTubeOSG::discover_plugin (
 void
 dmz::StarfighterPluginLaunchTubeOSG::update_time_slice (const Float64 DeltaTime) {
 
+   static const Matrix Turn (Vector (0.0, 1.0, 0.0), -Pi64 * 0.5);
+
    ObjectModule *module = get_object_module ();
 
    if (module && _battlestar && _tube.valid ()) {
@@ -113,8 +115,8 @@ dmz::StarfighterPluginLaunchTubeOSG::update_time_slice (const Float64 DeltaTime)
          module->lookup_orientation(_battlestar, _defaultHandle, ori);
 
          Vector value (_offset);
-         value.set_x (value.get_x () - 50);
-         osg::Matrix mat = to_osg_matrix (ori * Matrix (Vector (0, 1, 0), -Pi64 * 0.5), pos + ori.transform_vector (value));
+
+         osg::Matrix mat = to_osg_matrix (ori * Turn, pos + ori.transform_vector (value));
 
          _tube->setMatrix (mat);
       }
@@ -123,6 +125,39 @@ dmz::StarfighterPluginLaunchTubeOSG::update_time_slice (const Float64 DeltaTime)
 
 
 // ObjectObserverUtil Interface
+void
+dmz::StarfighterPluginLaunchTubeOSG::link_objects (
+      const Handle LinkHandle,
+      const Handle AttributeHandle,
+      const UUID &SuperIdentity,
+      const Handle SuperHandle,
+      const UUID &SubIdentity,
+      const Handle SubHandle) {
+
+   if (SubHandle == _hil) {
+
+      _lt = SuperHandle;
+
+      ObjectModule *module (get_object_module ());
+
+      if (module) { module->lookup_vector (_lt, _ltAttrHandle, _offset); }
+   }
+}
+
+
+void
+dmz::StarfighterPluginLaunchTubeOSG::unlink_objects (
+      const Handle LinkHandle,
+      const Handle AttributeHandle,
+      const UUID &SuperIdentity,
+      const Handle SuperHandle,
+      const UUID &SubIdentity,
+      const Handle SubHandle) {
+
+   if ((SuperHandle == _lt) && (SubHandle == _hil)) { _lt = 0; }
+}
+
+
 void
 dmz::StarfighterPluginLaunchTubeOSG::update_object_flag (
       const UUID &Identity,
@@ -412,6 +447,10 @@ dmz::StarfighterPluginLaunchTubeOSG::_init (Config &local) {
    _bsAttrHandle = activate_object_attribute ("battlestar", ObjectFlagMask);
 
    _apAttrHandle = activate_object_attribute ("autopilot", ObjectCounterMask);
+
+   _ltAttrHandle = activate_object_attribute (
+      "Launch_Tube",
+      ObjectLinkMask | ObjectUnlinkMask);
 
    _create_tube ();
 }

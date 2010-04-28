@@ -35,12 +35,16 @@
    <packet id="5" name="NetCodecCollision">
       <event-type name="Event_Collision"/>
    </packet>
+   <packet id="6" name="NetCodecLaunchTube">
+      <object-type name="launch-tube"/>
+   </packet>
    <plugin-list>
       <plugin name="dmzNetExtPacketCodecObjectNative" unique="NetCodecSpaceVehicle"/>
       <plugin name="dmzNetExtPacketCodecObjectNative" unique="NetCodecWeapon"/>
       <plugin name="dmzNetExtPacketCodecEventNative" unique="NetCodecLaunch"/>
       <plugin name="dmzNetExtPacketCodecEventNative" unique="NetCodecDetonation"/>
       <plugin name="dmzNetExtPacketCodecEventNative" unique="NetCodecCollision"/>
+      <plugin name="dmzNetExtPacketCodecObjectNative" unique="NetCodecLaunchTube"/>
    </plugin-list>
 </dmzNetModulePacketCodecBasic>
 <NetCodecSpaceVehicle>
@@ -77,4 +81,8 @@
    <adapter type="position"/>
    <adapter type="velocity"/>
 </NetCodecCollision>
+<NetCodecLaunchTube>
+   <adapter type="vector" attribute="Launch_Tube"/>
+   <adapter type="link" attribute="Launch_Tube"/>
+</NetCodecLaunchTube>
 </dmz>

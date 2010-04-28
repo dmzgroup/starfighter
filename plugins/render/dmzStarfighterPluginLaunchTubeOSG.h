@@ -37,7 +37,23 @@ namespace dmz {
          virtual void update_time_slice (const Float64 DeltaTime);
 
          // ObjectObserverUtil Interface
-         virtual void update_object_flag (
+         virtual void link_objects (
+            const Handle LinkHandle,
+            const Handle AttributeHandle,
+            const UUID &SuperIdentity,
+            const Handle SuperHandle,
+            const UUID &SubIdentity,
+            const Handle SubHandle);
+
+         virtual void unlink_objects (
+            const Handle LinkHandle,
+            const Handle AttributeHandle,
+            const UUID &SuperIdentity,
+            const Handle SuperHandle,
+            const UUID &SubIdentity,
+            const Handle SubHandle);
+
+          virtual void update_object_flag (
             const UUID &Identity,
             const Handle ObjectHandle,
             const Handle AttributeHandle,
@@ -65,8 +81,10 @@ namespace dmz {
          Handle _hilAttrHandle;
          Handle _bsAttrHandle;
          Handle _hideAttrHandle;
+         Handle _ltAttrHandle;
          Handle _hil;
          Handle _battlestar;
+         Handle _lt;
 
          String _imgRc;
          Vector _offset;

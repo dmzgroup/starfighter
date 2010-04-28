@@ -5,6 +5,7 @@
       <frequency value="0.0"/>
    </time>
    <message name="DMZ_Overlay_Radar_Range_Message" monostate="true"/>
+   <state name="Stand_By"/>
    <state name="Engine_On"/>
    <state name="Dead"/>
    <state name="Smoking"/>
@@ -67,6 +68,13 @@
       <timeout value="5" detonate="true"/>
       <weapon/>
    </object-type>
+   <object-type name="launch-tube">
+      <net>
+         <enum value="3"/>
+         <rule type="heartbeat" value="1.0"/>
+         <rule type="counter" attribute="Launch_Tube"/>
+      </net>
+   </object-type>
    <object-type name="vehicle">
       <net>
          <enum value="1"/>
@@ -83,6 +91,7 @@
          <enum value="1.1"/>
          <state name="Engine_On" mask="0x001"/>
          <state name="Dead" mask="0x002"/>
+         <state name="Stand_By" mask="0x004"/>
          <state name="Smoking" mask="0x008"/>
          <state name="Fire" mask="0x010"/>
          <rule type="heartbeat" value="1.0"/>
@@ -107,6 +116,7 @@
       <render>
          <model resource="viper-2"/>
          <model none="true" state="Dead"/>
+         <model none="true" state="Stand_By"/>
       </render>
       <net>
          <enum value="1.1.1.1"/>
