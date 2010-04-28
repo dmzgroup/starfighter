@@ -52,6 +52,7 @@
    <adapter type="orientation" lnv="true"/>
    <adapter type="velocity" lnv="true"/>
    <adapter type="state" lnv="true"/>
+   <adapter type="flag" attribute="battlestar"/>
 </NetCodecSpaceVehicle>
 <NetCodecWeapon>
    <adapter type="position" lnv="true"/>

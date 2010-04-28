@@ -258,6 +258,12 @@ dmz.input.button.observe(self, function (Channel, Button) {
 });
 
 
+dmz.object.destroy.observe(self, function(handle) {
+
+   if (battlestar && (handle === battlestar)) { battlestar = undefined; }
+});
+
+
 dmz.object.counter.observe(self, "autopilot", function (handle, attr, value) {
 
    if (handle === dmz.object.hil ()) {

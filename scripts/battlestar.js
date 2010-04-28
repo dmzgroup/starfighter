@@ -63,7 +63,7 @@ dmz.object.create.observe(self, function (handle, type) {
 
             dmz.object.link(TubeAttr, tubes[place].handle, handle);
             dmz.object.addToCounter(tubes[place].handle, TubeAttr);
-            tubes[place] = handle;
+            tubes[place].obj = handle;
             place = TubeCount; // quit looking
          }
       }
