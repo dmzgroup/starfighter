@@ -30,7 +30,7 @@
       <aa samples="4"/>
       <clear-color r="0" g="0" b="0" a="1"/>
 <!--
-      <window center="true" width="600" height="400"/>
+      <window center="true" width="640" height="480"/>
 -->
    </viewer>
    <visibility fov="60.0" near="1.0" far="50000.0"/>
