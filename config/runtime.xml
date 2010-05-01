@@ -149,6 +149,7 @@
    </object-type>
    <object-type name="pegasus" parent="colonial-vehicle">
       <render>
+         <overlay name="dradis-double-dot"/>
          <model resource="pegasus"/>
       </render>
       <net>
@@ -157,6 +158,7 @@
    </object-type>
    <object-type name="galactica" parent="colonial-vehicle">
       <render>
+         <overlay name="dradis-double-dot"/>
          <model resource="galactica"/>
       </render>
       <net>
@@ -186,6 +188,7 @@
    </object-type>
    <object-type name="base-star" parent="cylon-vehicle">
       <render>
+         <overlay name="dradis-star"/>
          <model resource="base-star"/>
       </render>
       <net>

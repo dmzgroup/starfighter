@@ -107,7 +107,10 @@ end
 local function close_event (self, handle, eventType, locality)
    local target = dmz.event.object_handle (handle, dmz.event.TargetHandle)
    if self.targets[target] then
-      dmz.event.detonation (target);
+      local out = dmz.event.open_detonation (target)
+      local source = dmz.event.object_handle (handle, dmz.event.SourceHandle)
+      if source then dmz.event.object_handle (out, "Event_Kill_Attribute", source) end
+      dmz.event.close (out)
       dmz.object.destroy (target);
       self.targets[target] = nil
       self.targetCount = self.targetCount - 1

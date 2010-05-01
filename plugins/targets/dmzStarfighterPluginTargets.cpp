@@ -40,9 +40,10 @@ dmz::StarfighterPluginTargets::StarfighterPluginTargets (
       _defs (Info),
       _objMod (0),
       _common (0),
-      _defaultObjHandle (0),
-      _defaultEventHandle (0),
-      _targetEventHandle (0),
+      _defaultObjAttr (0),
+      _defaultEventAttr (0),
+      _targetEventAttr (0),
+      _killsEventAttr (0),
       _maxTargetCount (100),
       _targetSpeed (40.0),
       _startPos (0.0, 0.0, -1500.0) {
@@ -121,12 +122,12 @@ dmz::StarfighterPluginTargets::update_time_slice (const Float64 TimeDelta) {
 
                   _objMod->store_position (
                      Target,
-                     _defaultObjHandle,
+                     _defaultObjAttr,
                      ts->start);
 
                   _objMod->store_orientation (
                      Target,
-                     _defaultObjHandle,
+                     _defaultObjAttr,
                      _startDir);
 
                   ts->point = random_vector (50.0);
@@ -137,7 +138,7 @@ dmz::StarfighterPluginTargets::update_time_slice (const Float64 TimeDelta) {
 
                   _startDir.transform_vector (vel);
 
-                  _objMod->store_velocity (Target, _defaultObjHandle, vel);
+                  _objMod->store_velocity (Target, _defaultObjAttr, vel);
 
                   _objMod->activate_object (Target);
                }
@@ -158,9 +159,9 @@ dmz::StarfighterPluginTargets::update_time_slice (const Float64 TimeDelta) {
          Vector pos, vel;
          Matrix ori;
 
-         _objMod->lookup_position (ts->Object, _defaultObjHandle, pos);
-         _objMod->lookup_velocity (ts->Object, _defaultObjHandle, vel);
-         _objMod->lookup_orientation (ts->Object, _defaultObjHandle, ori);
+         _objMod->lookup_position (ts->Object, _defaultObjAttr, pos);
+         _objMod->lookup_velocity (ts->Object, _defaultObjAttr, vel);
+         _objMod->lookup_orientation (ts->Object, _defaultObjAttr, ori);
 
          Vector offset (ts->point - pos), targetDir (offset.normalize ()), dir (Forward);
 
@@ -178,9 +179,9 @@ dmz::StarfighterPluginTargets::update_time_slice (const Float64 TimeDelta) {
          vel = dir * _targetSpeed;
          pos = pos + (vel * TimeDelta);
 
-         _objMod->store_position (ts->Object, _defaultObjHandle, pos);
-         _objMod->store_velocity (ts->Object, _defaultObjHandle, vel);
-         _objMod->store_orientation (ts->Object, _defaultObjHandle, ori);
+         _objMod->store_position (ts->Object, _defaultObjAttr, pos);
+         _objMod->store_velocity (ts->Object, _defaultObjAttr, vel);
+         _objMod->store_orientation (ts->Object, _defaultObjAttr, ori);
       }
    }
 }
@@ -199,13 +200,21 @@ dmz::StarfighterPluginTargets::close_event (
 
       Handle target (0);
 
-      if (event->lookup_object_handle (EventHandle, _targetEventHandle, target)) {
+      if (event->lookup_object_handle (EventHandle, _targetEventAttr, target)) {
 
          TargetStruct *ts = _targetTable.remove (target);
 
          if (ts) {
 
-            if (_common) { _common->create_detonation_event (target, 0); }
+            if (_common) {
+
+               const Handle Out = _common->create_open_detonation_event (target, 0);
+               Handle source (0);
+               event->lookup_object_handle (EventHandle, _sourceEventAttr, source);
+               event->store_object_handle (Out, _killsEventAttr, source);
+               event->close_event (Out);
+            }
+
             if (_objMod) { _objMod->destroy_object (target); }
             delete ts; ts = 0;
          }
@@ -284,9 +293,11 @@ dmz::StarfighterPluginTargets::_init (Config &local) {
 
    RuntimeContext *context = get_plugin_runtime_context ();
 
-   _defaultObjHandle = _defs.create_named_handle (ObjectAttributeDefaultName);
-   _defaultEventHandle = _defs.create_named_handle (EventAttributeDefaultName);
-   _targetEventHandle = _defs.create_named_handle (EventAttributeTargetName);
+   _defaultObjAttr = _defs.create_named_handle (ObjectAttributeDefaultName);
+   _defaultEventAttr = _defs.create_named_handle (EventAttributeDefaultName);
+   _targetEventAttr = _defs.create_named_handle (EventAttributeTargetName);
+   _sourceEventAttr = _defs.create_named_handle (EventAttributeSourceName);
+   _killsEventAttr = _defs.create_named_handle ("Event_Kill_Attribute");
 
    _targetType = config_to_object_type ("target-type.name", local, "raider", context);
 

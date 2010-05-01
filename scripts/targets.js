@@ -10,22 +10,23 @@ var dmz =
        , defs: require("dmz/runtime/definitions")
        , util: require("dmz/types/util")
        }
-,   targets = { count: 0, list: {} }
+  , targets = { count: 0, list: {} }
 //  Constants
-,   MaxTargets = 200
-,   TargetSpeed = 40
-,   DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName)
-,   Detonation = dmz.eventType.lookup("Event_Detonation")
-,   Forward = dmz.vector.create(0.0, 0.0, -1.0)
-,   Right = dmz.vector.create(1.0, 0.0, 0.0)
-,   Up = dmz.vector.create(0.0, 1.0, 0.0)
-,   StartDir = dmz.matrix.create().fromAxisAndAngle(Up, Math.PI)
-,   BaseStar = dmz.object.create("base-star")
+  , MaxTargets = 200
+  , TargetSpeed = 40
+  , KillAttribute = dmz.defs.createNamedHandle("Event_Kill_Attribute")
+  , DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName)
+  , Detonation = dmz.eventType.lookup("Event_Detonation")
+  , Forward = dmz.vector.create(0.0, 0.0, -1.0)
+  , Right = dmz.vector.create(1.0, 0.0, 0.0)
+  , Up = dmz.vector.create(0.0, 1.0, 0.0)
+  , StartDir = dmz.matrix.create().fromAxisAndAngle(Up, Math.PI)
+  , BaseStar = dmz.object.create("base-star")
 //  Functions
-,   randomVector
-,   rotate
-,   newOri
-;
+  , randomVector
+  , rotate
+  , newOri
+  ;
 
 dmz.object.position(BaseStar, null, [0, 0, -2000]);
 dmz.object.activate(BaseStar);
@@ -48,9 +49,9 @@ randomVector = function (value) {
 rotate = function (time, orig, target) {
 
    var result = target
-   ,   diff = target - orig
-   ,   max = time * Math.PI
-   ;
+     , diff = target - orig
+     , max = time * Math.PI
+     ;
 
    if (diff > Math.PI) { diff -= Math.PI * 2; }
    else if (diff < -Math.PI)  { diff += Math.PI * 2; }
@@ -69,14 +70,14 @@ rotate = function (time, orig, target) {
 newOri = function (obj, time, targetVec) {
 
    var result = dmz.matrix.create()
-   ,   hvec = dmz.vector.create(targetVec)
-   ,   heading
-   ,   hcross
-   ,   pitch
-   ,   pcross
-   ,   ncross
-   ,   pm
-   ;
+     , hvec = dmz.vector.create(targetVec)
+     , heading
+     , hcross
+     , pitch
+     , pcross
+     , ncross
+     , pm
+     ;
 
    hvec.y = 0.0;
    hvec = hvec.normalize();
@@ -147,13 +148,13 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
    Object.keys(targets.list).forEach (function (key) {
 
       var obj = targets.list[key]
-      ,   handle = obj.handle
-      ,   pos = dmz.object.position(handle)
-      ,   vel = dmz.object.velocity(handle)
-      ,   offset = obj.point.subtract(pos)
-      ,   targetDir = offset.normalize()
-      ,   ori = obj.onTarget ?  null : newOri(obj, Delta, targetDir)
-      ;
+        , handle = obj.handle
+        , pos = dmz.object.position(handle)
+        , vel = dmz.object.velocity(handle)
+        , offset = obj.point.subtract(pos)
+        , targetDir = offset.normalize()
+        , ori = obj.onTarget ?  null : newOri(obj, Delta, targetDir)
+        ;
 
       if (obj.start.subtract(pos).magnitude() > obj.distance) {
 
@@ -177,11 +178,16 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
 
 dmz.event.close.observe(self, Detonation, function (Event) {
 
-   var target = dmz.event.objectHandle(Event, dmz.event.TargetAttribute);
+   var target = dmz.event.objectHandle(Event, dmz.event.TargetAttribute)
+     , source = dmz.event.objectHandle(Event, dmz.event.SourceAttribute)
+     , out
+     ;
 
    if (targets.list[target]) {
 
-      dmz.common.createDetonation(target);
+      out = dmz.common.createOpenDetonation(target);
+      if (source) { dmz.event.objectHandle(out, KillAttribute, source); }
+      dmz.common.close(out);
       dmz.object.destroy(target);
       delete targets.list[target];
       targets.count--;

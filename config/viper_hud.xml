@@ -10,6 +10,36 @@
    <color name="bar-clear" r="1" g="1" b="1" a="0.3"/>
    <color name="green" r="0" g="0.75" b="0" a="0.5"/>
    <color name="damage" r="0" g="0.7" b="0" a="0.4"/>
+   <color name="hud-background" r="0.2" b="0.2" g="0.2" a="0.4"/>
+   <node type="transform" name="kills-layout">
+      <node type="text">
+         <position x="-120" y="-20"/>
+         <font resource="font"/>
+         <height value="22"/>
+         <color name="green"/>
+         <depth value="5"/>
+         <text value="KILLS:"/>
+      </node>
+      <node type="text" name="kills">
+         <position x="-55" y="-20"/>
+         <font resource="font"/>
+         <height value="22"/>
+         <color name="green"/>
+         <depth value="5"/>
+         <text value="0"/>
+      </node>
+      <node type="box">
+         <min x="-123" y="-23"/>
+         <max x="-3" y="-3"/>
+         <depth value="4"/>
+         <color name="hud-background"/>
+         <depth value="1"/>
+      </node>
+   </node>
+   <layout node="kills-layout">
+      <x type="relative" value="1.0"/>
+      <y type="relative" value="1.0"/>
+   </layout>
    <node type="transform" name="hud-layout">
       <node type="transform" name="hud-top">
          <position x="-202" y="2"/>
@@ -57,7 +87,7 @@
          </node>
          <node type="box">
             <max x="200" y="200"/>
-            <color r="0.2" b="0.2" g="0.2" a="0.4"/>
+            <color name="hud-background"/>
             <depth value="1"/>
          </node>
          <node type="text">

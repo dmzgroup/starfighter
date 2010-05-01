@@ -84,9 +84,11 @@ namespace dmz {
          ObjectModule *_objMod;
          EventModuleCommon *_common;
 
-         Handle _defaultObjHandle;
-         Handle _defaultEventHandle;
-         Handle _targetEventHandle;
+         Handle _defaultObjAttr;
+         Handle _defaultEventAttr;
+         Handle _targetEventAttr;
+         Handle _sourceEventAttr;
+         Handle _killsEventAttr;
 
          EventType _detonationType;
 

@@ -72,6 +72,7 @@
    <adapter type="id" attribute="Event_Source_Attribute"/>
    <adapter type="id" attribute="Event_Target_Attribute"/>
    <adapter type="id" attribute="Event_Munitions_Attribute"/>
+   <adapter type="id" attribute="Event_Kill_Attribute"/>
    <adapter type="object-type" attribute="Event_Munitions_Attribute"/>
    <adapter type="position"/>
    <adapter type="velocity"/>

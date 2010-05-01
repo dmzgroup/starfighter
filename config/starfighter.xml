@@ -20,9 +20,16 @@
    <plugin name="dmzWeaponPluginTrackingMissile" scope="missile-launcher"/>
    <plugin name="dmzObjectPluginTimeout"/>
    <plugin name="dmzObjectPluginAutoCounter" scope="auto-reload"/>
+   <plugin name="dmzObjectPluginAutoCounter" unique="shield-generator"/>
    <plugin name="dmzRenderPluginRadarOverlay" scope="dradis"/>
    <plugin name="dmzStarfighterPluginLaunchTubeOSG"/>
 </plugin-list>
+<javascript>
+   <instance name="starfighter"/>
+   <instance name="damage"/>
+   <instance name="autopilot"/>
+   <instance name="fade"/>
+</javascript>
 <right-cannon>
    <offset x="1.046128" y="-0.289990" z="-1"/>
    <converge x="0.0" y="0.56" z="-500"/>
@@ -50,11 +57,6 @@
    </munitions>
    <delay value="1.0"/>
 </missile-launcher>
-<javascript>
-   <instance name="starfighter"/>
-   <instance name="autopilot"/>
-   <instance name="fade"/>
-</javascript>
 <view-switch>
    <switch>
       <channel name="first-person"/>
@@ -103,6 +105,9 @@
 <auto-reload>
    <counter attribute="Weapon_1" rate="0.5"/>
 </auto-reload>
+<shield-generator>
+   <counter attribute="Shield" rate="0.5"/>
+</shield-generator>
 <archive>
    <object name="hil" type="viper-2">
       <attributes>
@@ -128,6 +133,9 @@
       <attributes name="Weapon_2">
          <alttype value="rattler"/>
          <counter value="1000" minimum="0" maximum="1000"/>
+      </attributes>
+      <attributes name="Shield">
+         <counter value="100" minimum="0" maximum="100"/>
       </attributes>
       <attributes name="autopilot">
          <counter value="1"/>

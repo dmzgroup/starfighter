@@ -37,8 +37,31 @@
             <node type="box">
                <min x="-1.5" y="-1.5"/>
                <max x="1.5" y="1.5"/>
-               <color r="0.0" g="1.0" b="0.0" a="0.8"/>
                <texture resource="dradis-dot"/>
+               <depth value="4"/>
+            </node>
+         </node>
+      </node>
+   </template>
+   <template name="dradis-star">
+      <node type="switch" name="switch">
+         <node type="transform" name="transform">
+            <node type="box">
+               <min x="-8" y="-8"/>
+               <max x="8" y="8"/>
+               <texture resource="dradis-star"/>
+               <depth value="4"/>
+            </node>
+         </node>
+      </node>
+   </template>
+   <template name="dradis-double-dot">
+      <node type="switch" name="switch">
+         <node type="transform" name="transform">
+            <node type="box">
+               <min x="-8" y="-8"/>
+               <max x="8" y="8"/>
+               <texture resource="dradis-double-dot"/>
                <depth value="4"/>
             </node>
          </node>

@@ -35,6 +35,8 @@
    <resource name="dradis-back" file="dradis_back.png"/>
    <resource name="dradis-overlay" file="dradis_overlay.png"/>
    <resource name="dradis-dot" file="dradis_dot.png"/>
+   <resource name="dradis-double-dot" file="dradis_double_dot.png"/>
+   <resource name="dradis-star" file="dradis_star.png"/>
    <resource name="circle-24" file="circle_24.png"/>
    <resource name="circle-16" file="circle_16.png"/>
    <resource name="viper-center-engine" file="viper_center_engine.png"/>

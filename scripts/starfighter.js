@@ -11,7 +11,7 @@ var dmz =
        , util: require("dmz/types/util")
        , rotate: require("rotate")
        }
-,   frame =
+  , frame =
        { nose: dmz.vector.create([0, 1, -4.1])
        , tail: dmz.vector.create([0, 1, 3.861])
        , center: dmz.vector.create([0, 1, -1])
@@ -19,18 +19,20 @@ var dmz =
        , right: dmz.vector.create([2.431321, 0.060074, 3.237302])
        , top: dmz.vector.create([0, 2.85, 3.387])
        }
-,   controls = { thrust: 0, roll: 0, yaw: 0, pitch: 0 }
-,   active = 0
-,   autopilot = 0
+  , controls = { thrust: 0, roll: 0, yaw: 0, pitch: 0 }
+  , active = 0
+  , autopilot = 0
 //  Constants
-,   DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName)
-,   XPitch = dmz.vector.create(1, 0, 0)
-,   YYaw = dmz.vector.create(0, 1, 0)
-,   ZRoll = dmz.vector.create(0, 0, -1)
-,   MaxSpeed = 55.556 // meters per second -> 200 kilometers per hour
+  , DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName)
+  , XPitch = dmz.vector.create(1, 0, 0)
+  , YYaw = dmz.vector.create(0, 1, 0)
+  , ZRoll = dmz.vector.create(0, 0, -1)
+  , MaxSpeed = 55.556 // meters per second -> 200 kilometers per hour
+  , Acceleration = 15
+  , Deceleration = 30
 //  Functions
-,   updateFrame
-;
+  , updateFrame
+  ;
 
 updateFrame = function (pos, dir, frame) {
 
@@ -42,22 +44,22 @@ updateFrame = function (pos, dir, frame) {
 dmz.time.setRepeatingTimer(self, function (Delta) {
 
    var hil = dmz.object.hil()
-   ,   state = dmz.object.state(hil)
-   ,   speed = 0
-   ,   dir = dmz.vector.create(0, 0, -1)
-   ,   pos
-   ,   oldPos
-   ,   vel
-   ,   ori
-   ,   point
-   ,   normal
-   ,   vec
-   ,   pMat
-   ,   yMat
-   ,   rMat
-   ,   DeltaXPi = Delta * Math.PI
-   ,   cframe
-   ;
+     , state = dmz.object.state(hil)
+     , speed = 0
+     , dir = dmz.vector.create(0, 0, -1)
+     , pos
+     , oldPos
+     , vel
+     , ori
+     , point
+     , normal
+     , vec
+     , pMat
+     , yMat
+     , rMat
+     , DeltaXPi = Delta * Math.PI
+     , cframe
+     ;
 
    if (hil && dmz.util.isZero (autopilot) && (active > 0)) {
 
@@ -83,11 +85,23 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
 
          dir = ori.transform(dir);
 
-         if (controls.thrust < 0) { speed += controls.thrust * Delta * 50;}
-         else { speed += controls.thrust * Delta * 15; }
+         if (speed <= MaxSpeed) {
 
-         if (speed < 0) { speed = 0; }
-         else if (speed > MaxSpeed) { speed = MaxSpeed; }
+            if (controls.thrust < 0) { speed += controls.thrust * Delta * Deceleration;}
+            else { speed += controls.thrust * Delta * Acceleration; }
+
+            if (speed < 0) { speed = 0; }
+            else if (speed > MaxSpeed) { speed = MaxSpeed; }
+         }
+         else {
+
+            if (controls.thrust < 0) { speed += controls.thrust * Delta * Deceleration;}
+            else {
+
+               speed -= Delta * Acceleration;
+               if (speed < MaxSpeed) { speed = MaxSpeed; }
+            }
+         }
 
          vel = dir.multiplyConst(speed);
 
@@ -168,11 +182,13 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
    }
 });
 
+
 dmz.input.channel.observe(self, function (Channel, State) {
 
    if (State) { active++; }
    else { active--; }
 });
+
 
 dmz.input.axis.observe(self, function (Channel, Axis) {
 
@@ -197,6 +213,7 @@ dmz.input.axis.observe(self, function (Channel, Axis) {
       controls.pitch = value;
    }
 });
+
 
 dmz.object.counter.observe(self, "autopilot", function (handle, attr, value) {
 
