@@ -31,6 +31,7 @@ var dmz =
   , Green = dmz.overlay.color("bar-green")
   , DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName)
   , StandByState = dmz.defs.lookupState("Stand_By")
+  , ShieldAttr = dmz.defs.createNamedHandle("Shield")
   , MaxSpeed = 55.556 // meters per second -> 200 kilometers per hour
   , Acceleration = 60
   , APMode = dmz.consts.APMode
@@ -48,19 +49,31 @@ if (!light) { self.log.error("Unable to find autopilot light"); }
 dock = function () {
 
    var pos
-   ,   ori
-   ,   vel = ZeroVector
-   ,   hil = dmz.object.hil()
-   ;
+     , ori
+     , state
+     , vel = ZeroVector
+     , hil = dmz.object.hil()
+     ;
 
    dmz.time.cancleTimer(self, landTimeSlice);
 
    if (hil) {
 
+      state = dmz.object.state(hil);
+
+      if (state) {
+
+         if (state.contains(DeadState)) {
+
+            dmz.object.counter(hil, ShieldAttr, dmz.object.counter.max(hil, ShieldAttr));
+            dmz.object.state(hil, null, state.unset(DeadState));
+         }
+      }
+
       if (battlestar) {
 
          ori = dmz.object.orientation(battlestar);
-         pos = dmz.object.position(battlestar).add(ori.transform (launchOffset));
+         pos = dmz.object.position(battlestar).add(ori.transform(launchOffset));
          ori = ori.multiply(Turn90);
       }
       else {
@@ -72,7 +85,7 @@ dock = function () {
       dmz.object.position(hil, null, pos);
       dmz.object.orientation(hil, null, ori);
       dmz.object.velocity(hil, null, vel);
-      dmz.object.counter (hil, "autopilot", APMode.Docked);
+      dmz.object.counter(hil, "autopilot", APMode.Docked);
    }
 };
 
@@ -105,7 +118,7 @@ launchTimeSlice = function (Delta) {
 
    if (hil && isAPMode(autopilot, APMode.Launching)) {
 
-      pos = dmz.object.position (hil);
+      pos = dmz.object.position(hil);
       ori = dmz.object.orientation(hil);
       vel = dmz.object.velocity(hil);
       state = dmz.object.state(hil);
@@ -130,10 +143,10 @@ launchTimeSlice = function (Delta) {
          start = undefined;
       }
 
-      dmz.object.position (hil, null, pos);
-      dmz.object.orientation (hil, null, ori);
-      dmz.object.velocity (hil, null, vel);
-      dmz.object.state (hil, null, state);
+      dmz.object.position(hil, null, pos);
+      dmz.object.orientation(hil, null, ori);
+      dmz.object.velocity(hil, null, vel);
+      dmz.object.state(hil, null, state);
    }
 };
 

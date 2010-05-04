@@ -176,6 +176,7 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
    });
 });
 
+
 dmz.event.close.observe(self, Detonation, function (Event) {
 
    var target = dmz.event.objectHandle(Event, dmz.event.TargetAttribute)

@@ -2,6 +2,7 @@ var dmz =
      { object: require("dmz/components/object")
      , input: require("dmz/components/input")
      , event: require("dmz/components/event")
+     , common: require("dmz/components/eventCommon")
      , eventType: require("dmz/runtime/eventType")
      , overlay: require("dmz/components/overlay")
      , time: require("dmz/runtime/time")
@@ -21,6 +22,7 @@ var dmz =
 dmz.event.close.observe(self, Detonation, function (Event) {
 
    var hil = dmz.object.hil ()
+     , source = dmz.event.objectHandle(Event, dmz.event.SourceAttribute)
      , target = dmz.event.objectHandle(Event, dmz.event.TargetAttribute)
      , type = dmz.event.objectType(Event, dmz.event.MunitionsAttribute)
      , shields = 0
@@ -40,7 +42,7 @@ dmz.event.close.observe(self, Detonation, function (Event) {
 
          state = dmz.object.state(hil);
          if (!state) { state = dmz.mask.create(); }
-         state = state.and(DeadState);
+         state = state.or(DeadState);
          dmz.object.state(hil, null, state);
       }
    }

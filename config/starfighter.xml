@@ -106,7 +106,7 @@
    <counter attribute="Weapon_1" rate="0.5"/>
 </auto-reload>
 <shield-generator>
-   <counter attribute="Shield" rate="0.5"/>
+   <counter attribute="Shield" rate="1"/>
 </shield-generator>
 <archive>
    <object name="hil" type="viper-2">
@@ -135,7 +135,7 @@
          <counter value="1000" minimum="0" maximum="1000"/>
       </attributes>
       <attributes name="Shield">
-         <counter value="100" minimum="0" maximum="100"/>
+         <counter value="50" minimum="0" maximum="50"/>
       </attributes>
       <attributes name="autopilot">
          <counter value="1"/>

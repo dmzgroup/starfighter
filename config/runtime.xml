@@ -54,12 +54,25 @@
       </render>
       <timeout value="5" detonate="true"/>
    </object-type>
+   <object-type name="raider-round" parent="munitions">
+      <audio>
+         <event name="Event_Launch" resource="cannon-sound"/>
+      </audio>
+      <net>
+         <enum value="2.2"/>
+      </net>
+      <render>
+         <isect disable="true"/>
+         <model resource="green-round"/>
+      </render>
+      <timeout value="5" detonate="true"/>
+   </object-type>
    <object-type name="rattler" parent="munitions">
       <audio>
          <event name="Event_Launch" resource="missile-sound"/>
       </audio>
       <net>
-         <enum value="2.2"/>
+         <enum value="2.3"/>
       </net>
       <render>
          <isect disable="true"/>

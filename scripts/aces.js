@@ -1,47 +1,42 @@
-var dmz = {}
-,   Speed = 0
-,   MaxAces = 1
-,   aces = { count: 0, list: {} }
-,   LaunchMsg
-,   DeadState
-,   Detonation
-,   Forward
-,   Right
-,   Up
-,   TailOffset
-,   StartDir
-,   TargetType
-,   targetList = {}
-,   randomVector
-,   rotate
-,   newOri
-,   findTarget
-;
+var dmz =
+       { common: require("dmz/components/eventCommon")
+       , data: require("dmz/runtime/data")
+       , defs: require("dmz/runtime/definitions")
+       , event: require("dmz/components/event")
+       , eventType: require("dmz/runtime/eventType")
+       , isect: require("dmz/components/isect")
+       , mask: require("dmz/types/mask")
+       , matrix: require("dmz/types/matrix")
+       , message: require("dmz/runtime/messaging")
+       , object: require("dmz/components/object")
+       , time: require("dmz/runtime/time")
+       , util: require("dmz/types/util")
+       , vector: require("dmz/types/vector")
+       }
+  , aces = { count: 0, list: {} }
+  , targetList = {}
+//  Constants
+  , TurnRate = Math.PI * 0.5
+  , Speed = 40
+  , MaxAces = 3
+  , DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName)
+  , Detonation = dmz.eventType.lookup("Event_Detonation")
+  , LaunchMsg = dmz.message.create("Raider_Launch_Message")
+  , KillAttribute = dmz.defs.createNamedHandle("Event_Kill_Attribute")
+  , Forward = dmz.vector.create(0.0, 0.0, -1.0)
+  , Right = dmz.vector.create(1.0, 0.0, 0.0)
+  , Up = dmz.vector.create(0.0, 1.0, 0.0)
+  , TailOffset = dmz.vector.create(0.0, 0.0, 30.0)
+  , StartDir = dmz.matrix.create().fromAxisAndAngle(Up, Math.PI)
+  , TargetType = self.config.objectType("target-type.name", "colonial-vehicle")
+//  Functions
+  , randomVector
+  , rotate
+  , newOri
+  , findTarget
+  ;
 
-dmz.common = require("dmz/components/eventCommon");
-dmz.data = require("dmz/runtime/data");
-dmz.defs = require("dmz/runtime/definitions");
-dmz.event = require("dmz/components/event");
-dmz.eventType = require("dmz/runtime/eventType");
-dmz.isect = require("dmz/components/isect");
-dmz.mask = require("dmz/types/mask");
-dmz.matrix = require("dmz/types/matrix");
-dmz.message = require("dmz/runtime/messaging");
-dmz.object = require("dmz/components/object");
-dmz.time = require("dmz/runtime/time");
-dmz.util = require("dmz/types/util");
-dmz.vector = require("dmz/types/vector");
 
-DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName);
-Detonation = dmz.eventType.lookup("Event_Detonation");
-LaunchMsg = dmz.message.create("Raider_Launch_Message");
-
-Forward = dmz.vector.create(0.0, 0.0, -1.0);
-Right = dmz.vector.create(1.0, 0.0, 0.0);
-Up = dmz.vector.create(0.0, 1.0, 0.0);
-TailOffset = dmz.vector.create(0.0, 0.0, 30.0);
-StartDir = dmz.matrix.create().fromAxisAndAngle(Up, Math.PI);
-TargetType = self.config.objectType("target-type.name", "colonial-vehicle");
 
 randomVector = function (value) {
 
@@ -51,7 +46,7 @@ randomVector = function (value) {
 
    halfValue = value * 0.5;
 
-   return dmz.vector.create (
+   return dmz.vector.create(
       Math.random() * value - halfValue,
       Math.random() * value - halfValue,
       Math.random() * value - halfValue);
@@ -62,13 +57,13 @@ rotate = function (time, orig, target) {
 
    var result = target
    ,   diff = target - orig
-   ,   max = time * Math.PI
+   ,   max = time * TurnRate
    ;
 
    if (diff > Math.PI) { diff -= Math.PI * 2; }
    else if (diff < -Math.PI)  { diff += Math.PI * 2; }
 
-   if (Math.abs (diff) > max) {
+   if (Math.abs(diff) > max) {
 
       if (diff > 0) { result = orig + max; }
       else { result = orig - max }
@@ -81,14 +76,14 @@ rotate = function (time, orig, target) {
 newOri = function (obj, time, targetVec) {
 
    var result = dmz.matrix.create()
-   ,   hvec = dmz.vector.create(targetVec)
-   ,   heading
-   ,   hcross
-   ,   pitch
-   ,   pcross
-   ,   ncross
-   ,   pm
-   ;
+     , hvec = dmz.vector.create(targetVec)
+     , heading
+     , hcross
+     , pitch
+     , pcross
+     , ncross
+     , pm
+     ;
 
    hvec.y = 0.0;
    hvec = hvec.normalize();
@@ -107,9 +102,9 @@ newOri = function (obj, time, targetVec) {
 
    if (ncross.y < 0.0) { pitch = (Math.PI * 2) - pitch; }
 
-   obj.heading = rotate (time, obj.heading, heading);
+   obj.heading = rotate(time, obj.heading, heading);
 
-   obj.pitch = rotate (time, obj.pitch, pitch);
+   obj.pitch = rotate(time, obj.pitch, pitch);
 
    if (dmz.util.isZero(pitch - obj.pitch) && dmz.util.isZero(heading - obj.heading)) {
 
@@ -129,17 +124,10 @@ newOri = function (obj, time, targetVec) {
 findTarget = function () {
 
    var keys = Object.keys(targetList)
-   ,   result
-   ,   length = 0
-   ,   which = 0
-   ;
+     , result
+     ;
 
-   if (keys) {
-
-      length = keys.length;
-      which = Math.floor((length * Math.random()));
-      result = targetList[keys[which]]
-   }
+   if (keys) { result = targetList[keys[Math.floor((keys.length * Math.random()))]]; }
 
    return result
 };
@@ -178,21 +166,22 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
    Object.keys(aces.list).forEach (function (key) {
 
       var obj = aces.list[key]
-      ,   handle = obj.handle
-      ,   pos = dmz.object.position(handle)
-      ,   vel = dmz.object.velocity(handle)
-      ,   ori = dmz.object.orientation(handle)
-      ,   offset
-      ,   speed
-      ,   targetPos
-      ,   targetOri
-      ,   targetVel
-      ,   targetDir
-      ,   targetOffset
-      ,   distance
-      ;
+        , handle = obj.handle
+        , pos = dmz.object.position(handle)
+        , vel = dmz.object.velocity(handle)
+        , ori = dmz.object.orientation(handle)
+        , origPos
+        , offset
+        , speed
+        , targetPos
+        , targetOri
+        , targetVel
+        , targetDir
+        , targetOffset
+        , distance
+        ;
 
-      if (!obj.target) { obj.target = findTarget(); }
+      if (!obj.flyoff && !obj.target) { obj.target = findTarget(); }
 
       if (obj.target) {
 
@@ -202,26 +191,24 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
 
          if (targetPos && targetOri && targetVel) {
 
-            targetOffset = targetOri.transform(TailOffset);
-
-            targetPos = targetPos.add(targetOffset.add(randomVector(1)));
-
             offset = targetPos.subtract(pos); 
             targetDir = offset.normalize();
 
-            ori = newOri(obj, Delta, targetDir);
+            if (!obj.flyoff) { ori = newOri(obj, Delta, targetDir); }
 
             distance = offset.magnitude();
 
-            speed = targetVel.magnitude();
+            if ((distance < 200) && (distance > 10)) {
 
-            speed -= 0.1;
+               if (ori.transform(Forward).getAngle(offset) < Math.PI * 0.2) {
 
-            if (speed < 0) { speed = 0; }
+                  LaunchMsg.send(dmz.data.wrapHandle(handle));
+               }
+            }
 
-            if ((distance < 100) && (distance > 10)) {
+            if (!obj.flyoff && (distance <= 30)) {
 
-               LaunchMsg.send(dmz.data.wrapHandle(handle));
+               obj.flyoff = (Math.random() * 200) + 200;
             }
          }
       }
@@ -232,7 +219,20 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
 
       vel = obj.dir.multiplyConst(speed);
 
+      origPos = pos;
       pos = pos.add(vel.multiplyConst(Delta));
+
+      if (obj.flyoff) {
+
+         obj.flyoff -= pos.subtract(origPos).magnitude();
+
+         if (obj.flyoff <= 0) {
+
+            obj.flyoff = undefined;
+            obj.target = undefined;
+         }
+      }
+
       dmz.object.position(handle, null, pos);
       if (ori) { dmz.object.orientation(handle, null, ori); }
       dmz.object.velocity(handle, null, vel);
@@ -242,13 +242,18 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
 
 dmz.event.close.observe(self, Detonation, function (Event) {
 
-   var object = dmz.event.objectHandle(Event, dmz.event.TargetAttribute);
+   var target = dmz.event.objectHandle(Event, dmz.event.TargetAttribute)
+     , source = dmz.event.objectHandle(Event, dmz.event.SourceAttribute)
+     , out
+     ;
 
-   if (aces.list[object]) {
+   if (aces.list[target]) {
 
-      dmz.common.createDetonation(object);
-      dmz.object.destroy(object);
-      delete aces.list[object];
+      out = dmz.common.createOpenDetonation(target);
+      if (source) { dmz.event.objectHandle(out, KillAttribute, source); }
+      dmz.common.close(out);
+      dmz.object.destroy(target);
+      delete aces.list[target];
       aces.count--;
    }
 });
@@ -264,3 +269,5 @@ dmz.object.destroy.observe(self, function (handle) {
 
    if (targetList[handle]) { delete (targetList[handle]); }
 });
+
+

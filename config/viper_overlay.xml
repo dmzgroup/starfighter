@@ -63,5 +63,18 @@
       <x type="relative" value="0.5"/>
       <y type="relative" value="0.5"/>
    </layout>
+   <node type="transform" name="logo">
+      <node type="box">
+         <min x="4" y="-36"/>
+         <max x="260" y="-5"/>
+         <texture resource="logo"/>
+         <color r="0" g="1" b="0" a="0.3"/>
+      </node>
+   </node>
+   <layout node="logo">
+      <x type="relative" value="0"/>
+      <y type="relative" value="1"/>
+      <depth value="17"/>
+   </layout>
 </overlay>
 </dmz>
