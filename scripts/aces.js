@@ -200,7 +200,7 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
 
             if ((distance < 200) && (distance > 10)) {
 
-               if (ori.transform(Forward).getAngle(offset) < Math.PI * 0.2) {
+               if (ori.transform(Forward).getAngle(offset) < Math.PI * 0.1) {
 
                   LaunchMsg.send(dmz.data.wrapHandle(handle));
                }

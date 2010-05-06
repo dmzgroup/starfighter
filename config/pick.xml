@@ -4,10 +4,12 @@
    <plugin name="dmzRenderModulePickBasic"/>
    <plugin name="dmzRenderPluginPickOSG" scope="pick"/>
    <plugin name="dmzInputPluginMouseEventToMessage" unique="create-detonation-event"/>
+   <plugin name="dmzInputPluginMouseEventToMessage" unique="pick-target"/>
 </plugin-list>
 <create-detonation-event>
    <input>
       <source name="DMZ_Render_Main_Portal"/>
+      <channel name="tether-portal"/>
    </input>
    <converter start="first">
       <state name="first" type="basic">
@@ -25,6 +27,27 @@
       </state>
    </converter>
 </create-detonation-event>
+<pick-target>
+   <input>
+      <source name="DMZ_Render_Main_Portal"/>
+      <channel name="watch-portal"/>
+   </input>
+   <converter start="first">
+      <state name="first" type="basic">
+         <condition
+               button="1"
+               result="none"
+               action="released"
+               message="Portal_Watch_Target_Message"
+               next="first"
+         >
+            <target name="watch-portal"/>
+            <target name="follow-target"/>
+            <attribute type="object" name="handle"/>
+         </condition>
+      </state>
+   </converter>
+</pick-target>
 <pick>
    <source name="DMZ_Render_Main_Portal"/>
 </pick>

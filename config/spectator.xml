@@ -2,14 +2,39 @@
 <dmz>
 <plugin-list>
    <plugin name="dmzEntityPluginFreeFly" scope="freefly"/>
-   <plugin name="dmzEntityPluginPortalTether" scope="freefly"/>
+   <plugin name="dmzEntityPluginFollow" unique="follow-target"/>
+   <plugin name="dmzInputPluginChannelSwitch" scope="view-switch"/>
+   <plugin name="dmzEntityPluginPortalTether" unique="tether-portal"/>
+   <plugin name="dmzEntityPluginPortalWatch" unique="watch-portal"/>
    <plugin name="dmzEntityPluginTeleport"/>
    <plugin name="dmzObjectPluginTimeout"/>
 </plugin-list>
 <freefly>
    <movement speed="100" turn-rate="2.4"/>
-   <offset x="0.0" y="0.0" z="0.0"/>
 </freefly>
+<follow-target>
+   <input>
+      <channel name="watch-portal"/>
+   </input>
+   <target-message name="Portal_Watch_Target_Message"/>
+</follow-target>
+<tether-portal>
+   <input>
+      <channel name="tether-portal"/>
+   </input>
+   <offset x="0.0" y="0.0" z="0.0"/>
+</tether-portal>
+<watch-portal>
+   <input>
+      <channel name="watch-portal"/>
+   </input>
+</watch-portal>
+<view-switch>
+   <switch>
+      <channel name="tether-portal"/>
+      <channel name="watch-portal"/>
+   </switch>
+</view-switch>
 <archive>
    <object type="spectator">
       <attributes>

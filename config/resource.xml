@@ -31,6 +31,7 @@
    <resource name="stars" file="stars3.png"/>
    <resource name="tube-wall" file="tube_wall.png"/>
    <resource name="logo" file="starfighter_small.png"/>
+   <resource name="logo-full" file="starfighter.png"/>
    <resource name="crosshairs" file="crosshairs.png"/>
    <resource name="explosion" file="explosion2.png"/>
    <resource name="dradis-back" file="dradis_back.png"/>
