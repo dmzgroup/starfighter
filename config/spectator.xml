@@ -16,7 +16,6 @@
    <input>
       <channel name="watch-portal"/>
    </input>
-   <target-message name="Portal_Watch_Target_Message"/>
 </follow-target>
 <tether-portal>
    <input>

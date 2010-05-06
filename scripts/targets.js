@@ -17,9 +17,9 @@ var dmz =
   , KillAttribute = dmz.defs.createNamedHandle("Event_Kill_Attribute")
   , DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName)
   , Detonation = dmz.eventType.lookup("Event_Detonation")
-  , Forward = dmz.vector.create(0.0, 0.0, -1.0)
-  , Right = dmz.vector.create(1.0, 0.0, 0.0)
-  , Up = dmz.vector.create(0.0, 1.0, 0.0)
+  , Forward = dmz.vector.Forward
+  , Right = dmz.vector.Right
+  , Up = dmz.vector.Up
   , StartDir = dmz.matrix.create().fromAxisAndAngle(Up, Math.PI)
   , BaseStar = dmz.object.create("base-star")
 //  Functions

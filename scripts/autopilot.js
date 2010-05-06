@@ -20,9 +20,9 @@ var dmz =
   , launchOffset = dmz.vector.create()
 //  Constants
   , TubeAttr = dmz.defs.createNamedHandle("Launch_Tube")
-  , Forward = dmz.vector.create(0, 0, -1)
-  , Up = dmz.vector.create(0, 1, 0)
-  , Right = dmz.vector.create(1, 0, 0)
+  , Forward = dmz.vector.Forward
+  , Up = dmz.vector.Up
+  , Right = dmz.vector.Right
   , Turn90 = dmz.matrix.create().fromAxisAndAngle(Up, -Math.PI * 0.5)
   , ZeroVector = dmz.vector.create()
   , IMat = dmz.matrix.create()

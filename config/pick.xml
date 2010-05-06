@@ -38,11 +38,9 @@
                button="1"
                result="none"
                action="released"
-               message="Portal_Watch_Target_Message"
+               message="Entity_Attach_Message"
                next="first"
          >
-            <target name="watch-portal"/>
-            <target name="follow-target"/>
             <attribute type="object" name="handle"/>
          </condition>
       </state>

@@ -7,29 +7,35 @@ var dmz =
        , matrix: require("dmz/types/matrix")
        , messaging: require("dmz/runtime/messaging")
        , defs: require("dmz/runtime/definitions")
+       , data: require("dmz/runtime/data")
+       , util: require("dmz/types/util")
        }
-  , mode = dmz.overlay.lookup("mode")
-  , camera = dmz.overlay.lookup("camera")
-  , posX = dmz.overlay.lookup("pos x")
-  , posY = dmz.overlay.lookup("pos y")
-  , posZ = dmz.overlay.lookup("pos z")
-  , heading = dmz.overlay.lookup("heading")
+  , modeOverlay = dmz.overlay.lookup("mode")
+  , objOverlay = dmz.overlay.lookup("object")
+  , posOverlay = dmz.overlay.lookup("position")
+  , oriOverlay = dmz.overlay.lookup("orientation")
   , text =
-       { mode: mode.text()
-       , camera: camera.text()
-       , posX: posX.text()
-       , posY: posY.text()
-       , posZ: posZ.text()
-       , heading: heading.text()
+       { mode: modeOverlay.text()
+       , obj: objOverlay.text()
+       , pos: posOverlay.text()
+       , ori: oriOverlay.text()
        }
 //  Constants
-  , Forward = dmz.vector.create(0, 0, -1)
-  , ToDegrees = 180 / Math.PI
   , TetherChannel = dmz.defs.createNamedHandle("tether-portal")
   , WatchChannel = dmz.defs.createNamedHandle("watch-portal")
 //  Functions 
   , channelState
   ;
+
+
+self.shutdown = function () {
+
+  // Reset the text overlays to their original values.
+  modeOverlay.text(text.mode);
+  objOverlay.text(text.obj);
+  posOverlay.text(text.pos);
+  oriOverlay.text(text.ori);
+};
 
 
 channelState = function (channel, state) {
@@ -38,13 +44,11 @@ channelState = function (channel, state) {
 
       if (channel === TetherChannel) {
 
-         mode.text(text.mode + "Free Fly");
-         camera.text(text.camera + "Fixed");
+         modeOverlay.text(text.mode + "Free Fly");
       }
       else if (channel === WatchChannel) {
 
-         mode.text(text.mode + "Follow");
-         camera.text(text.camera + "Watch");
+         modeOverlay.text(text.mode + "Watch");
       }
    }
 };
@@ -55,8 +59,7 @@ dmz.time.setRepeatingTimer (self,  function (time) {
    var hil = dmz.object.hil()
      , pos
      , ori
-     , hvec
-     , hval
+     , hpr
      ;
 
    if (hil) {
@@ -66,22 +69,25 @@ dmz.time.setRepeatingTimer (self,  function (time) {
 
       if (pos) {
 
-         posX.text(text.posX + pos.x.toFixed(1));
-         posY.text(text.posY + pos.y.toFixed(1));
-         posZ.text(text.posZ + pos.z.toFixed(1));
+         posOverlay.text(text.pos +
+            pos.x.toFixed() + " " +
+            pos.y.toFixed() + " " +
+            pos.z.toFixed());
       }
 
       if (ori) {
 
-         hvec = ori.transform(Forward);
-         hvec.y = 0;
-         hvec = hvec.normalize();
-         if (!hvec.isZero()) {
+         hpr = ori.toEuler();
 
-            hval = Forward.getSignedAngle(hvec) * ToDegrees;
-            if (hval < 0) { hval += 360; }
-            heading.text(text.heading + hval.toFixed (1));
-         }
+         hpr[0] = dmz.util.radiansToDegrees(hpr[0]);
+         hpr[1] = dmz.util.radiansToDegrees(hpr[1]);
+         hpr[2] = dmz.util.radiansToDegrees(hpr[2]);
+
+         oriOverlay.text(text.ori +
+            hpr[0].toFixed() + " " +
+            hpr[1].toFixed() + " " +
+            hpr[2].toFixed());
+
       }
    }
 });
@@ -89,3 +95,8 @@ dmz.time.setRepeatingTimer (self,  function (time) {
 
 dmz.input.channel.observe(self, TetherChannel, channelState);
 dmz.input.channel.observe(self, WatchChannel, channelState);
+
+dmz.messaging.subscribe("Entity_Attach_Message", self,  function (data) {
+
+   objOverlay.text(text.obj + dmz.data.unwrapHandle(data));
+});

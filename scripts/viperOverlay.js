@@ -1,43 +1,38 @@
-var dmz = {}
-,   Forward
-,   VehicleType
-,   active = 0
-,   rangeHandle
-,   targetHandle
-;
-
-dmz.object= require("dmz/components/object");
-dmz.input = require("dmz/components/input");
-dmz.isect = require("dmz/components/isect");
-dmz.portal = require("dmz/components/portal");
-dmz.overlay = require("dmz/components/overlay");
-dmz.time = require("dmz/runtime/time");
-dmz.vector = require("dmz/types/vector");
-dmz.matrix = require("dmz/types/matrix");
-dmz.mask = require("dmz/types/mask");
-dmz.defs = require("dmz/runtime/definitions");
-dmz.objectType = require("dmz/runtime/objectType");
-dmz.util = require("dmz/types/util");
-dmz.messaging = require("dmz/runtime/messaging");
-
-Forward = dmz.vector.create([0, 0, -1]);
-VehicleType = dmz.objectType.lookup("vehicle")
+var dmz =
+       { object: require("dmz/components/object")
+       , input: require("dmz/components/input")
+       , isect: require("dmz/components/isect")
+       , portal: require("dmz/components/portal")
+       , overlay: require("dmz/components/overlay")
+       , time: require("dmz/runtime/time")
+       , vector: require("dmz/types/vector")
+       , matrix: require("dmz/types/matrix")
+       , mask: require("dmz/types/mask")
+       , defs: require("dmz/runtime/definitions")
+       , objectType: require("dmz/runtime/objectType")
+       , util: require("dmz/types/util")
+       , messaging: require("dmz/runtime/messaging")
+       }
+  , Forward = dmz.vector.Forward
+  , VehicleType = dmz.objectType.lookup("vehicle")
+  , rangeHandle = dmz.defs.createNamedHandle("DMZ_Overlay_Radar_Range")
+  , targetHandle = dmz.defs.createNamedHandle("Weapon_Target_Lock")
+  , active = 0
+  ;
 
 self.sight = dmz.overlay.lookup("crosshairs target switch");
 self.top = dmz.overlay.lookup("crosshairs switch");
 self.range = dmz.overlay.lookup("dradis-range");
-rangeHandle = dmz.defs.createNamedHandle("DMZ_Overlay_Radar_Range");
-targetHandle = dmz.defs.createNamedHandle("Weapon_Target_Lock");
 
 dmz.time.setRepeatingTimer (self, function (time) {
 
    var hil = dmz.object.hil()
-   ,   state
-   ,   view
-   ,   dir
-   ,   which = 0
-   ,   target
-   ;
+     , state
+     , view
+     , dir
+     , which = 0
+     , target
+     ;
 
    if (self.sight && hil && (active > 0)) {
 
@@ -96,10 +91,11 @@ dmz.input.channel.observe (self, "first-person", function (channel, state) {
    }
 });
 
+
 dmz.messaging.subscribe ("DMZ_Overlay_Radar_Range_Message", self, function (data) {
 
    if (self.range) {
 
-      self.range.text(Math.floor(data.number(rangeHandle, 0)).toString ());
+      self.range.text(data.number(rangeHandle, 0).toFixed());
    }
 });

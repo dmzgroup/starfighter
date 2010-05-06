@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dmz>
+<plugin-list>
+   <plugin name="vaces" reserve="true"/>
+   <plugin name="dmzWeaponPluginFixedLauncher" unique="right-vaces-cannon"/>
+   <plugin name="dmzWeaponPluginFixedLauncher" unique="left-vaces-cannon"/>
+   <plugin name="dmzWeaponPluginLaserBullet" unique="vaces-cannon" scope="right-vaces-cannon"/>
+</plugin-list>
+<javascript>
+   <instance name="aces" unique="vaces"/>
+</javascript>
+<vaces>
+   <launch-message name="Viper_Launch_Message"/>
+   <ace-type name="viper-2"/>
+   <target-type name="raider"/>
+</vaces>
+<right-vaces-cannon>
+   <button value="-1"/>
+   <launch-message name="Viper_Launch_Message"/>
+   <offset x="1.046128" y="-0.289990" z="-1.5"/>
+   <converge x="0.0" y="0.56" z="-500"/>
+   <munitions>
+      <object-type name="round"/>
+   </munitions>
+   <delay value="0.5"/>
+   <speed value="500"/>
+</right-vaces-cannon>
+<left-vaces-cannon>
+   <button value="-1"/>
+   <launch-message name="Viper_Launch_Message"/>
+   <offset x="-1.046128" y="-0.289990" z="-1.5"/>
+   <converge x="0.0" y="0.56" z="-500"/>
+   <munitions>
+      <object-type name="round"/>
+   </munitions>
+   <delay value="0.5"/>
+</left-vaces-cannon>
+</dmz>

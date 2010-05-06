@@ -125,31 +125,36 @@
          <enum value="1.1.1"/>
       </net>
    </object-type>
-   <object-type name="viper-2" parent="colonial-vehicle">
+   <object-type name="colonial-fighter" parent="colonial-vehicle">
+      <net>
+         <enum value="1.1.1.1"/>
+      </net>
+   </object-type>
+   <object-type name="viper-2" parent="colonial-fighter">
       <render>
          <model resource="viper-2"/>
          <model none="true" state="Dead"/>
          <model none="true" state="Stand_By"/>
       </render>
       <net>
-         <enum value="1.1.1.1"/>
+         <enum value="1.1.1.1.1"/>
       </net>
    </object-type>
-   <object-type name="viper-7" parent="colonial-vehicle">
+   <object-type name="viper-7" parent="colonial-fighter">
       <render>
          <model resource="viper-7"/>
          <model none="true" state="Dead"/>
       </render>
       <net>
-         <enum value="1.1.1.2"/>
+         <enum value="1.1.1.1.2"/>
       </net>
    </object-type>
-   <object-type name="python" parent="colonial-vehicle">
+   <object-type name="python" parent="colonial-fighter">
       <render>
          <model resource="python"/>
       </render>
       <net>
-         <enum value="1.1.1.3"/>
+         <enum value="1.1.1.1.3"/>
       </net>
    </object-type>
    <object-type name="colonial-one" parent="colonial-vehicle">

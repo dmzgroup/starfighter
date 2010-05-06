@@ -18,17 +18,18 @@ var dmz =
 //  Constants
   , TurnRate = Math.PI * 0.5
   , Speed = 40
-  , MaxAces = 3
+  , MaxAces = 5
   , DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName)
   , Detonation = dmz.eventType.lookup("Event_Detonation")
-  , LaunchMsg = dmz.message.create("Raider_Launch_Message")
+  , LaunchMsg = dmz.message.create(self.config.string("launch-message.name", "Raider_Launch_Message"))
   , KillAttribute = dmz.defs.createNamedHandle("Event_Kill_Attribute")
-  , Forward = dmz.vector.create(0.0, 0.0, -1.0)
-  , Right = dmz.vector.create(1.0, 0.0, 0.0)
-  , Up = dmz.vector.create(0.0, 1.0, 0.0)
+  , Forward = dmz.vector.Forward
+  , Right = dmz.vector.Right
+  , Up = dmz.vector.Up
   , TailOffset = dmz.vector.create(0.0, 0.0, 30.0)
   , StartDir = dmz.matrix.create().fromAxisAndAngle(Up, Math.PI)
-  , TargetType = self.config.objectType("target-type.name", "colonial-vehicle")
+  , AceType = self.config.objectType("ace-type.name", "raider")
+  , TargetType = self.config.objectType("target-type.name", "colonial-fighter")
 //  Functions
   , randomVector
   , rotate
@@ -140,7 +141,7 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
    while ((count < 10) && (aces.count < MaxAces)) {
 
       count++;
-      handle = dmz.object.create("raider");
+      handle = dmz.object.create(AceType);
       dmz.object.position(handle, null, randomVector().add([0,0,-100]));
       dmz.object.orientation(handle, null, StartDir);
       dmz.object.velocity(handle, null, [0, 0, Speed]);
@@ -211,6 +212,7 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
                obj.flyoff = (Math.random() * 200) + 200;
             }
          }
+         else if (!dmz.object.isObject (obj.target)) { obj.target = undefined; }
       }
 
       if (!speed) { speed = vel.magnitude(); }
@@ -261,7 +263,7 @@ dmz.event.close.observe(self, Detonation, function (Event) {
 
 dmz.object.create.observe(self, function (handle, type) {
 
-   if (type.isOfType(TargetType)) { targetList[handle] = handle; }
+   if (type.isOfType(TargetType) && !aces.list[handle]) { targetList[handle] = handle; }
 });
 
 

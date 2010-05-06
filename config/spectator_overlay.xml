@@ -7,51 +7,37 @@
    <color name="text color" r="0" g="0.75" b="0" a="0.5"/>
    <layout node="spectator info">
       <x type="absolute" value="4"/>
-      <y type="relative" value=".17" min="85" max="172"/>
+      <y type="relative" value="0"/>
    </layout>
    <auto-scale node="spectator info">
       <y type="simple" ratio=".2" size="200" min="100" max="200"/>
    </auto-scale>
    <node type="transform" name="spectator info">
-      <position x="4" y="180"/>
+      <position x="0" y="0"/>
       <node type="text" name="mode">
          <text value="Mode:"/>
-         <position x="0" y="0"/>
+         <position x="0" y="100"/>
          <font resource="font"/>
          <height value="32"/>
          <color name="text color"/>
       </node>
-      <node type="text" name="camera">
-         <text value="Camera:"/>
-         <position x="0" y="-32"/>
+      <node type="text" name="object">
+         <text value="Obj :"/>
+         <position x="0" y="68"/>
          <font resource="font"/>
          <height value="32"/>
          <color name="text color"/>
       </node>
-      <node type="text" name="pos x">
-         <text value="X:"/>
-         <position x="0" y="-64"/>
+      <node type="text" name="position">
+         <text value="POS :"/>
+         <position x="0" y="36"/>
          <font resource="font"/>
          <height value="32"/>
          <color name="text color"/>
       </node>
-      <node type="text" name="pos y">
-         <text value="Y:"/>
-         <position x="0" y="-96"/>
-         <font resource="font"/>
-         <height value="32"/>
-         <color name="text color"/>
-      </node>
-      <node type="text" name="pos z">
-         <text value="Z:"/>
-         <position x="0" y="-128"/>
-         <font resource="font"/>
-         <height value="32"/>
-         <color name="text color"/>
-      </node>
-      <node type="text" name="heading">
-         <text value="H:"/>
-         <position x="0" y="-160"/>
+      <node type="text" name="orientation">
+         <text value="ORI :"/>
+         <position x="0" y="4"/>
          <font resource="font"/>
          <height value="32"/>
          <color name="text color"/>

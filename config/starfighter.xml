@@ -31,7 +31,7 @@
    <instance name="fade"/>
 </javascript>
 <right-cannon>
-   <offset x="1.046128" y="-0.289990" z="-1"/>
+   <offset x="1.046128" y="-0.289990" z="-1.5"/>
    <converge x="0.0" y="0.56" z="-500"/>
    <munitions>
       <object-type name="round"/>
@@ -41,7 +41,7 @@
    <speed value="500"/>
 </right-cannon>
 <left-cannon>
-   <offset x="-1.046128" y="-0.289990" z="-1"/>
+   <offset x="-1.046128" y="-0.289990" z="-1.5"/>
    <converge x="0.0" y="0.56" z="-500"/>
    <munitions>
       <object-type name="round"/>
@@ -128,7 +128,7 @@
       </attributes>
       <attributes name="Weapon_1">
          <alttype value="round"/>
-         <counter value="20" minimum="0" maximum="20"/>
+         <counter value="40" minimum="0" maximum="40"/>
       </attributes>
       <attributes name="Weapon_2">
          <alttype value="rattler"/>
