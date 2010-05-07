@@ -37,7 +37,7 @@
          <condition
                button="1"
                result="none"
-               action="released"
+               action="pressed"
                message="Entity_Attach_Message"
                next="first"
          >

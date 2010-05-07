@@ -5,6 +5,7 @@
 </javascript>
 <overlay>
    <color name="text color" r="0" g="0.75" b="0" a="0.5"/>
+   <color name="spectator ring color" r="0" g="0.75" b="0" a="0.5"/>
    <layout node="spectator info">
       <x type="absolute" value="4"/>
       <y type="relative" value="0"/>
@@ -68,11 +69,10 @@
       <x type="relative" value="0.5"/>
       <y type="relative" value="0.5"/>
    </layout>
-<!--
-   <node type="switch" name="radar switch">
-      <node type="transform" name="radar slider">
+   <node type="switch" name="radar-switch">
+      <node type="transform" name="radar-slider">
          <node type="transform" name="radar">
-            <node type="text" name="radar range">
+            <node type="text" name="radar-range">
                <position x="-22" y="-532"/>
                <font resource="font"/>
                <height value="32"/>
@@ -82,7 +82,7 @@
             <node type="box">
                <min x="0" y="0"/>
                <max x="512" y="512"/>
-               <texture resource="spectator rings"/>
+               <texture resource="spectator-rings"/>
                <color name="spectator ring color"/>
             </node>
             <node type="transform">
@@ -90,7 +90,7 @@
                <node type="box">
                   <min x="0" y="0"/>
                   <max x="512" y="512"/>
-                  <texture resource="spectator rings"/>
+                  <texture resource="spectator-rings"/>
                   <color name="spectator ring color"/>
                </node>
             </node>
@@ -99,7 +99,7 @@
                <node type="box">
                   <min x="0" y="0"/>
                   <max x="512" y="512"/>
-                  <texture resource="spectator rings"/>
+                  <texture resource="spectator-rings"/>
                   <color name="spectator ring color"/>
                </node>
             </node>
@@ -108,47 +108,67 @@
                <node type="box">
                   <min x="0" y="0"/>
                   <max x="512" y="512"/>
-                  <texture resource="spectator rings"/>
+                  <texture resource="spectator-rings"/>
                   <color name="spectator ring color"/>
                </node>
             </node>
          </node>
       </node>
    </node>
-   <layout node="radar slider">
+   <layout node="radar-slider">
       <x type="relative" value="0.5"/>
       <y type="relative" value="0.5"/>
    </layout>
    <auto-scale node="radar">
       <y size="1024" ratio="0.9" min="512" max="1024"/>
    </auto-scale>
-   <color name="spectator ring color" r="0" g="1" b="0" a="0.5"/>
-   <template name="red dot">
+   <template name="dradis-dot">
       <node type="switch" name="switch">
          <node type="transform" name="transform">
             <node type="box">
-               <min x="-32" y="-32"/>
-               <max x="32" y="32"/>
-               <color r="0.75" g="0" b="0"/>
-               <texture resource="radar tank"/>
-               <depth value="2"/>
+               <min x="-4" y="-4"/>
+               <max x="4" y="4"/>
+               <texture resource="dradis-dot"/>
+               <depth value="4"/>
             </node>
          </node>
       </node>
    </template>
-   <template name="blue dot">
+   <template name="dradis-triangle">
       <node type="switch" name="switch">
          <node type="transform" name="transform">
             <node type="box">
-               <min x="-32" y="-32"/>
-               <max x="32" y="32"/>
-               <color r="0" g="0" b="1"/>
-               <texture resource="radar tank"/>
-               <depth value="2"/>
+               <min x="-8" y="-8"/>
+               <max x="8" y="8"/>
+               <texture resource="dradis-triangle"/>
+               <depth value="4"/>
             </node>
          </node>
       </node>
    </template>
--->
+   <template name="dradis-star">
+      <node type="switch" name="switch">
+         <node type="transform" name="transform">
+            <node type="box">
+               <min x="-16" y="-16"/>
+               <max x="16" y="16"/>
+               <texture resource="dradis-star"/>
+               <depth value="4"/>
+            </node>
+         </node>
+      </node>
+   </template>
+   <template name="dradis-double-dot">
+      <node type="switch" name="switch">
+         <node type="transform" name="transform">
+            <node type="box">
+               <min x="-16" y="-16"/>
+               <max x="16" y="16"/>
+               <texture resource="dradis-double-dot"/>
+               <depth value="4"/>
+            </node>
+         </node>
+      </node>
+   </template>
 </overlay>
 </dmz>

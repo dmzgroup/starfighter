@@ -8,6 +8,7 @@
    <plugin name="dmzEntityPluginPortalWatch" unique="watch-portal"/>
    <plugin name="dmzEntityPluginTeleport"/>
    <plugin name="dmzObjectPluginTimeout"/>
+   <plugin name="dmzRenderPluginRadarOverlay" scope="radar"/>
 </plugin-list>
 <freefly>
    <movement speed="100" turn-rate="2.4"/>
@@ -34,6 +35,11 @@
       <channel name="watch-portal"/>
    </switch>
 </view-switch>
+<radar>
+   <radius value="512.0"/>
+   <range value="1000" min="100.0"/>
+   <on-plane value="false"/>
+</radar>
 <archive>
    <object type="spectator">
       <attributes>
