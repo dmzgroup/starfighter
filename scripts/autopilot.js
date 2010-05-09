@@ -14,10 +14,10 @@ var dmz =
        , consts: require("consts")
        }
   , battlestar
+  , tube
   , autopilot = 0
   , light = dmz.overlay.lookup("autopilot-light")
   , start
-  , launchOffset = dmz.vector.create()
 //  Constants
   , TubeAttr = dmz.defs.createNamedHandle("Launch_Tube")
   , Forward = dmz.vector.Forward
@@ -53,6 +53,7 @@ dock = function () {
      , state
      , vel = ZeroVector
      , hil = dmz.object.hil()
+     , launchOffset
      ;
 
    dmz.time.cancleTimer(self, landTimeSlice);
@@ -73,6 +74,14 @@ dock = function () {
       if (battlestar) {
 
          ori = dmz.object.orientation(battlestar);
+
+         if (tube) {
+
+            launchOffset = dmz.object.vector(tube, TubeAttr);
+         }
+
+         if (!launchOffset) { launchOffset = dmz.vector.create(); }
+
          pos = dmz.object.position(battlestar).add(ori.transform(launchOffset));
          ori = ori.multiply(Turn90);
       }
@@ -311,12 +320,11 @@ dmz.object.flag.observe(self, "battlestar", function (handle, attr, value) {
 });
 
 
-dmz.object.link.observe(self, TubeAttr, function (link, attr, tube, obj) {
+dmz.object.link.observe(self, TubeAttr, function (link, attr, theTube, obj) {
 
-   if (obj == dmz.object.hil()) {
+   if (obj === dmz.object.hil()) {
 
-      launchOffset = dmz.object.vector(tube, TubeAttr);
-      if (!launchOffset) { launchOffset = dmz.vector.create(); }
+      tube = theTube;
 
       if (isAPMode(autopilot, APMode.Docked)) { dock(); }
    }

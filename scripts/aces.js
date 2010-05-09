@@ -203,7 +203,30 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
 
                if (ori.transform(Forward).getAngle(offset) < Math.PI * 0.1) {
 
-                  LaunchMsg.send(dmz.data.wrapHandle(handle));
+                  if (obj.delay) {
+
+                     obj.delay -= Delta;
+
+                     if (obj.delay <= 0) {
+
+                        obj.delay = undefined;
+                        obj.fire = Math.random();
+                     }
+                  }
+                  else {
+
+                     if (!obj.fire) { obj.fire = Math.random(); }
+
+                     obj.fire -= Delta;
+
+                     if (obj.fire <= 0) {
+
+                        obj.fire = undefined;
+                        obj.delay = Math.random();
+                     }
+          
+                     LaunchMsg.send(dmz.data.wrapHandle(handle));
+                  }
                }
             }
 

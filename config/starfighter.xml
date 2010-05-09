@@ -3,7 +3,7 @@
 <plugin-list>
    <plugin name="fade" reserve="true"/>
    <plugin name="autopilot" reserve="true"/>
-   <plugin name="starfighter" reserve="true"/>
+   <plugin name="controller" reserve="true"/>
    <plugin name="dmzInputPluginChannelSwitch" scope="view-switch"/>
    <plugin name="dmzEntityPluginPortalFollow3D" unique="third-person"/>
    <plugin name="dmzEntityPluginPortalTether" unique="first-person"/>
@@ -25,7 +25,7 @@
    <plugin name="dmzStarfighterPluginLaunchTubeOSG"/>
 </plugin-list>
 <javascript>
-   <instance name="starfighter"/>
+   <instance name="controller"/>
    <instance name="damage"/>
    <instance name="autopilot"/>
    <instance name="fade"/>
