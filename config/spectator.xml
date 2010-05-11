@@ -17,6 +17,7 @@
    <input>
       <channel name="watch-portal"/>
    </input>
+   <range value="50"/>
 </follow-target>
 <tether-portal>
    <input>

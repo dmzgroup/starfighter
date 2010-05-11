@@ -21,7 +21,9 @@ var dmz =
   , MaxAces = 5
   , DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName)
   , Detonation = dmz.eventType.lookup("Event_Detonation")
-  , LaunchMsg = dmz.message.create(self.config.string("launch-message.name", "Raider_Launch_Message"))
+  , LaunchMsg = dmz.message.create(self.config.string(
+       "launch-message.name",
+       "Raider_Launch_Message"))
   , KillAttribute = dmz.defs.createNamedHandle("Event_Kill_Attribute")
   , Forward = dmz.vector.Forward
   , Right = dmz.vector.Right
@@ -30,6 +32,7 @@ var dmz =
   , StartDir = dmz.matrix.create().fromAxisAndAngle(Up, Math.PI)
   , AceType = self.config.objectType("ace-type.name", "raider")
   , TargetType = self.config.objectType("target-type.name", "colonial-fighter")
+  , Lead = self.config.number("target-lead.value", 6)
 //  Functions
   , randomVector
   , rotate
@@ -192,6 +195,7 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
 
          if (targetPos && targetOri && targetVel) {
 
+            targetPos = targetPos.add(targetOri.transform(Forward.multiplyConst(Lead)));
             offset = targetPos.subtract(pos); 
             targetDir = offset.normalize();
 
@@ -232,7 +236,7 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
 
             if (!obj.flyoff && (distance <= 30)) {
 
-               obj.flyoff = (Math.random() * 200) + 200;
+               obj.flyoff = (Math.random() * 100) + 100;
             }
          }
          else if (!dmz.object.isObject (obj.target)) { obj.target = undefined; }
