@@ -110,11 +110,6 @@ newOri = function (obj, time, targetVec) {
 
    obj.pitch = rotate(time, obj.pitch, pitch);
 
-   if (dmz.util.isZero(pitch - obj.pitch) && dmz.util.isZero(heading - obj.heading)) {
-
-      obj.onTarget = true;
-   }
-
    pm = dmz.matrix.create().fromAxisAndAngle(Right, obj.pitch);
 
    result = result.fromAxisAndAngle(Up, obj.heading);
@@ -158,7 +153,6 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
          point: randomVector(50),
          heading: Math.PI,
          pitch: 0,
-         onTarget: false,
          dir: Forward
       };
 
@@ -179,7 +173,6 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
         , speed
         , targetPos
         , targetOri
-        , targetVel
         , targetDir
         , targetOffset
         , distance
@@ -191,9 +184,8 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
 
          targetPos = dmz.object.position(obj.target);
          targetOri = dmz.object.orientation(obj.target);
-         targetVel = dmz.object.velocity(obj.target);
 
-         if (targetPos && targetOri && targetVel) {
+         if (targetPos && targetOri) {
 
             targetPos = targetPos.add(targetOri.transform(Forward.multiplyConst(Lead)));
             offset = targetPos.subtract(pos); 
