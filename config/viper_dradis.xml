@@ -21,14 +21,14 @@
                <texture resource="dradis-overlay"/>
             </node>
          </node>
-      </node>
-      <node type="text" name="dradis-range">
-         <position x="55" y="-100"/>
-         <font resource="font"/>
-         <height value="15"/>
-         <color r="0" b="0" g="0.8" a="0.8"/>
-         <depth value="5"/>
-         <text value=""/>
+         <node type="text" name="dradis-range">
+            <position x="55" y="-100"/>
+            <font resource="font"/>
+            <height value="15"/>
+            <color r="0" b="0" g="0.8" a="0.8"/>
+            <depth value="5"/>
+            <text value=""/>
+         </node>
       </node>
    </node>
    <template name="dradis-dot">

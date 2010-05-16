@@ -23,6 +23,7 @@ var dmz =
 self.sight = dmz.overlay.lookup("crosshairs target switch");
 self.top = dmz.overlay.lookup("crosshairs switch");
 self.range = dmz.overlay.lookup("dradis-range");
+if (!self.range) { self.log.error("overlay node dradis-range not found!"); }
 
 dmz.time.setRepeatingTimer (self, function (time) {
 
@@ -94,8 +95,5 @@ dmz.input.channel.observe (self, "first-person", function (channel, state) {
 
 dmz.messaging.subscribe ("DMZ_Overlay_Radar_Range_Message", self, function (data) {
 
-   if (self.range) {
-
-      self.range.text(data.number(rangeHandle, 0).toFixed());
-   }
+   if (self.range) { self.range.text(data.number(rangeHandle, 0).toFixed()); }
 });
