@@ -7,6 +7,7 @@
    <plugin name="dmzEntityPluginPortalTether" unique="tether-portal"/>
    <plugin name="dmzEntityPluginPortalWatch" unique="watch-portal"/>
    <plugin name="dmzEntityPluginTeleport"/>
+   <plugin name="dmzEntityPluginDetach"/>
    <plugin name="dmzObjectPluginTimeout"/>
    <plugin name="dmzRenderPluginRadarOverlay" scope="radar"/>
 </plugin-list>
@@ -41,6 +42,13 @@
    <range value="1000" min="100.0"/>
    <on-plane value="false"/>
 </radar>
+<key-messages>
+   <channel>
+      <converter key="f">
+         <target message="DMZ_Entity_Attach_Message"/>
+      </converter>
+   </channel>
+</key-messages>
 <archive>
    <object type="spectator">
       <attributes>

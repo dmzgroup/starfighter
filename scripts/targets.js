@@ -12,7 +12,7 @@ var dmz =
        }
   , targets = { count: 0, list: {} }
 //  Constants
-  , MaxTargets = 200
+  , MaxTargets = 2
   , TargetSpeed = 40
   , KillAttribute = dmz.defs.createNamedHandle("Event_Kill_Attribute")
   , DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName)

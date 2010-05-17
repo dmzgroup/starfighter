@@ -38,7 +38,7 @@
                button="1"
                result="none"
                action="pressed"
-               message="Entity_Attach_Message"
+               message="DMZ_Entity_Attach_Message"
                next="first"
          >
             <attribute type="object" name="handle"/>

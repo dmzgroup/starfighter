@@ -5,6 +5,7 @@
       <frequency value="0.0"/>
    </time>
    <message name="DMZ_Overlay_Radar_Range_Message" monostate="true"/>
+   <message name="DMZ_Entity_Attach_Message" monostate="true"/>
    <state name="Stand_By"/>
    <state name="Engine_On"/>
    <state name="Dead"/>

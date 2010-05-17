@@ -135,7 +135,7 @@ dmz.input.key.observe(self, function (channel, event) {
 });
 
 
-dmz.messaging.subscribe("Entity_Attach_Message", self,  function (data) {
+dmz.messaging.subscribe("DMZ_Entity_Attach_Message", self,  function (data) {
 
    objOverlay.text(text.obj + dmz.data.unwrapHandle(data));
 });
