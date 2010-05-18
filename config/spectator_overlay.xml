@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dmz>
+<plugin-list>
+   <plugin name="dmzRenderPluginRadarOverlay" scope="radar"/>
+</plugin-list>
 <javascript>
    <instance name="spectatorOverlay"/>
 </javascript>
+<radar>
+   <radius value="512.0"/>
+   <range value="1000" min="100.0"/>
+   <on-plane value="false"/>
+</radar>
 <overlay>
    <color name="text color" r="0" g="0.75" b="0" a="0.5"/>
    <color name="spectator ring color" r="0" g="0.75" b="0" a="0.5"/>
