@@ -4,11 +4,14 @@
    <plugin name="dmzNetModulePacketIOHawkNL"/>
    <plugin name="dmzNetPluginPacket"/>
    <plugin name="dmzNetPluginRemoteDR"/>
-   <plugin name="dmzNetModuleLocalDRBasic"/>
+   <plugin name="dmzNetModuleLocalDRBasic" scope="local-dr"/>
    <plugin name="dmzNetPluginRemoteTimeout"/>
    <plugin name="dmzNetModulePacketCodecBasic"/>
    <plugin name="dmzNetModuleAttributeMapBasic"/>
 </plugin-list>
+<local-dr>
+   <debug-test value="false"/>
+</local-dr>
 <dmzNetModulePacketCodecBasic>
    <header>
       <element type="const" base="uint32" value="4004004"/>

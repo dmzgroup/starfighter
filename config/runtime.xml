@@ -34,10 +34,10 @@
       </render>
       <net>
          <enum value="2"/>
-         <rule type="heartbeat" value="1.0"/>
+         <rule type="heartbeat" value="2.0"/>
          <rule type="zero-velocity"/>
          <rule type="rate-limit"/>
-         <rule type="position" value="10.0"/>
+         <rule type="skew" value="1.0"/>
          <rule type="orientation"/>
          <rule type="velocity"/>
       </net>
@@ -108,10 +108,10 @@
          <state name="Stand_By" mask="0x004"/>
          <state name="Smoking" mask="0x008"/>
          <state name="Fire" mask="0x010"/>
-         <rule type="heartbeat" value="1.0"/>
+         <rule type="heartbeat" value="2.0"/>
          <rule type="zero-velocity"/>
          <rule type="rate-limit"/>
-         <rule type="position" value="10.0"/>
+         <rule type="skew" value="1.0"/>
          <rule type="orientation"/>
          <rule type="velocity"/>
          <rule type="state"/>
