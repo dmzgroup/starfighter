@@ -11,6 +11,12 @@
       <converter key="J">
          <target name="dmzJsPluginV8ConsoleQt" message="DMZ_Show_Java_Script_Console"/>
       </converter>
+      <converter key="N">
+         <target
+            name="dmzQtPluginNetworkActivity"
+            message="DMZ_Show_Network_Activity_Console"
+         />
+      </converter>
    </channel>
 </key-messages>
 </dmz>

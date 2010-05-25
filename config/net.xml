@@ -8,6 +8,7 @@
    <plugin name="dmzNetPluginRemoteTimeout"/>
    <plugin name="dmzNetModulePacketCodecBasic"/>
    <plugin name="dmzNetModuleAttributeMapBasic"/>
+   <plugin name="dmzQtPluginNetworkActivity"/>
 </plugin-list>
 <local-dr>
    <debug-test value="false"/>
