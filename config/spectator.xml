@@ -6,8 +6,11 @@
    <plugin name="dmzInputPluginChannelSwitch" scope="view-switch"/>
    <plugin name="dmzEntityPluginPortalTether" unique="tether-portal"/>
    <plugin name="dmzEntityPluginPortalWatch" unique="watch-portal"/>
+   <plugin name="dmzEntityPluginMimic" scope="orbit-portal"/>
+   <plugin name="dmzEntityPluginPortalOrbit" unique="orbit-portal"/>
    <plugin name="dmzEntityPluginTeleport"/>
    <plugin name="dmzEntityPluginDetach"/>
+   <plugin name="dmzEntityModulePortalBasic"/>
    <plugin name="dmzObjectPluginTimeout"/>
 </plugin-list>
 <freefly>
@@ -30,10 +33,16 @@
       <channel name="watch-portal"/>
    </input>
 </watch-portal>
+<orbit-portal>
+   <input>
+      <channel name="orbit-portal"/>
+   </input>
+</orbit-portal>
 <view-switch>
    <switch>
       <channel name="tether-portal"/>
       <channel name="watch-portal"/>
+      <channel name="orbit-portal"/>
    </switch>
 </view-switch>
 <key-messages>
