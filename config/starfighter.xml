@@ -23,6 +23,7 @@
    <plugin name="dmzObjectPluginAutoCounter" unique="shield-generator"/>
    <plugin name="dmzRenderPluginRadarOverlay" scope="dradis"/>
    <plugin name="dmzStarfighterPluginLaunchTubeOSG"/>
+   <plugin name="dmzEntityModulePortalBasic"/>
 </plugin-list>
 <javascript>
    <instance name="controller"/>

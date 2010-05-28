@@ -30,6 +30,7 @@ var dmz =
   , RadarSpeed = 2
   , TetherChannel = dmz.defs.createNamedHandle("tether-portal")
   , WatchChannel = dmz.defs.createNamedHandle("watch-portal")
+  , FollowChannel = dmz.defs.createNamedHandle("follow-portal")
   , OrbitChannel = dmz.defs.createNamedHandle("orbit-portal")
   , HKey = dmz.input.key.toValue("h")
 //  Functions 
@@ -60,6 +61,10 @@ channelState = function (channel, state) {
       else if (channel === WatchChannel) {
 
          modeOverlay.text(text.mode + "Watch");
+      }
+      else if (channel === FollowChannel) {
+
+         modeOverlay.text(text.mode + "Follow");
       }
       else if (channel === OrbitChannel) {
 
@@ -127,6 +132,7 @@ dmz.time.setRepeatingTimer (self,  function (time) {
 
 dmz.input.channel.observe(self, TetherChannel, channelState);
 dmz.input.channel.observe(self, WatchChannel, channelState);
+dmz.input.channel.observe(self, FollowChannel, channelState);
 dmz.input.channel.observe(self, OrbitChannel, channelState);
 
 

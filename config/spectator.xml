@@ -6,7 +6,8 @@
    <plugin name="dmzInputPluginChannelSwitch" scope="view-switch"/>
    <plugin name="dmzEntityPluginPortalTether" unique="tether-portal"/>
    <plugin name="dmzEntityPluginPortalWatch" unique="watch-portal"/>
-   <plugin name="dmzEntityPluginMimic" scope="orbit-portal"/>
+   <plugin name="dmzEntityPluginMimic" scope="mimic"/>
+   <plugin name="dmzEntityPluginPortalFollow3D" unique="follow-portal"/>
    <plugin name="dmzEntityPluginPortalOrbit" unique="orbit-portal"/>
    <plugin name="dmzEntityPluginTeleport"/>
    <plugin name="dmzEntityPluginDetach"/>
@@ -33,6 +34,18 @@
       <channel name="watch-portal"/>
    </input>
 </watch-portal>
+<mimic>
+   <input>
+      <channel name="follow-portal"/>
+      <channel name="orbit-portal"/>
+   </input>
+</mimic>
+<follow-portal>
+   <input>
+      <channel name="follow-portal"/>
+   </input>
+   <offset x="0.0" y="3.5" z="15.0"/>
+</follow-portal>
 <orbit-portal>
    <input>
       <channel name="orbit-portal"/>
@@ -42,6 +55,7 @@
    <switch>
       <channel name="tether-portal"/>
       <channel name="watch-portal"/>
+      <channel name="follow-portal"/>
       <channel name="orbit-portal"/>
    </switch>
 </view-switch>
