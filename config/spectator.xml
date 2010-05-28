@@ -13,6 +13,7 @@
    <plugin name="dmzEntityPluginDetach"/>
    <plugin name="dmzEntityModulePortalBasic"/>
    <plugin name="dmzObjectPluginTimeout"/>
+   <plugin name="dmzEntityPluginAutoAttach" scope="auto"/>
 </plugin-list>
 <freefly>
    <movement speed="100" turn-rate="2.4"/>
@@ -69,6 +70,10 @@
       </converter>
    </channel>
 </key-messages>
+<auto>
+   <object-type name="colonial-fighter"/>
+   <object-type name="colonial-vehicle"/>
+</auto>
 <archive>
    <object type="spectator">
       <attributes>

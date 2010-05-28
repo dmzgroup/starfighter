@@ -17,7 +17,7 @@ var dmz =
   , targetList = {}
 //  Constants
   , TurnRate = Math.PI * 0.5
-  , Speed = 40
+  , Speed = 50
   , MaxAces = 5
   , DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName)
   , Detonation = dmz.eventType.lookup("Event_Detonation")
