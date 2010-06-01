@@ -101,6 +101,7 @@ dmz::StarfighterPluginLaunchTubeOSG::discover_plugin (
 void
 dmz::StarfighterPluginLaunchTubeOSG::update_time_slice (const Float64 DeltaTime) {
 
+   static const Vector Scale (1.0, 1.0, 1.0);
    static const Matrix Turn (Vector (0.0, 1.0, 0.0), -Pi64 * 0.5);
 
    ObjectModule *module = get_object_module ();
@@ -116,7 +117,10 @@ dmz::StarfighterPluginLaunchTubeOSG::update_time_slice (const Float64 DeltaTime)
 
          Vector value (_offset);
 
-         osg::Matrix mat = to_osg_matrix (ori * Turn, pos + ori.transform_vector (value));
+         osg::Matrix mat = to_osg_matrix (
+            ori * Turn,
+            pos + ori.transform_vector (value),
+            Scale);
 
          _tube->setMatrix (mat);
       }
