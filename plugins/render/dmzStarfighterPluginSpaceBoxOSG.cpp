@@ -316,7 +316,7 @@ dmz::StarfighterPluginSpaceBoxOSG::_add_box () {
    if (_box.valid () && _core) {
 
       UInt32 mask = _box->getNodeMask ();
-      mask &= ~(_core->get_isect_mask ());
+      mask &= ~(_core->get_master_isect_mask ());
       _box->setNodeMask (mask);
       osg::Group *group = _core->get_dynamic_objects ();
       if (group) { group->addChild (_box.get ()); }
@@ -331,7 +331,7 @@ dmz::StarfighterPluginSpaceBoxOSG::_remove_box () {
    if (_box.valid () && _core) {
 
       UInt32 mask = _box->getNodeMask ();
-      mask |= _core->get_isect_mask ();
+      mask |= _core->get_master_isect_mask ();
       _box->setNodeMask (mask);
       osg::Group *group = _core->get_dynamic_objects ();
       if (group) { group->removeChild (_box.get ()); }

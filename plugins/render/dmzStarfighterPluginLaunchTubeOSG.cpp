@@ -409,7 +409,7 @@ dmz::StarfighterPluginLaunchTubeOSG::_add_tube () {
    if (_toggle.valid () && _core) {
 
       UInt32 mask = _toggle->getNodeMask ();
-      mask &= ~(_core->get_isect_mask ());
+      mask &= ~(_core->get_master_isect_mask ());
       _toggle->setNodeMask (mask);
       osg::Group *group = _core->get_dynamic_objects ();
       if (group) { group->addChild (_toggle.get ()); }
@@ -424,7 +424,7 @@ dmz::StarfighterPluginLaunchTubeOSG::_remove_tube () {
    if (_toggle.valid () && _core) {
 
       UInt32 mask = _toggle->getNodeMask ();
-      mask |= _core->get_isect_mask ();
+      mask |= _core->get_master_isect_mask ();
       _toggle->setNodeMask (mask);
       osg::Group *group = _core->get_dynamic_objects ();
       if (group) { group->removeChild (_toggle.get ()); }
