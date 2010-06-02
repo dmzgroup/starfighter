@@ -10,6 +10,7 @@
    <radius value="512.0"/>
    <range value="1000" min="100.0"/>
    <on-plane value="false"/>
+   <use-portal value="true"/>
 </radar>
 <overlay>
    <color name="text color" r="0" g="0.75" b="0" a="0.5"/>
