@@ -59,10 +59,8 @@
    <delay value="1.0"/>
 </missile-launcher>
 <view-switch>
-   <switch>
-      <channel name="first-person"/>
-      <channel name="third-person"/>
-   </switch>
+   <channel name="first-person"/>
+   <channel name="third-person"/>
 </view-switch>
 <first-person>
    <input>

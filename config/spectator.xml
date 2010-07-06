@@ -53,12 +53,10 @@
    </input>
 </orbit-portal>
 <view-switch>
-   <switch>
-      <channel name="tether-portal"/>
-      <channel name="watch-portal"/>
-      <channel name="follow-portal"/>
-      <channel name="orbit-portal"/>
-   </switch>
+   <channel name="tether-portal"/>
+   <channel name="watch-portal"/>
+   <channel name="follow-portal"/>
+   <channel name="orbit-portal"/>
 </view-switch>
 <key-messages>
    <channel>
