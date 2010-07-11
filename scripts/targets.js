@@ -7,7 +7,9 @@ var dmz =
        , vector: require("dmz/types/vector")
        , matrix: require("dmz/types/matrix")
        , mask: require("dmz/types/mask")
+       , message: require("dmz/runtime/messaging")
        , defs: require("dmz/runtime/definitions")
+       , data: require("dmz/runtime/data")
        , util: require("dmz/types/util")
        }
   , targets = { count: 0, list: {} }
@@ -17,12 +19,16 @@ var dmz =
   , KillAttribute = dmz.defs.createNamedHandle("Event_Kill_Attribute")
   , DeadState = dmz.defs.lookupState(dmz.defs.DeadStateName)
   , Detonation = dmz.eventType.lookup("Event_Detonation")
+  , LaunchMsg = dmz.message.create(self.config.string(
+       "launch-message.name",
+       "Raider_Launch_Message"))
   , Forward = dmz.vector.Forward
   , Right = dmz.vector.Right
   , Up = dmz.vector.Up
   , StartDir = dmz.matrix.create().fromAxisAndAngle(Up, Math.PI)
   , BaseStar = dmz.object.create("base-star")
 //  Functions
+  , fireTime
   , randomVector
   , rotate
   , newOri
@@ -30,6 +36,8 @@ var dmz =
 
 dmz.object.position(BaseStar, null, [0, 0, -2000]);
 dmz.object.activate(BaseStar);
+
+fireTime = function () { return Math.random () * 60; }
 
 randomVector = function (value) {
 
@@ -138,6 +146,7 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
          , pitch: 0
          , onTarget: false
          , dir: Forward
+         , fireTime: fireTime()
          };
 
       obj.distance = obj.start.subtract(obj.point).magnitude();
@@ -162,6 +171,14 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
          obj.start = pos;
          obj.distance = obj.start.subtract(obj.point).magnitude();
          obj.onTarget = false;
+      }
+
+      obj.fireTime -= Delta;
+
+      if (obj.fireTime < 0) {
+
+         LaunchMsg.send(dmz.data.wrapHandle(handle));
+         obj.fireTime = fireTime();
       }
 
       if (ori) { obj.dir = ori.transform(Forward); }
