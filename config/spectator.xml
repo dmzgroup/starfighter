@@ -4,6 +4,7 @@
    <plugin name="dmzEntityPluginFreeFly" scope="freefly"/>
    <plugin name="dmzEntityPluginFollow" unique="follow-target"/>
    <plugin name="dmzInputPluginChannelSwitch" scope="view-switch"/>
+   <plugin name="dmzInputPluginChannelRules" scope="view-switch"/>
    <plugin name="dmzEntityPluginPortalTether" unique="tether-portal"/>
    <plugin name="dmzEntityPluginPortalWatch" unique="watch-portal"/>
    <plugin name="dmzEntityPluginMimic" scope="mimic"/>
@@ -53,7 +54,7 @@
    </input>
 </orbit-portal>
 <view-switch>
-   <channel name="tether-portal"/>
+   <channel name="tether-portal" default="True"/>
    <channel name="watch-portal"/>
    <channel name="follow-portal"/>
    <channel name="orbit-portal"/>

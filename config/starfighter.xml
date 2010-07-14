@@ -5,6 +5,7 @@
    <plugin name="autopilot" reserve="true"/>
    <plugin name="controller" reserve="true"/>
    <plugin name="dmzInputPluginChannelSwitch" scope="view-switch"/>
+   <plugin name="dmzInputPluginChannelRules" scope="view-switch"/>
    <plugin name="dmzEntityPluginPortalFollow3D" unique="third-person"/>
    <plugin name="dmzEntityPluginPortalTether" unique="first-person"/>
    <plugin name="dmzEntityPluginHide" scope="first-person"/>
@@ -59,7 +60,7 @@
    <delay value="1.0"/>
 </missile-launcher>
 <view-switch>
-   <channel name="first-person"/>
+   <channel name="first-person" default="True"/>
    <channel name="third-person"/>
 </view-switch>
 <first-person>
