@@ -93,7 +93,7 @@ dmz.input.channel.observe(self, "first-person", function (channel, state) {
 });
 
 
-dmz.messaging.subscribe("DMZ_Overlay_Radar_Range_Message", self, function (data) {
+dmz.messaging.subscribe(self, "DMZ_Overlay_Radar_Range_Message", function (data) {
 
    if (self.range) { self.range.text(data.number(rangeHandle, 0).toFixed()); }
 });

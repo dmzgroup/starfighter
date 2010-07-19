@@ -147,13 +147,13 @@ dmz.input.key.observe(self, function (channel, event) {
 });
 
 
-dmz.messaging.subscribe("DMZ_Entity_Attach_Message", self,  function (data) {
+dmz.messaging.subscribe(self, "DMZ_Entity_Attach_Message",  function (data) {
 
    objOverlay.text(text.obj + dmz.data.unwrapHandle(data));
 });
 
 
-dmz.messaging.subscribe("DMZ_Overlay_Radar_Range_Message", self,  function (data) {
+dmz.messaging.subscribe(self, "DMZ_Overlay_Radar_Range_Message",  function (data) {
 
    radarRange.text(data.number("DMZ_Overlay_Radar_Range", 0).toFixed());
 });
