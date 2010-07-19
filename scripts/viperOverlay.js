@@ -77,7 +77,7 @@ dmz.time.setRepeatingTimer (self, function (time) {
 });
 
 
-dmz.input.channel.observe (self, "first-person", function (channel, state) {
+dmz.input.channel.observe(self, "first-person", function (channel, state) {
 
    if (state) { active++; }
    else { active--; }
@@ -93,7 +93,7 @@ dmz.input.channel.observe (self, "first-person", function (channel, state) {
 });
 
 
-dmz.messaging.subscribe ("DMZ_Overlay_Radar_Range_Message", self, function (data) {
+dmz.messaging.subscribe("DMZ_Overlay_Radar_Range_Message", self, function (data) {
 
    if (self.range) { self.range.text(data.number(rangeHandle, 0).toFixed()); }
 });
