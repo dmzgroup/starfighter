@@ -82,11 +82,11 @@ dmz.input.channel.observe(self, "first-person", function (channel, state) {
    if (state) { active++; }
    else { active--; }
 
-   if (active == 1) {
+   if (active === 1) {
 
       if (self.top) { self.top.enableSingleSwitchState(0); }
    }
-   else if (active == 0) {
+   else if (active === 0) {
 
       if (self.top) { self.top.switchState(0, false); }
    }

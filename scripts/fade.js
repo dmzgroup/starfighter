@@ -6,12 +6,12 @@ var dmz =
        , util: require("dmz/types/util")
        , consts: require("consts")
        }
-,   APMode = dmz.consts.APMode
-,   fadeSwitch = dmz.overlay.lookup("fade switch")
-,   fadeTimeSlice
-,   fade = false
-,   alpha = 0
-;
+  , APMode = dmz.consts.APMode
+  , fadeSwitch = dmz.overlay.lookup("fade switch")
+  , fadeTimeSlice
+  , fade = false
+  , alpha = 0
+  ;
 
 
 fadeTimeSlice = function (delta) {
@@ -39,6 +39,7 @@ fadeTimeSlice = function (delta) {
 
    fadeSwitch.color(0, 0, 0, alpha);
 };
+
 
 dmz.object.counter.observe(self, "autopilot", function (handle, attr, value) {
 

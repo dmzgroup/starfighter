@@ -35,7 +35,7 @@ randomVector = function (value) {
 
 dmz.time.setRepeatingTimer(self, function (Delta) {
 
-   var handle, obj, count = 0;
+   var handle, count = 0;
 
    while ((count < 10) && (objects.count < MaxTargets)) {
 

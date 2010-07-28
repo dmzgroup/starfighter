@@ -107,7 +107,7 @@ dmz.time.setRepeatingTimer (self,  function (time) {
 
       if (radarState) {
 
-         if (scale < 1) { scale += (RadarSpeed * time) }
+         if (scale < 1) { scale += (RadarSpeed * time); }
          if (scale > 1) {
 
             scale = 1;
@@ -116,7 +116,7 @@ dmz.time.setRepeatingTimer (self,  function (time) {
       }
       else {
 
-         if (scale > 0.001) { scale -= (RadarSpeed * time) }
+         if (scale > 0.001) { scale -= (RadarSpeed * time); }
          if (scale <= 0.001) {
 
             scale = 0.001;

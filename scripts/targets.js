@@ -37,7 +37,7 @@ var dmz =
 dmz.object.position(BaseStar, null, [0, 0, -2000]);
 dmz.object.activate(BaseStar);
 
-fireTime = function () { return Math.random () * 60; }
+fireTime = function () { return Math.random () * 60; };
 
 randomVector = function (value) {
 

@@ -107,7 +107,7 @@ isAPMode = function (Mode) {
 
    while (!result && (ix < arguments.length)) {
 
-      if (Mode == arguments[ix]) { result = true; }
+      if (Mode === arguments[ix]) { result = true; }
       else { ix++; }
    }
 
@@ -164,9 +164,6 @@ landTimeSlice = function (Delta) {
 
    var hil = dmz.object.hil()
      , target
-     , hvec
-     , hmat = dmz.matrix.create()
-     , pvec
      , bsOri
      , pos
      , ori

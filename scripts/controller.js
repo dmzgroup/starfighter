@@ -39,7 +39,7 @@ updateFrame = function (pos, dir, frame) {
    var result = {}, keys = Object.keys(frame);
    keys.forEach (function (key) { result[key] = dir.transform(frame[key]).add(pos); });
    return result;
-}
+};
 
 dmz.time.setRepeatingTimer(self, function (Delta) {
 
@@ -53,7 +53,6 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
      , ori
      , point
      , normal
-     , vec
      , pMat
      , yMat
      , rMat
@@ -135,7 +134,7 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
                point = value.point;
                normal = value.normal;
                self.log.warn("Top collision", value.object);
-            }},
+            }}
          ]);
 
          dmz.isect.enable(hil);
@@ -143,22 +142,6 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
 /*
          if (normal && point) {
 
-            normal = normal.normalize();
-
-            pos = oldPos;
-
-            vec = point.subtract(pos);
-
-            if (vec.getAngle(normal) < (Math.Pi * 0.5)) {
-
-               normal = normal.multiplyConst(-1);
-            }
-
-            vec = vel.normalize();
-            vel = normal.multiplyConst(2 * vec.dot(normal)).subtract(vec).multiplyConst(speed);
-
-            if (!state) { state = dmz.mask.create(); }
-            state = state.or(DeadState);
          }
 */
       }
@@ -196,19 +179,19 @@ dmz.input.axis.observe(self, function (Channel, Axis) {
 
    if (Math.abs (value) < 0.01) { value = 0; }
 
-   if (Axis.id == 1) { // Roll
+   if (Axis.id === 1) { // Roll
 
       controls.roll = value;
    }
-   else if (Axis.id == 2) { // thrust
+   else if (Axis.id === 2) { // thrust
 
       controls.thrust = -value;
    }
-   else if (Axis.id == 3) { // Yaw
+   else if (Axis.id === 3) { // Yaw
 
       controls.yaw = -value;
    }
-   else if (Axis.id == 4) { // Pitch
+   else if (Axis.id === 4) { // Pitch
 
       controls.pitch = value;
    }
@@ -217,5 +200,5 @@ dmz.input.axis.observe(self, function (Channel, Axis) {
 
 dmz.object.counter.observe(self, "autopilot", function (handle, attr, value) {
 
-   if (handle == dmz.object.hil ()) { autopilot = value; }
+   if (handle === dmz.object.hil ()) { autopilot = value; }
 });

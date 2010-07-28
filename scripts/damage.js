@@ -24,7 +24,6 @@ dmz.event.close.observe(self, Detonation, function (Event) {
    var hil = dmz.object.hil ()
      , source = dmz.event.objectHandle(Event, dmz.event.SourceAttribute)
      , target = dmz.event.objectHandle(Event, dmz.event.TargetAttribute)
-     , type = dmz.event.objectType(Event, dmz.event.MunitionsAttribute)
      , shields = 0
      , out
      , state

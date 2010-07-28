@@ -76,7 +76,7 @@ dmz.time.setRepeatingTimer (self, function (time) {
 
 dmz.event.close.observe(self, Detonation, function (Event) {
 
-   if (killsText && (dmz.object.hil() == dmz.event.objectHandle(Event, KillAttribute))) {
+   if (killsText && (dmz.object.hil() === dmz.event.objectHandle(Event, KillAttribute))) {
 
       killsCount++;
       killsText.text(killsCount.toString());

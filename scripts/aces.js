@@ -70,7 +70,7 @@ rotate = function (time, orig, target) {
    if (Math.abs(diff) > max) {
 
       if (diff > 0) { result = orig + max; }
-      else { result = orig - max }
+      else { result = orig - max; }
    }
 
    return result;
@@ -128,7 +128,7 @@ findTarget = function () {
 
    if (keys) { result = targetList[keys[Math.floor((keys.length * Math.random()))]]; }
 
-   return result
+   return result;
 };
 
 
@@ -174,7 +174,6 @@ dmz.time.setRepeatingTimer(self, function (Delta) {
         , targetPos
         , targetOri
         , targetDir
-        , targetOffset
         , distance
         ;
 

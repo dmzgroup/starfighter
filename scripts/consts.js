@@ -1,4 +1,3 @@
-
 exports.APMode = 
    { Off: 0
    , Docked: 1
@@ -6,4 +5,3 @@ exports.APMode =
    , Aligning: 3
    , Landing: 4
    };
-

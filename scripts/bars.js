@@ -1,19 +1,19 @@
-var dmz = {}
-,   Bars
-,   cannonBars
-,   engineBars
-,   shieldBars
-;
-
-dmz.object= require("dmz/components/object");
-dmz.input = require("dmz/components/input");
-dmz.overlay = require("dmz/components/overlay");
-dmz.time = require("dmz/runtime/time");
-dmz.vector = require("dmz/types/vector");
-dmz.matrix = require("dmz/types/matrix");
-dmz.mask = require("dmz/types/mask");
-dmz.defs = require("dmz/runtime/definitions");
-dmz.util = require("dmz/types/util");
+var dmz =
+     { object: require("dmz/components/object")
+     , input: require("dmz/components/input")
+     , overlay: require("dmz/components/overlay")
+     , time: require("dmz/runtime/time")
+     , vector: require("dmz/types/vector")
+     , matrix: require("dmz/types/matrix")
+     , mask: require("dmz/types/mask")
+     , defs: require("dmz/runtime/definitions")
+     , util: require("dmz/types/util")
+     }
+  , Bars
+  , cannonBars
+  , engineBars
+  , shieldBars
+  ;
 
 Bars = function (name, root) {
 
@@ -69,8 +69,8 @@ exports.create = function (name, root) {
 Bars.prototype.update = function (level) {
 
    var color = this.green
-   ,   ix
-   ;
+     , ix
+     ;
 
    if (this.prev != level) {
 
