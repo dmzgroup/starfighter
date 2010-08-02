@@ -240,7 +240,7 @@ dmz::StarfighterPluginAces::create_object (
       const ObjectType &Type,
       const ObjectLocalityEnum Locality) {
 
-   if (Type.is_of_type (_targetType)) { _targets.add_handle (ObjectHandle); }
+   if (Type.is_of_type (_targetType)) { _targets.add (ObjectHandle); }
 }
 
 
@@ -250,7 +250,7 @@ dmz::StarfighterPluginAces::destroy_object (
       const UUID &Identity,
       const Handle ObjectHandle) {
 
-   _targets.remove_handle (ObjectHandle);
+   _targets.remove (ObjectHandle);
 }
 
 
