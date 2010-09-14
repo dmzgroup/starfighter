@@ -11,6 +11,9 @@
       <converter key="J">
          <target name="dmzJsPluginV8ConsoleQt" message="DMZ_Show_Java_Script_Console"/>
       </converter>
+      <converter key="P">
+         <target name="dmzQtPluginList" message="DMZ_Show_Plugin_List_Console"/>
+      </converter>
       <converter key="N">
          <target
             name="dmzQtPluginNetworkActivity"
