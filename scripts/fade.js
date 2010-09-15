@@ -23,7 +23,7 @@ fadeTimeSlice = function (delta) {
       if (alpha > 1) {
 
          alpha = 1;
-         dmz.time.cancleTimer(self, fadeTimeSlice);
+         dmz.time.cancelTimer(self, fadeTimeSlice);
       }
    }
    else {
@@ -33,7 +33,7 @@ fadeTimeSlice = function (delta) {
       if (alpha < 0) {
 
          alpha = 0;
-         dmz.time.cancleTimer(self, fadeTimeSlice);
+         dmz.time.cancelTimer(self, fadeTimeSlice);
       }
    }
 
@@ -45,7 +45,7 @@ dmz.object.counter.observe(self, "autopilot", function (handle, attr, value) {
 
    if (handle === dmz.object.hil()) {
 
-      dmz.time.cancleTimer(self, fadeTimeSlice);
+      dmz.time.cancelTimer(self, fadeTimeSlice);
       fadeSwitch.setSwitchStateAll(false);
 
       if (value === APMode.Landing) {

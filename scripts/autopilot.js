@@ -56,7 +56,7 @@ dock = function () {
      , launchOffset
      ;
 
-   dmz.time.cancleTimer(self, landTimeSlice);
+   dmz.time.cancelTimer(self, landTimeSlice);
 
    if (hil) {
 
@@ -147,7 +147,7 @@ launchTimeSlice = function (Delta) {
 
       if (pos.subtract(start).magnitude() > 50) {
 
-         dmz.time.cancleTimer(self, launchTimeSlice);
+         dmz.time.cancelTimer(self, launchTimeSlice);
          dmz.object.counter(hil, "autopilot", APMode.Off);
          start = undefined;
       }
@@ -259,12 +259,12 @@ dmz.input.button.observe(self, function (Channel, Button) {
       }
       else if (isAPMode(autopilot, APMode.Aligning) && !Button.value) {
 
-         dmz.time.cancleTimer(self, landTimeSlice);
+         dmz.time.cancelTimer(self, landTimeSlice);
          dmz.object.counter(dmz.object.hil(), "autopilot", APMode.Off);
       }
       else if (isAPMode (autopilot, APMode.Landing) && Button.value) {
 
-         dmz.time.cancleTimer(self, landTimeSlice);
+         dmz.time.cancelTimer(self, landTimeSlice);
          dmz.object.counter(dmz.object.hil(), "autopilot", APMode.Off);
       }
       else if (isAPMode(autopilot, APMode.Off)) {
@@ -275,7 +275,7 @@ dmz.input.button.observe(self, function (Channel, Button) {
          }
          else {
 
-            dmz.time.cancleTimer(self, landTimeSlice);
+            dmz.time.cancelTimer(self, landTimeSlice);
          }
       }
    }
