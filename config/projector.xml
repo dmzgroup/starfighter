@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dmz>
+<render>
+   <viewer>
+<!--
+      <window center="true" width="1024" height="768"/>
+-->
+      <window screen="1" fullscreen="true"/>
+   </viewer>
+</render>
+</dmz>
